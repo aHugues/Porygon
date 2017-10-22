@@ -1,7 +1,7 @@
 var Sequelize = require ('sequelize');
 
 
-const sequelize = new Sequelize('movies_series', 'backend', 'b1yayqxj', {
+const sequelize = new Sequelize('movies_series', 'USER', 'PASSWORD', {
     host: 'localhost',
     dialect: 'mysql',
 
