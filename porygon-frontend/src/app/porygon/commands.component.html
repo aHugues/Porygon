@@ -1,0 +1,64 @@
+<div class="card">
+
+  <div class="card-block">
+    <h3 class="card-title">Liste des commandes</h3>
+
+    <div class="container">
+      <ul class="list-group">
+        <div *ngIf="commandsList.length>0" class="row list-group-item list-group-item-info align-items-around">
+          <div class="col"> Intitulé </div>
+          <div class="col"> Commentaires </div>
+        </div>
+        <li *ngFor="let command of commandsList" (click)="onSelectCommand(command)" role="button" class="list-group-item row align-items-around">
+          <div class="col"> {{ command.title }} </div>
+          <div class="col">  {{ command.remarks }} </div>
+        </li>
+        <div *ngIf="commandsList.length==0" class="alert alert-info">
+          Aucune commande en cours
+        </div>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="card">
+
+  <div class="card-block">
+    <h3 class="card-title">Ajout ou modification de commande</h3>
+
+    <div class="container">
+
+      <form (ngSubmit)="onSubmit()" #commandForm="ngForm">
+
+        <div class="form-group">
+          <label for="title">Titre</label>
+          <input type="text" class="form-control" id="label"
+          required
+          [(ngModel)]="selectedCommand.title" name="title"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="remarks">Commentaires</label>
+          <input type="text" class="form-control" id="remarks"
+          [(ngModel)]="selectedCommand.remarks" name="remarks"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+
+        <button *ngIf="canReset()" (click)="onReset()" class="btn btn-info">Réinitialiser</button>
+
+        <button *ngIf="!canReset()" class="btn btn-info disabled">Réinitialiser</button>
+
+        <button *ngIf="! newRessource" (click)="onDelete()" class="btn btn-danger">Supprimer</button>
+
+        <button *ngIf="newRessource" class="btn btn-danger disabled">Supprimer</button>
+
+      </form>
+    </div>
+  </div>
+
+</div>

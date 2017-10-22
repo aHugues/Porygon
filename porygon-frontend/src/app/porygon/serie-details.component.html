@@ -1,0 +1,47 @@
+<div *ngIf="ready" class="container">
+
+    <h2>Modifier série</h2>
+
+    <form (ngSubmit)="onSubmit()" #movieForm="ngForm">
+
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type="text" class="form-control" id="title"
+            required
+            [(ngModel)]="selectedSerie.title" name="title"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="season">Saison</label>
+            <input type="number" class="form-control" id="season"
+            required
+            [(ngModel)]="selectedSerie.season" name="season"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="location">Localisation</label>
+            <select class="form-control" id="location"
+            required
+            [(ngModel)]="selectedSerie.location" name="location"
+            >
+                <option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="remarks">Remarques</label>
+            <input type="text" class="form-control" id="remarks"
+            [(ngModel)]="selectedSerie.remarks" name="remarks"
+            >
+        </div>
+
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+
+        <button (click)="onDelete()" class="btn btn-danger">Supprimer</button>
+
+    </form>
+
+
+</div>

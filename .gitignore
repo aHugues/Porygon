@@ -1,0 +1,17 @@
+backend/node_modules/*
+back/config/config.json
+
+frontend/.idea
+frontend/node_modules
+frontend/jspm_packages
+frontend/npm-debug.log
+frontend/debug.log
+frontend/src/**/*.js
+frontend/!src/systemjs.config.extras.js
+frontend/!src/systemjs.config.js
+frontend/!src/systemjs-angular-loader.js
+frontend/*.js.map
+frontend/e2e/**/*.js
+frontend/e2e/**/*.js.map
+frontend/_test-output
+frontend/_temp

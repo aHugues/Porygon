@@ -1,0 +1,73 @@
+<div *ngIf="ready" class="container">
+
+    <h2>Modifier emplacement</h2>
+
+    <form (ngSubmit)="onSubmit()" #movieForm="ngForm">
+
+        <div class="form-group">
+            <label for="label">Label</label>
+            <input type="text" class="form-control" id="label"
+            required
+            [(ngModel)]="selectedLocation.label" name="label"
+            >
+        </div>
+
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+
+        <button (click)="onDelete()" class="btn btn-danger">Supprimer</button>
+
+    </form>
+
+
+</div>
+
+<div class="card-block movies-list container">
+
+    <h5 class="card-subtitle">Films à cet emplacement</h5>
+
+    <ul class="list-group">
+        <div class="row list-group-item list-group-item-info align-items-around">
+            <div class="col"> Titre </div>
+            <div class="col"> Localisation </div>
+            <div class="col"> Année de sortie </div>
+            <div class="col"> Remarques </div>
+        </div>
+        <li *ngFor="let movie of moviesList" [routerLink]="['/porygon/details/movie', movie.id]" class="list-group-item row align-items-around">
+            <div class="col"> {{ movie.title }} </div>
+            <div class="col"> {{ movie.Location.label }} </div>
+            <div class="col"> {{ movie.year }} </div>
+            <div class="col"> {{ movie.remarks }} </div>
+        </li>
+    </ul>
+
+</div>
+
+<div class="card-block">
+    <ngb-pagination class="d-flex justify-content-center" justify="center" [pageSize]="numberPerPage" [collectionSize]="numberOfMovies" [(page)]="moviePage" (pageChange)="changeMoviePage()"></ngb-pagination>
+</div>
+
+<div class="card-block series-list container">
+
+    <h5 class="card-subtitle">Séries à cet emplacement</h5>
+
+    <ul class="list-group">
+        <div class="row list-group-item list-group-item-info align-items-around">
+            <div class="col"> Titre </div>
+            <div class="col"> Saison </div>
+            <div class="col"> Localisation </div>
+            <div class="col"> Remarques </div>
+        </div>
+        <li *ngFor="let serie of seriesList" [routerLink]="['/porygon/details/serie', serie.id]" class="list-group-item row align-items-around">
+            <div class="col"> {{ serie.title }} </div>
+            <div class="col"> {{ serie.season }} </div>
+            <div class="col"> {{ serie.Location.label }} </div>
+            <div class="col"> {{ serie.remarks }} </div>
+        </li>
+    </ul>
+</div>
+
+<div class="card-block">
+    <ngb-pagination class="d-flex justify-content-center" justify="center" [pageSize]="numberPerPage" [collectionSize]="numberOfSeries" [(page)]="seriePage" (pageChange)="changeSeriePage()"></ngb-pagination>
+</div>
+
+<div class="alert alert-warning"><strong>TODO : </strong>Gérer cas de suppression impossible car foreignKey</div>

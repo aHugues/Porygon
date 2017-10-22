@@ -1,0 +1,155 @@
+<div *ngIf="tabReady" class="card text-center">
+  <!-- Wait until all necessary data are avaible -->
+
+  <div class="mt-1">
+    <ngb-tabset type="pills" justify="center" [(activeId)]="selectedTab" (tabChange)="onTabChange($event)" #tabset="ngbTabset">
+
+
+      <ngb-tab title="Films" id="movies">
+        <ng-template ngbTabContent>
+
+          <div class="card">
+
+            <div class="card-block">
+
+              <h4 class="card-title">Liste des films</h4>
+
+              <form class="form-inline justify-content-center" (ngSubmit)="searchMovies()" #searchMovieForm="ngForm">
+
+                <div class="mt-2 mr-5">
+                  <a routerLink="/porygon/add/movie"><button class="btn btn-success">Nouveau film</button></a>
+                </div>
+
+                <div class="form-group">
+                  <label class="sr-only" for="title">Recherche</label>
+                  <input type="text" class="form-control mt-2 mr-sm-1" id="title" placeholder="Titre à rechercher"
+                  required
+                  [(ngModel)]="movieSearch" name="title"
+                  >
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
+
+              </form>
+
+              <div class="card-block movies-list container">
+                <ul class="list-group">
+                  <div class="row list-group-item list-group-item-info align-items-around">
+                    <div class="col" role="button" (click)="onSortMovies(1)"> Titre <i class="fa fa-fw fa-sort"></i></div>
+                    <div class="col" role="button" (click)="onSortMovies(2)"> Localisation <i class="fa fa-fw fa-sort"></i></div>
+                    <div class="col" role="button" (click)="onSortMovies(3)"> Année de sortie <i class="fa fa-fw fa-sort"></i></div>
+                    <div class="col"> Remarques </div>
+                  </div>
+                  <li *ngFor="let movie of moviesList" [routerLink]="['/porygon/details/movie', movie.id]" class="list-group-item row align-items-around">
+                    <div class="col"> {{ movie.title }} </div>
+                    <div class="col"> {{ movie.Location.label }} </div>
+                    <div class="col"> {{ movie.year }} </div>
+                    <div class="col"> {{ movie.remarks }} </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div *ngIf="moviePagingReady" class="">
+                <ngb-pagination class="d-flex justify-content-center" justify="center" [pageSize]="numberPerPage" [collectionSize]="stats.movies" [(page)]="currentMoviePage" (pageChange)="changeMoviePage()"></ngb-pagination>
+              </div>
+
+            </div>
+          </div>
+
+        </ng-template>
+      </ngb-tab>
+
+
+      <ngb-tab title="Séries" id="series">
+        <ng-template ngbTabContent>
+
+          <div class="card">
+
+            <div class="card-block">
+              <h4 class="card-title">Liste des séries</h4>
+
+
+
+
+              <form class="form-inline justify-content-center" (ngSubmit)="searchSeries()" #searchSerieForm="ngForm">
+
+                <div class="mt-2 mr-5">
+                  <a routerLink="/porygon/add/serie"><button class="btn btn-success">Nouvelle série</button></a>
+                </div>
+
+
+                <div class="form-group">
+                  <label class="sr-only" for="title">Recherche</label>
+                  <input type="text" class="form-control mt-2 mr-sm-1" id="title" placeholder="Titre à rechercher"
+                  required
+                  [(ngModel)]="serieSearch" name="title"
+                  >
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
+              </form>
+
+
+              <div class="card-block series-list container">
+                <ul class="list-group">
+                  <div class="row list-group-item list-group-item-info align-items-around">
+                    <div class="col" role="button" (click)="onSortSeries(1)"> Titre <i class="fa fa-fw fa-sort"></i></div>
+                    <div class="col"> Saison </div>
+                    <div class="col" role="button" (click)="onSortSeries(2)"> Localisation <i class="fa fa-fw fa-sort"></i></div>
+                    <div class="col"> Remarques </div>
+                  </div>
+                  <li *ngFor="let serie of seriesList" [routerLink]="['/porygon/details/serie', serie.id]" class="list-group-item row align-items-around">
+                    <div class="col"> {{ serie.title }} </div>
+                    <div class="col"> {{ serie.season }} </div>
+                    <div class="col"> {{ serie.Location.label }} </div>
+                    <div class="col"> {{ serie.remarks }} </div>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="" *ngIf="seriePagingReady">
+                <ngb-pagination class="d-flex justify-content-center" justify="center" [pageSize]="numberPerPage" [collectionSize]="stats.series" [(page)]="currentSeriePage" (pageChange)="changeSeriePage()"></ngb-pagination>
+              </div>
+
+            </div>
+          </div>
+
+        </ng-template>
+      </ngb-tab>
+
+      <ngb-tab title="Emplacements" id="locations">
+        <ng-template ngbTabContent>
+
+          <div class="card">
+            <div class="card-block">
+              <h4 class="card-title">Liste des emplacements</h4>
+
+
+              <div class="d-flex container justify-content-center mt-3 mb-2">
+                <a routerLink="/porygon/add/location"><button class="btn btn-success">Nouvel emplacement</button></a>
+              </div>
+
+              <div class="movies-list container">
+                <ul class="list-group">
+                  <div class="row list-group-item list-group-item-info align-items-around">
+                    <div class="col"> Emplacement </div>
+                    <div class="col"> Nombre de films </div>
+                    <div class="col"> Nombre de séries </div>
+                  </div>
+                  <li *ngFor="let position of positionsList" [routerLink]="['/porygon/details/location', position.id]" class="list-group-item row align-items-around">
+                    <div class="col"> {{ position.label }} </div>
+                    <div class="col">  {{ position.movies }} </div>
+                    <div class="col"> {{ position.series }} </div>
+                  </li>
+                </ul>
+
+              </div>
+            </div>
+          </div>
+
+        </ng-template>
+      </ngb-tab>
+
+    </ngb-tabset>
+  </div>
+</div>

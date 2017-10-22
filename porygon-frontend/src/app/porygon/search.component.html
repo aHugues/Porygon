@@ -1,0 +1,141 @@
+<form (ngSubmit)="onSubmit()" #searchForm="ngForm">
+
+<div *ngIf="!submitted" class="container-fluid card pt-2">
+
+  <h2 class="card-title">Recherche avancée</h2>
+
+    <div class="card">
+      <div class="card-block">
+        <h2 class="card-title">Préparation de la recherche</h2>
+
+
+            <div class="form-group form-check form-check-inline">
+                <label class="form-check-label">
+                    <input [(ngModel)]="isMovie" class="form-check-input" type="checkbox" name="isMovie">
+                    Film
+                </label>
+            </div>
+
+            <div class="form-group form-check form-check-inline">
+                <label class="form-check-label">
+                    <input [(ngModel)]="isSerie" class="form-check-input" type="checkbox" name="isSerie">
+                    Série
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Titre</label>
+                <input type="text" class="form-control" id="label"
+                [(ngModel)]="title" name="title"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="location">Emplacement</label>
+                <select class="form-control" id="location"
+                required
+                [(ngModel)]="location" name="location"
+                >
+                    <option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</option>
+                </select>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isMovie" class="card mt-2">
+
+          <div class="card-block">
+            <h4 class="card-title">Applicable uniquement aux films</h4>
+
+            <div class="form-group">
+                <label for="director">Réalisateur</label>
+                <input type="text" class="form-control" id="director"
+                [(ngModel)]="director" name="director"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="actors">Acteurs principaux</label>
+                <input type="text" class="form-control" id="actors"
+                [(ngModel)]="actors" name="actors"
+                >
+            </div>
+          </div>
+
+        </div>
+
+        <div *ngIf="isSerie" class="card mt-2">
+
+          <div class="card-block">
+            <h4 class="card-title">Applicable uniquement aux séries</h4>
+
+            <div class="form-group">
+                <label for="season">Saison</label>
+                <input type="number" class="form-control" id="season"
+                [(ngModel)]="season" name="season"
+                >
+            </div>
+
+          </div>
+
+        </div>
+
+    <div class="d-flex justify-content-center mt-2 mb-1">
+      <button type="submit" class="btn btn-success">Rechercher</button>
+
+      <button *ngIf="canReset()" (click)="onReset()" class="btn btn-info">Réinitialiser</button>
+      <button *ngIf="!canReset()" class="btn btn-info disabled">Réinitialiser</button>
+    </div>
+
+
+</div>
+
+</form>
+
+
+<div *ngIf="submitted" class="container card">
+
+  <div class="card-block">
+    <h2 class="card-title">Résultat de la recherche</h2>
+
+    <div *ngIf="isSerie" class="card series-list container mb-3 pt-1">
+      <h3 class="card-title">Séries</h3>
+        <ul class="list-group mx-2 mb-2">
+            <div class="row list-group-item list-group-item-info align-items-around">
+                <div class="col"> Titre </div>
+                <div class="col"> Saison </div>
+                <div class="col"> Localisation </div>
+                <div class="col"> Remarques </div>
+            </div>
+            <li *ngFor="let serie of seriesList" [routerLink]="['/porygon/details/serie', serie.id]" class="list-group-item row align-items-around">
+                <div class="col"> {{ serie.title }} </div>
+                <div class="col"> {{ serie.season }} </div>
+                <div class="col"> {{ serie.Location.label }} </div>
+                <div class="col"> {{ serie.remarks }} </div>
+            </li>
+        </ul>
+    </div>
+
+
+    <div *ngIf="isMovie" class="card movies-list container pt-1">
+      <h3 class="card-title">Films</h3>
+        <ul class="list-group mx-2 mb-2">
+            <div class="row list-group-item list-group-item-info align-items-around">
+                <div class="col"> Titre </div>
+                <div class="col"> Localisation </div>
+                <div class="col"> Année de sortie </div>
+                <div class="col"> Remarques </div>
+            </div>
+            <li *ngFor="let movie of moviesList" [routerLink]="['/porygon/details/movie', movie.id]" class="list-group-item row align-items-around">
+                <div class="col"> {{ movie.title }} </div>
+                <div class="col"> {{ movie.Location.label }} </div>
+                <div class="col"> {{ movie.year }} </div>
+                <div class="col"> {{ movie.remarks }} </div>
+            </li>
+        </ul>
+
+    </div>
+
+  </div>
+
+</div>

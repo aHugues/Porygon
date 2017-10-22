@@ -1,0 +1,20 @@
+<h2>Liste des films</h2>
+
+<div class="container">
+    <a routerLink="/porygon/add/movie"><button class="btn btn-success">Nouveau</button></a>
+</div>
+
+<div class="movies-list container">
+    <ul class="list-group">
+        <div class="row list-group-item list-group-item-info align-items-around">
+            <div class="col"> Titre </div>
+            <div class="col"> Localisation </div>
+            <div class="col"> Remarques </div>
+        </div>
+        <li *ngFor="let movie of movies_list" class="list-group-item row align-items-around">
+            <div class="col"> {{ movie.title }} </div>
+            <div class="col"> {{ movie.location }} </div>
+            <div class="col"> {{ movie.remarks }} </div>
+        </li>
+    </ul>
+</div>

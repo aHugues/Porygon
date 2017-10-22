@@ -1,0 +1,61 @@
+<div *ngIf="ready" class="container">
+
+    <h2>Modifier film</h2>
+
+    <form (ngSubmit)="onSubmit()" #movieForm="ngForm">
+
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type="text" class="form-control" id="title"
+            required
+            [(ngModel)]="selectedMovie.title" name="title"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="location">Localisation</label>
+            <select class="form-control" id="location"
+            required
+            [(ngModel)]="selectedMovie.Location.id" name="location"
+            >
+                <option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="year">Année de sortie</label>
+            <input type="number" class="form-control" id="year"
+            required
+            [(ngModel)]="selectedMovie.year" name="year"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="director">Réalisateur</label>
+            <input type="text" class="form-control" id="director"
+            [(ngModel)]="selectedMovie.director" name="director"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="actors">Acteurs principaux</label>
+            <input type="text" class="form-control" id="actors"
+            [(ngModel)]="selectedMovie.actors" name="actors"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="remarks">Remarques</label>
+            <input type="text" class="form-control" id="remarks"
+            [(ngModel)]="selectedMovie.remarks" name="remarks"
+            >
+        </div>
+
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+
+        <button (click)="onDelete()" class="btn btn-danger">Supprimer</button>
+
+    </form>
+
+
+</div>
