@@ -7,13 +7,15 @@
 var app = require('../app');
 var debug = require('debug')('backend:server');
 var http = require('http');
+var config = require('../config/server.config.json');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(config.server.port || '3000');
 app.set('port', port);
+console.log("Application running on port " + port);
 
 /**
  * Create HTTP server.

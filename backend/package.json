@@ -1,9 +1,11 @@
 {
-  "name": "backend",
-  "version": "0.0.0",
+  "name": "porygon-backend",
+  "version": "1.0.0",
+  "description": "REST API for the Porygon website",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "node ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
