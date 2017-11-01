@@ -5,20 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var locations = require('./routes/locations');
-var movies = require('./routes/movies');
-var series = require('./routes/series');
-var commands = require('./routes/commands');
-
-var users = require('./routes/users');
-
-var list = require('./routes/list');
-var add = require('./routes/add');
-var modify = require('./routes/modify');
-var remove = require('./routes/remove');
-var stats = require('./routes/stats');
-var test = require('./routes/test');
+// Import routes
+var index = require('./routes/index.controller');
+var locations = require('./routes/locations.controller');
+var movies = require('./routes/movies.controller');
+var series = require('./routes/series.controller');
+var commands = require('./routes/commands.controller');
 
 var app = express();
 
@@ -44,7 +36,7 @@ app.use(function(req, res, next) {
 });
 
 //set base route to access API
-app.use('/api/v2', router);
+app.use('/api', router);
 
 
 // register routes to use
@@ -53,14 +45,6 @@ router.use('/locations', locations);
 router.use('/movies', movies);
 router.use('/series', series);
 router.use('/commands', commands);
-
-app.use('/users', users);
-app.use('/list', list);
-app.use('/add', add);
-app.use('/modify', modify);
-app.use('/remove', remove);
-app.use('/stats', stats);
-app.use('/test', test);
 
 
 // catch 404 and forward to error handler
