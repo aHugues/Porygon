@@ -1,73 +1,108 @@
-var express = require('express');
-var router = express.Router();
-var sequelize = require('sequelize');
+let express = require('express');
+let router = express.Router();
+let Rx = require('rx');
 
-var models = require('../models/');
-var Command = models.Command;
+let errorHandler = require('../middlewares/error-handler');
 
-parse_command = function(old_command, body) {
-    old_command.title = body.title;
-    old_command.remarks = body.remarks;
+let CommandsService = require('../services/commands.service');
+
+
+let getAllCommands = (req, res) => {
+
+    let order = ['id', 'ASC'] // Default values
+
+    let onNext = (data) => {
+        res.json(data);
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        console.error(error);
+    }
+
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    CommandsService.getAllCommands({order: [order]}).subscribe(observer);
 }
 
-router.get('/', function(req, res) {
-
-    // Gets the sorting parameters
-    var order = ['id', 'ASC'] // Default values
-
-    // Query
-    Command.findAll({
-        order: [order]
-    }).then(commands => {
-        res.json(commands);
-        });
-})
 
 
+let createCommand = (req, res) => {
 
-router.post('/', function(req, res) {
-    var command = new Command();
-    parse_command(command, req.body)
+    let onNext = (data) => {};
+    let onCompleted = () => {
+        res.status(201).json({
+            code: 201,
+            userMessage: "Command successfully created"
+        })
+    }
+    let onError = (error) => {
+        console.error(error);
+    }
 
-    command.save().then(instance => {
-        res.status(201).json({code:201, userMessage:"Command successfully created"});
-    });
-})
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    CommandsService.createCommand(req.body).subscribe(observer);
+}
 
 
 
-router.get('/:id', function(req, res) {
-    Command.findById(req.params.id).then(command => {
-        res.json(command);
-    })
-})
+let getCommandById = (req, res) => {
+
+    let onNext = (data) => {
+        res.json(data);
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        errorHandler(error, (errorPacket) => {
+            res.status(errorPacket.status).json(errorPacket.message);
+        })
+    }
+
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    CommandsService.getCommandById(req.params.id).subscribe(observer);
+}
 
 
 
-router.put('/:id', function(req, res) {
-    Command.findById(req.params.id).then(function(command) {
-        parse_command(command, req.body);
-        if (command.changed()) {
-            command.save().then(command => {
-                res.status(205).send();
-            });
+let updateCommand = (req, res) => {
+
+    let onNext = (modified) => {
+        if (modified) {
+            res.status(205).send();
         }
         else {
             res.status(204).send();
         }
-    });
-})
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        console.error(error);
+    }
+
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    CommandsService.updateCommand(req.params.id, req.body).subscribe(observer);
+}
 
 
 
-router.delete('/:id', function(req, res) {
-    Command.findById(req.params.id).then(command => {
-        command.destroy().then(() => {
+let deleteCommand = (req, res) => {
+
+        let onNext = () => {}
+        let onCompleted = () => {
             res.status(204).send();
-        });
-    });
-})
+        }
+        let onError = (error) => {
+            console.error(error);
+        }
 
+        let observer = Rx.Observer.create(onNext, onError, onCompleted);
+        CommandsService.deleteCommand(req.params.id).subscribe(observer);
+}
+
+
+router.get('/', getAllCommands);
+router.post('/', createCommand);
+router.get('/:id', getCommandById);
+router.put('/:id', updateCommand);
+router.delete('/:id', deleteCommand);
 
 
 module.exports = router;
