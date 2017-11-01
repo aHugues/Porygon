@@ -7,6 +7,7 @@ frontend/jspm_packages
 frontend/npm-debug.log
 frontend/debug.log
 frontend/src/**/*.js
+frontend/src/**/*.js.map
 frontend/!src/systemjs.config.extras.js
 frontend/!src/systemjs.config.js
 frontend/!src/systemjs-angular-loader.js
