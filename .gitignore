@@ -1,5 +1,5 @@
 backend/node_modules/*
-back/config/config.json
+backend/config/database.config.json
 
 frontend/.idea
 frontend/node_modules
