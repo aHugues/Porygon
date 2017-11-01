@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 
-import { Movie } from './movie';
-import { Serie } from './serie';
-import { Stats } from './stats';
-import { Location as Position } from './location';
+import { Movie } from '../../models/movie';
+import { Serie } from '../../models/serie';
+import { Stats } from '../../models/stats';
+import { Location as Position } from '../../models/location';
 
-import { PorygonService } from './porygon.service';
-import { PorygonSearchService } from './porygon-search.service';
-import { SharingService } from './sharing.service';
+import { PorygonService } from '../../services/porygon.service';
+import { PorygonSearchService } from '../../services/porygon-search.service';
+import { SharingService } from '../../services/sharing.service';
 
 @Component({
     selector: 'list',

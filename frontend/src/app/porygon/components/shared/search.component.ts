@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Location } from './location';
-import { Movie } from './movie';
-import { Serie } from './serie';
+import { Location } from '../../models/location';
+import { Movie } from '../../models/movie';
+import { Serie } from '../../models/serie';
 
-import { PorygonService } from './porygon.service';
-import { PorygonSearchService } from './porygon-search.service';
+import { PorygonService } from '../../services/porygon.service';
+import { PorygonSearchService } from '../../services/porygon-search.service';
 
 
 @Component({

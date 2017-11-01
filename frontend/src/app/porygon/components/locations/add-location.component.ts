@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Location } from './location';
+import { Location } from '../../models/location';
 
-import { PorygonService } from './porygon.service';
+import { PorygonService } from '../../services/porygon.service';
 
 @Component({
     selector: 'add-movie',
     templateUrl: './add-location.component.html',
-    styleUrls: ['./forms.css'],
+    styleUrls: ['../../../styles/forms.css'],
 })
 export class AddLocationComponent {
 

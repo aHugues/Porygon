@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PorygonNavigationModel } from './porygon-navigation-model';
+import { PorygonNavigationModel } from '../../models/porygon-navigation-model';
 
 @Component({
     selector: 'porygon',

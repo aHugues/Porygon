@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Movie } from './movie';
-import { Serie } from './serie';
-import { Location } from './location';
-import { Stats } from './stats';
-import { Command } from './command';
+import { Movie } from '../models/movie';
+import { Serie } from '../models/serie';
+import { Location } from '../models/location';
+import { Stats } from '../models/stats';
+import { Command } from '../models/command';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -14,7 +14,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class PorygonService {
 
-    private apiUrl = "http://localhost:4000/api/v2";
+    private apiUrl = "http://localhost:4000/api/";
     private headers: Headers;
 
     constructor(private http: Http) {

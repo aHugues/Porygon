@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
-import { Location } from './location';
-import { Movie } from './movie';
-import { Serie } from './serie';
+import { Location } from '../../models/location';
+import { Movie } from '../../models/movie';
+import { Serie } from '../../models/serie';
 
-import { PorygonService } from './porygon.service';
+import { PorygonService } from '../../services/porygon.service';
 
 import 'rxjs/add/operator/switchMap';
 

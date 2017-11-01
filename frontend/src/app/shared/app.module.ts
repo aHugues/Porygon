@@ -4,11 +4,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PorygonModule } from './porygon/porygon.module';
+import { PorygonModule } from '../porygon/porygon.module';
 
 import { AppComponent }  from './app.component';
 
-import { SharingService } from './porygon/sharing.service';
+import { SharingService } from '../porygon/services/sharing.service';
 
 
 @NgModule({

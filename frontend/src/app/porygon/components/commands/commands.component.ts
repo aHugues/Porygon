@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Command } from './command';
+import { Command } from '../../models/command';
 
-import { PorygonService } from './porygon.service';
-import { SharingService } from './sharing.service';
+import { PorygonService } from '../../services/porygon.service';
+import { SharingService } from '../../services/sharing.service';
 
 @Component({
     selector: 'commands',

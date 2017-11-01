@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Serie } from './serie';
-import { Location as SerieLocation } from './location' ;
+import { Serie } from '../../models/serie';
+import { Location as SerieLocation } from '../../models/location' ;
 
-import { PorygonService } from './porygon.service';
+import { PorygonService } from '../../services/porygon.service';
 
 @Component({
     selector: 'add-serie',
     templateUrl: './add-serie.component.html',
-    styleUrls: ['./forms.css'],
+    styleUrls: ['../../../styles/forms.css'],
 })
 export class AddSerieComponent implements OnInit{
 

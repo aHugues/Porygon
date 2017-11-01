@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Movie } from './movie';
-import { Location } from './location';
+import { Movie } from '../../models/movie';
+import { Location } from '../../models/location';
 
-import { PorygonService } from './porygon.service';
+import { PorygonService } from '../../services/porygon.service';
 
 @Component({
     selector: 'add-movie',
     templateUrl: './add-movie.component.html',
-    styleUrls: ['./forms.css',],
+    styleUrls: ['../../../styles/forms.css',],
 })
 export class AddMovieComponent implements OnInit{
 

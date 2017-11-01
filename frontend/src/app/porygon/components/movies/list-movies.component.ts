@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Movie } from './movie';
+import { Movie } from '../../models/movie';
 
-import { PorygonService } from './porygon.service';
+import { PorygonService } from '../../services/porygon.service';
 
 @Component({
     selector: 'list-movies',
