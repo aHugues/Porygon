@@ -8,6 +8,7 @@ let service = {};
 
 
 let getAllCommands = (query) => {
+
     let observable = Rx.Observable.create((obs) => {
         Command.findAll(query)
             .then((commands) => {

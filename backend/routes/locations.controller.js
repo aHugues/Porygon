@@ -1,117 +1,129 @@
-var express = require('express');
-var router = express.Router();
-var sequelize = require('sequelize');
+let express = require('express');
+let router = express.Router();
+let Rx = require('rx');
 
-var models = require('../models/');
-var Location = models.Location;
-var Movie = models.Movie;
-var Serie = models.Serie;
+let errorHandler = require('../middlewares/error-handler');
+
+let LocationsService = require('../services/locations.service');
 
 
-router.get('/', function(req, res) {
+let getAllLocations = (req, res) => {
 
-    // Get the fields selector
-    var fields = req.query.fields;
-    if (fields) {
-        fields = fields.split(',');
+    let onNext = (data) => {
+        res.json(data);
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        console.error(error);
     }
 
-    // Gets the search parameters, replaces with '%' if none provided
-    if (req.query.label) {
-        var labelSearch = '%' + req.query.label + '%';
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    LocationsService.getAllLocations(req.query).subscribe(observer);
+}
+
+
+
+let createLocation = (req, res) => {
+
+    let onNext = (data) => {};
+    let onCompleted = () => {
+        res.status(201).json({
+            code: 201,
+            userMessage: "Command successfully created"
+        })
     }
-    else {
-        var labelSearch = '%';
+    let onError = (error) => {
+        console.error(error);
     }
 
-    // Gets the sorting parameters
-    var order = ['label', 'ASC'] // Default values
-    if (req.query.sort) {
-        if (req.query.sort[0]=='-') {
-            order[1] = 'DESC';
-            order[0] = req.query.sort.substring(1);
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    LocationsService.createLocation(req.body).subscribe(observer);
+}
+
+
+
+let getLocationById = (req, res) => {
+
+    let onNext = (data) => {
+        res.json(data);
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        errorHandler(error, (errorPacket) => {
+            res.status(errorPacket.status).json(errorPacket.message);
+        })
+    }
+
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    LocationsService.getLocationById(req.params.id).subscribe(observer);
+}
+
+
+let countForLocation = (req, res) => {
+
+    let result = {
+        movies: 0,
+        series: 0
+    };
+
+    let onNext = (data) => {
+        result[data[0]] = data[1];
+    }
+    let onError = (error) => {
+        console.error(error);
+    }
+    let onCompleted = () => {
+        res.json(result);
+    }
+
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    LocationsService.countForLocation(req.params.id).subscribe(observer);
+}
+
+
+
+let updateLocation = (req, res) => {
+
+    let onNext = (modified) => {
+        if (modified) {
+            res.status(205).send();
         }
         else {
-            order[0] = req.query.sort;
+            res.status(204).send();
         }
     }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        console.error(error);
+    }
 
-    // Query
-    Location.findAll({
-        attributes: fields,
-        where: {
-            label: sequelize.where(sequelize.fn('LOWER', sequelize.col('label')), 'LIKE', labelSearch)
-        },
-        order: [order]
-    }).then(locations => {
-        res.json(locations);
-        });
-})
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    LocationsService.updateLocation(req.params.id, req.body).subscribe(observer);
+}
 
 
 
-router.post('/', function(req, res) {
-    var location = new Location();
-    location.label = req.body.label;
+let deleteLocation = (req, res) => {
 
-    location.save().then(instance => {
-        res.status(201).json({code:201, userMessage:"Location successfully created"});
-    });
-})
-
-
-
-router.get('/:id', function(req, res) {
-    Location.findById(req.params.id).then(location => {
-        res.json(location);
-    })
-})
-
-
-
-router.get('/:id/count', function(req, res) {
-    var moviesTotal = 0;
-    var seriesTotal = 0;
-
-    Movie.count({
-        where: {location: req.params.id}
-    }).then(count => {
-        moviesTotal = count;
-        Serie.count({
-            where: {location: req.params.id}
-        }).then(count => {
-            seriesTotal = count;
-            res.json({movies:moviesTotal, series:seriesTotal});
-        });
-    });
-})
-
-
-
-router.put('/:id', function(req, res) {
-    Location.findById(req.params.id).then(function(location) {
-        if (location.label == req.body.label) {
+        let onNext = () => {}
+        let onCompleted = () => {
             res.status(204).send();
         }
-        else {
-            location.label = req.body.label;
-
-            location.save().then(location => {
-                res.status(205).send();
-            });
+        let onError = (error) => {
+            console.error(error);
         }
-    });
-})
+
+        let observer = Rx.Observer.create(onNext, onError, onCompleted);
+        LocationsService.deleteLocation(req.params.id).subscribe(observer);
+}
 
 
-
-router.delete('/:id', function(req, res) {
-    Location.findById(req.params.id).then(location => {
-        location.destroy().then(() => {
-            res.status(204).send();
-        });
-    });
-})
+router.get('/', getAllLocations);
+router.post('/', createLocation);
+router.get('/count/:id', countForLocation);
+router.get('/:id', getLocationById);
+router.put('/:id', updateLocation);
+router.delete('/:id', deleteLocation);
 
 
 module.exports = router;
