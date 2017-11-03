@@ -29,7 +29,7 @@ let createLocation = (req, res) => {
     let onCompleted = () => {
         res.status(201).json({
             code: 201,
-            userMessage: "Command successfully created"
+            userMessage: "Location successfully created"
         })
     }
     let onError = (error) => {
