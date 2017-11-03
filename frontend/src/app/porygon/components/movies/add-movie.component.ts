@@ -37,16 +37,16 @@ export class AddMovieComponent implements OnInit{
     }
 
     onSubmit(): void {
-        // this.porygonService.createMovie(this.newMovie)
-        //     .subscribe(
-        //         (result: Movie) => this.handleSubmission(),
-        //         error => console.error()
-        //     );
+        this.porygonService.createMovie(this.newMovie)
+            .subscribe(
+                (result: Movie) => this.handleSubmission(),
+                error => console.error()
+            );
     }
 
     handleSubmission(): void {
         this.submitted = true;
-        // this.router.navigate(['porygon/list']);
+        this.router.navigate(['porygon/list']);
     }
 
     get diagnostic() { return JSON.stringify(this.newMovie);}
