@@ -4,6 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { MatToolbarModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material';
+
 import { PorygonComponent } from './components/shared/porygon.component';
 import { PorygonHomeComponent } from './components/shared/porygon-home.component';
 import { ListMoviesComponent } from './components/movies/list-movies.component';
@@ -42,6 +45,8 @@ const appRoutes: Routes = [
 
 @NgModule({
     imports: [
+        MatToolbarModule,
+        MatButtonModule,
         NgbModule,
         FormsModule,
         CommonModule,
@@ -70,6 +75,8 @@ const appRoutes: Routes = [
         SharingService,
     ],
     exports: [
+        MatToolbarModule,
+        MatButtonModule,
         RouterModule
     ]
 })
