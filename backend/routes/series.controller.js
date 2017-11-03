@@ -1,153 +1,124 @@
 var express = require('express');
 var router = express.Router();
-var sequelize = require('sequelize');
+let Rx = require('rx');
 
-var models = require('../models/');
-var Serie = models.Serie;
-var Location = models.Location;
+let errorHandler = require('../middlewares/error-handler');
+
+let SeriesService = require('../services/series.service');
 
 
-function parseSerie(serie, body) {
+getAllSeries = (req, res) => {
 
-    serie.title = body.title;
-    serie.location = body.location;
-    serie.season = body.season;
-    serie.remarks = body.remarks;
+    let onNext = (data) => {
+        res.json(data);
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        console.error(error);
+    }
+
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    SeriesService.getAllSeries(req.query).subscribe(observer);
 }
 
 
 
-router.get('/', function(req, res) {
+let countSeries = (req, res) => {
 
-    // Get the fields selector
-    var fields = req.query.fields;
-    if (fields) {
-        fields = fields.split(',');
+    let onNext = (data) => {
+        res.json(data);
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        console.error(error);
     }
 
-    // Gets the search parameters, replaces with '%' if none provided
-    var searchArray = [
-        ["title", "%"],
-        ["location", "%"],
-        ["season", "%"]
-    ];
-    for (var searchIndex in searchArray) {
-        if (req.query[searchArray[searchIndex][0]]) {
-            searchArray[searchIndex][1] = req.query[searchArray[searchIndex][0]];
-            if (searchIndex!=1 && searchIndex!=2) {
-                searchArray[searchIndex][1] = '%'+searchArray[searchIndex][1]+'%'
-            }
-        }
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    SeriesService.countSeries(req.query.title).subscribe(observer);
+}
+
+
+
+let createSerie = (req, res) => {
+
+    let onNext = (data) => {};
+    let onCompleted = () => {
+        res.status(201).json({
+            code: 201,
+            userMessage: "Serie successfully created"
+        })
+    }
+    let onError = (error) => {
+        console.error(error);
     }
 
-    // Gets the sorting parameters
-    var order = ['title', 'ASC'] // Default values
-    var secondaryOrder = ['title', 'ASC'] // Secondary value for sorting
-    var tertiaryOrder = ['location', 'ASC'] // Tertiary value for sorting
-    var lastOrder = ['season', 'ASC'] // Last value for sorting
-    if (req.query.sort) {
-        if (req.query.sort[0]=='-') {
-            order[1] = 'DESC';
-            order[0] = req.query.sort.substring(1);
-        }
-        else {
-            order[0] = req.query.sort;
-        }
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    SeriesService.createSerie(req.body).subscribe(observer);
+
+}
+
+
+
+let getSerieById = (req, res) => {
+
+    let onNext = (data) => {
+        res.json(data);
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        errorHandler(error, (errorPacket) => {
+            res.status(errorPacket.status).json(errorPacket.message);
+        })
     }
 
-    // Gets the page related parameters
-    var offset = 0;
-    var limit = 99999; // Large number to get everything
-    if (req.query.offset) {
-        offset = parseInt(req.query.offset);
-    }
-    if (req.query.limit) {
-        limit = parseInt(req.query.limit);
-    }
-
-    // Query
-    Serie.findAll({
-        attributes: fields,
-        where: {
-            title: sequelize.where(sequelize.fn('LOWER', sequelize.col('title')), 'LIKE', searchArray[0][1]),
-            season: {$like: searchArray[2][1]}
-        },
-        order: [order, secondaryOrder, tertiaryOrder, lastOrder],
-        offset: offset,
-        limit: limit,
-        include: [{
-            model: Location,
-            where: { id: {$like: searchArray[1][1]} }
-        }]
-    }).then(series => {
-        res.json(series);
-        });
-})
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    SeriesService.getSerieById(req.params.id).subscribe(observer);
+}
 
 
 
-router.get('/count', function(req, res) {
-    var title = "%"
-    if (req.query.title) {
-        title = '%' + req.query.title + '%';
-    };
-    Serie.count({
-        where: {
-            title: sequelize.where(sequelize.fn('LOWER', sequelize.col('title')), 'LIKE', title),
-        }
-    }).then(total => {
-        res.json(total);
-    });
-})
+let updateSerie = (req, res) => {
 
-
-
-router.post('/', function(req, res) {
-    var serie = new Serie();
-    parseSerie(serie, req.body);
-
-    serie.save().then(instance => {
-        res.status(201).json({code:201, userMessage:"Serie successfully created"});
-    });
-})
-
-
-
-router.get('/:id', function(req, res) {
-    Serie.findOne({
-        where: { id: req.params.id },
-        include: [ { model: Location}]
-    }).then(serie => {
-        res.json(serie);
-    });
-})
-
-
-
-router.put('/:id', function(req, res) {
-    Serie.findById(req.params.id).then(function(serie) {
-        parseSerie(serie, req.body);
-
-        if (serie.changed()) {
-            serie.save().then(serie => {
-                res.status(205).send();
-            });
+    let onNext = (modified) => {
+        if (modified) {
+            res.status(205).send();
         }
         else {
             res.status(204).send();
         }
-    });
-})
+    }
+    let onCompleted = () => {}
+    let onError = (error) => {
+        console.error(error);
+    }
+
+    let observer = Rx.Observer.create(onNext, onError, onCompleted);
+    SeriesService.updateSerie(req.params.id, req.body).subscribe(observer);
+}
 
 
 
-router.delete('/:id', function(req, res) {
-    Serie.findById(req.params.id).then(serie => {
-        serie.destroy().then(() => {
+let deleteSerie = (req, res) => {
+
+        let onNext = () => {}
+        let onCompleted = () => {
             res.status(204).send();
-        });
-    });
-})
+        }
+        let onError = (error) => {
+            console.error(error);
+        }
 
+        let observer = Rx.Observer.create(onNext, onError, onCompleted);
+        SeriesService.deleteSerie(req.params.id).subscribe(observer);
+}
+
+
+
+router.get('/', getAllSeries);
+router.post('/', createSerie);
+router.get('/count', countSeries);
+router.get('/:id', getSerieById);
+router.put('/:id', updateSerie);
+router.delete('/:id', deleteSerie);
 
 module.exports = router;
