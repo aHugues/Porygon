@@ -120,7 +120,7 @@ let deleteLocation = (req, res) => {
 
 router.get('/', getAllLocations);
 router.post('/', createLocation);
-router.get('/count/:id', countForLocation);
+router.get('/:id/count/', countForLocation);
 router.get('/:id', getLocationById);
 router.put('/:id', updateLocation);
 router.delete('/:id', deleteLocation);
