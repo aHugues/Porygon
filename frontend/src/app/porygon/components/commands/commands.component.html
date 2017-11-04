@@ -54,11 +54,11 @@
 </mat-card>
 
 <div *ngIf="newResource">
-    <edit-command [selectedCommand]="selectedCommand" [newResource]="newResource" (onClose)="onCloseCard()">
+    <edit-command [selectedCommand]="selectedCommand" [newResource]="newResource" (onClose)="onCloseCard()" (onSave)="onSave($event)">
     </edit-command>
 </div>
 
 <div *ngIf="editing">
-    <edit-command [selectedCommand]="selectedCommand" [newResource]="newResource" (onClose)="onCloseCard()">
+    <edit-command [selectedCommand]="selectedCommand" [newResource]="newResource" (onClose)="onCloseCard()" (onDeleteEvent)="onDelete($event)" (onSave)="onSave($event)">
     </edit-command>
 </div>

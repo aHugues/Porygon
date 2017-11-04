@@ -51,7 +51,6 @@ export class CommandsComponent implements OnInit {
     onReset(): void {
         // Reset all fields to void
         this.selectedCommand = new Command();
-        this.newResource = true;
     }
 
     canReset(): Boolean {
@@ -68,30 +67,33 @@ export class CommandsComponent implements OnInit {
 
     onServiceCalled(): void {
         this.updateList();
+        this.onCloseCard();
         this.onReset();
     }
 
-    onSubmit(): void {
-
+    onSave(event: any): void {
         // Create or update the command
-        if (this.newResource) {
-            this.porygonService.createCommand(this.selectedCommand)
+        if (event.newResource) {
+            this.porygonService.createCommand(event.command)
                 .subscribe(
                     (result: any) => this.onServiceCalled());
         }
         else {
-            this.porygonService.modifyCommand(this.selectedCommand)
+            this.porygonService.modifyCommand(event.command)
                 .subscribe(
                     (result: any) => this.onServiceCalled());
         }
     }
 
-    onDelete(): void {
-        this.porygonService.deleteCommand(this.selectedCommand)
+    onDelete(command: any): void {
+        this.porygonService.deleteCommand(command)
             .subscribe(
                 (result: any) => this.onServiceCalled());
     }
 
-    get diagnostic() { return JSON.stringify(this.sharingService.getAllData())}
+    get diagnostic() { return JSON.stringify({
+        editing: this.editing,
+        newResource: this.newResource
+    })}
 
 }

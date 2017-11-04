@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material';
 
 import { Command } from '../../models/command';
 
@@ -14,6 +15,7 @@ export class EditCommandComponent implements OnInit{
     @Input() newResource: boolean;
     @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
     @Output() onSave: EventEmitter<{command: Command, newResource: Boolean}> = new EventEmitter<{command: Command, newResource: Boolean}>();
+    @Output() onDeleteEvent: EventEmitter<Command> = new EventEmitter<Command>();
 
     currentCommand: Command;
 
@@ -35,7 +37,7 @@ export class EditCommandComponent implements OnInit{
     }
 
     onDelete(): void {
-        console.log("deleting");
+        this.onDeleteEvent.emit(this.currentCommand);
     }
 
 
