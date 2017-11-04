@@ -16,3 +16,7 @@
     padding-left: 5%;
     padding-right: 50%;
 }
+
+.form-button {
+    outline: none;
+}

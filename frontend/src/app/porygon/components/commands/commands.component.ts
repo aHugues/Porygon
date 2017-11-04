@@ -15,7 +15,7 @@ import { SharingService } from '../../services/sharing.service';
 export class CommandsComponent implements OnInit {
 
     commandsList: Command[] = new Array();
-    selectedCommand = new Command;
+    selectedCommand = new Command();
     newResource = false;
     editing = false;
 

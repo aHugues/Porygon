@@ -19,26 +19,26 @@
         </mat-card-title>
     </mat-card-header>
 
-    <mat-card-content>
 
-        <form (ngSubmit)="onSubmit()" #commandForm="ngForm">
 
-            <div class="form-container">
+    <form (ngSubmit)="onSubmit()" #commandForm="ngForm">
+        <div class="form-container">
+
+            <mat-card-content class="form-container">
 
                 <mat-form-field>
                     <input matInput placeholder="Label" id="label"
                     required
-                    [(ngModel)]="selectedCommand.title" name="title"
+                    [(ngModel)]="currentCommand.title" name="title"
                     >
                 </mat-form-field>
 
                 <mat-form-field>
                     <input matInput placeholder="Remarques" id="remarks"
-                    [(ngModel)]="selectedCommand.remarks" name="remarks"
+                    [(ngModel)]="currentCommand.remarks" name="remarks"
                     >
                 </mat-form-field>
 
-                <button type="submit" class="btn btn-success">Enregistrer</button>
 
                 <!-- <button *ngIf="canReset()" (click)="onReset()" class="btn btn-info">Réinitialiser</button>
 
@@ -48,11 +48,19 @@
 
                 <button *ngIf="newRessource" class="btn btn-danger disabled">Supprimer</button> -->
 
-            </div>
+            </mat-card-content>
 
-        </form>
+            <mat-card-actions>
+                <span>
+                    <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
 
-  </mat-card-content>
+                    <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
+
+                </span>
+            </mat-card-actions>
+        </div>
+
+    </form>
 
 
 </mat-card>

@@ -3,42 +3,39 @@ import { Router } from '@angular/router';
 
 import { Command } from '../../models/command';
 
-import { PorygonService } from '../../services/porygon.service';
-import { SharingService } from '../../services/sharing.service';
-
 @Component({
     selector: 'edit-command',
     templateUrl: './edit-command.component.html',
     styleUrls: ['../../../styles/card.css', '../../../styles/forms.css']
 })
-export class EditCommandComponent {
+export class EditCommandComponent implements OnInit{
 
     @Input() selectedCommand: Command;
     @Input() newResource: boolean;
     @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
+    @Output() onSave: EventEmitter<{command: Command, newResource: Boolean}> = new EventEmitter<{command: Command, newResource: Boolean}>();
 
-    constructor(
-        public porygonService: PorygonService,
-    ) {}
+    currentCommand: Command;
+
+    constructor() {}
+
+    ngOnInit(): void {
+        this.currentCommand = new Command(this.selectedCommand);
+    }
 
 
     onSubmit(): void {
-
-        // Create or update the command
-        if (this.newResource) {
-            this.porygonService.createCommand(this.selectedCommand)
-                .subscribe(
-                    (result: any) => {});
-        }
-        else {
-            this.porygonService.modifyCommand(this.selectedCommand)
-                .subscribe(
-                    (result: any) => {});
-        }
+        // send a signal to the parent element to save the new command
+        this.onSave.emit({command: this.currentCommand, newResource: this.newResource});
     }
 
     onCloseCard(): void {
+        // send a signal to the parent element to close the card
         this.onClose.emit();
+    }
+
+    onDelete(): void {
+        console.log("deleting");
     }
 
 
