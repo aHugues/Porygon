@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgPlural } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { Command } from '../../models/command';

@@ -1,0 +1,39 @@
+<div class="card">
+
+  <div class="card-block">
+    <h3 class="card-title">Ajout ou modification de commande</h3>
+
+    <div class="container">
+
+      <form (ngSubmit)="onSubmit()" #commandForm="ngForm">
+
+        <div class="form-group">
+          <label for="title">Titre</label>
+          <input type="text" class="form-control" id="label"
+          required
+          [(ngModel)]="selectedCommand.title" name="title"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="remarks">Commentaires</label>
+          <input type="text" class="form-control" id="remarks"
+          [(ngModel)]="selectedCommand.remarks" name="remarks"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+
+        <button *ngIf="canReset()" (click)="onReset()" class="btn btn-info">Réinitialiser</button>
+
+        <button *ngIf="!canReset()" class="btn btn-info disabled">Réinitialiser</button>
+
+        <button *ngIf="! newRessource" (click)="onDelete()" class="btn btn-danger">Supprimer</button>
+
+        <button *ngIf="newRessource" class="btn btn-danger disabled">Supprimer</button>
+
+      </form>
+    </div>
+  </div>
+
+</div>
