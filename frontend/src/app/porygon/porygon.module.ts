@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
 import { MatCardModule } from '@angular/material';
+import { MatSidenavModule } from '@angular/material';
 
 import { PorygonComponent } from './components/shared/porygon.component';
 import { PorygonHomeComponent } from './components/shared/porygon-home.component';
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
         MatToolbarModule,
         MatButtonModule,
         MatCardModule,
+        MatSidenavModule,
         NgbModule,
         FormsModule,
         CommonModule,
@@ -80,6 +82,7 @@ const appRoutes: Routes = [
         MatToolbarModule,
         MatButtonModule,
         MatCardModule,
+        MatSidenavModule,
         RouterModule
     ]
 })

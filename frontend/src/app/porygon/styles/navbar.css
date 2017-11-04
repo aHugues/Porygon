@@ -1,7 +1,14 @@
 .navbar-container {
     display: flex;
     flex-direction: row;
+    margin-bottom: 4px;
+    background-color: #3262ff;
 }
 
-.element {
+.navbar-element {
+}
+
+
+.navbar-button {
+    color: #f9fbff;
 }
