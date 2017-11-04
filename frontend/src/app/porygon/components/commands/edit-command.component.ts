@@ -9,7 +9,7 @@ import { SharingService } from '../../services/sharing.service';
 @Component({
     selector: 'edit-command',
     templateUrl: './edit-command.component.html',
-    styleUrls: []
+    styleUrls: ['../../../styles/card.css']
 })
 export class EditCommandComponent {
 

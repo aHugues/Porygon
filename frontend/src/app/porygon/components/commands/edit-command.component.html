@@ -1,9 +1,12 @@
-<div class="card">
+<mat-card class="card-container">
 
-  <div class="card-block">
-    <h3 class="card-title">Ajout ou modification de commande</h3>
+    <mat-card-header>
+        <mat-card-title>
+            <h3>Ajout ou modification de commande</h3>
+        </mat-card-title>
+    </mat-card-header>
 
-    <div class="container">
+    <mat-card-content>
 
       <form (ngSubmit)="onSubmit()" #commandForm="ngForm">
 
@@ -33,7 +36,8 @@
         <button *ngIf="newRessource" class="btn btn-danger disabled">Supprimer</button>
 
       </form>
-    </div>
-  </div>
 
-</div>
+  </mat-card-content>
+
+
+</mat-card>

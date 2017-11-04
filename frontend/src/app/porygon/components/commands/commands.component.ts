@@ -10,7 +10,7 @@ import { SharingService } from '../../services/sharing.service';
 @Component({
     selector: 'commands',
     templateUrl: './commands.component.html',
-    styleUrls: [ '../../../styles/lists.css']
+    styleUrls: [ '../../../styles/lists.css', '../../../styles/card.css']
 })
 export class CommandsComponent implements OnInit {
 
