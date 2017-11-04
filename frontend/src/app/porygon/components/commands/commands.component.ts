@@ -35,6 +35,11 @@ export class CommandsComponent implements OnInit {
 
     }
 
+    onCloseCard(): void {
+        this.editing = false;
+        this.newResource = false;
+    }
+
     onSelectCommand(command: Command): void {
         this.selectedCommand.id = command.id;
         this.selectedCommand.title = command.title;

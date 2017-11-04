@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Command } from '../../models/command';
@@ -15,6 +15,7 @@ export class EditCommandComponent {
 
     @Input() selectedCommand: Command;
     @Input() newResource: boolean;
+    @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
 
     constructor(
         public porygonService: PorygonService,
@@ -34,6 +35,10 @@ export class EditCommandComponent {
                 .subscribe(
                     (result: any) => {});
         }
+    }
+
+    onCloseCard(): void {
+        this.onClose.emit();
     }
 
 
