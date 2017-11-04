@@ -8,34 +8,36 @@
 
     <mat-card-content>
 
-      <form (ngSubmit)="onSubmit()" #commandForm="ngForm">
+        <form (ngSubmit)="onSubmit()" #commandForm="ngForm">
 
-        <div class="form-group">
-          <label for="title">Titre</label>
-          <input type="text" class="form-control" id="label"
-          required
-          [(ngModel)]="selectedCommand.title" name="title"
-          >
-        </div>
+            <div class="form-container">
 
-        <div class="form-group">
-          <label for="remarks">Commentaires</label>
-          <input type="text" class="form-control" id="remarks"
-          [(ngModel)]="selectedCommand.remarks" name="remarks"
-          >
-        </div>
+                <mat-form-field>
+                    <input matInput placeholder="Label" id="label"
+                    required
+                    [(ngModel)]="selectedCommand.title" name="title"
+                    >
+                </mat-form-field>
 
-        <button type="submit" class="btn btn-success">Enregistrer</button>
+                <mat-form-field>
+                    <input matInput placeholder="Remarques" id="remarks"
+                    [(ngModel)]="selectedCommand.remarks" name="remarks"
+                    >
+                </mat-form-field>
 
-        <button *ngIf="canReset()" (click)="onReset()" class="btn btn-info">Réinitialiser</button>
+                <button type="submit" class="btn btn-success">Enregistrer</button>
 
-        <button *ngIf="!canReset()" class="btn btn-info disabled">Réinitialiser</button>
+                <!-- <button *ngIf="canReset()" (click)="onReset()" class="btn btn-info">Réinitialiser</button>
 
-        <button *ngIf="! newRessource" (click)="onDelete()" class="btn btn-danger">Supprimer</button>
+                <button *ngIf="!canReset()" class="btn btn-info disabled">Réinitialiser</button>
 
-        <button *ngIf="newRessource" class="btn btn-danger disabled">Supprimer</button>
+                <button *ngIf="! newRessource" (click)="onDelete()" class="btn btn-danger">Supprimer</button>
 
-      </form>
+                <button *ngIf="newRessource" class="btn btn-danger disabled">Supprimer</button> -->
+
+            </div>
+
+        </form>
 
   </mat-card-content>
 

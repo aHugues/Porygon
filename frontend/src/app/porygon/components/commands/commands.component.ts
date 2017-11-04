@@ -31,7 +31,7 @@ export class CommandsComponent implements OnInit {
     onCreateCommand(): void {
         this.selectedCommand = new Command();
         this.newResource = true;
-        console.log(this.newResource);
+        this.editing = false;
 
     }
 
@@ -40,7 +40,7 @@ export class CommandsComponent implements OnInit {
         this.selectedCommand.title = command.title;
         this.selectedCommand.remarks = command.remarks;
         this.newResource = false;
-        console.log("selected command" + command.id);
+        this.editing = true;
     }
 
     onReset(): void {
