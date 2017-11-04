@@ -52,25 +52,25 @@ export class SharingService {
     }
 
     public setData(option: string, value: any): void {
-        console.log("setting " + option + " to " + JSON.stringify(value));
+        // console.log("setting " + option + " to " + JSON.stringify(value));
         localStorage.setItem(option, JSON.stringify(value));
     }
 
     public getData(option: string): any {
-        console.log("-------------------")
-        console.log("getting data for " + option);
+        // console.log("-------------------")
+        // console.log("getting data for " + option);
         let data = localStorage.getItem(option);
-        console.log("getting " + data);
+        // console.log("getting " + data);
 
         // checks if not set value and set to the default
         if (!data) {
-            console.log("no data received for " + option);
+            // console.log("no data received for " + option);
             let defaultData = this.getDefaultData(option);
             this.setData(option, defaultData);
             return defaultData;
         }
 
-        console.log('\n');
+        // console.log('\n');
         return JSON.parse(data);
     }
 
