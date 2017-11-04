@@ -6,7 +6,7 @@ import { Location } from '../../models/location';
 import { PorygonService } from '../../services/porygon.service';
 
 @Component({
-    selector: 'add-movie',
+    selector: 'add-location',
     templateUrl: './add-location.component.html',
     styleUrls: ['../../../styles/forms.css'],
 })

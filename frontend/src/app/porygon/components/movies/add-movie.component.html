@@ -1,6 +1,7 @@
-<div *ngIf="ready" class="container">
+<div *ngIf="ready" class="form-container">
 
     <h2>Nouveau Film</h2>
+
 
     <form (ngSubmit)="onSubmit()" #movieForm="ngForm">
 
@@ -70,6 +71,5 @@
         <button [disabled]="!movieForm.form.valid" type="submit" class="btn btn-success">Enregistrer</button>
 
     </form>
-
 
 </div>
