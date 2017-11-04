@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="list-container">
 
     <mat-card-header>
         <mat-card-title>
@@ -8,25 +8,52 @@
             <span [ngPlural]="commandsList.length">
                 <ng-template ngPluralCase="=0"></ng-template>
                 <ng-template ngPluralCase="=1">1 commande affichée</ng-template>
-                <ng-template ngPluralCase="few">{{ commandsList.length }} commandes affichées</ng-template>
+                <ng-template ngPluralCase="other">{{ commandsList.length }} commandes affichées</ng-template>
             </span>
         </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-      <ul class="list-group">
-        <div *ngIf="commandsList.length>0" class="row list-group-item list-group-item-info align-items-around">
-          <div class="col"> Intitulé </div>
-          <div class="col"> Commentaires </div>
-        </div>
-        <li *ngFor="let command of commandsList" (click)="onSelectCommand(command)" role="button" class="list-group-item row align-items-around">
-          <div class="col"> {{ command.title }} </div>
-          <div class="col">  {{ command.remarks }} </div>
-        </li>
-        <div *ngIf="commandsList.length==0" class="alert alert-info">
-          Aucune commande en cours
-        </div>
-      </ul>
+        <mat-list cols="2" rowHeight="50px" class="list">
+            <mat-list-item *ngIf="commandsList.length>0" class="list-header">
+                <span class="list-element">
+                    Intitulé
+                </span>
+                <span class="list-element">
+                    Commentaires
+                </span>
+            </mat-list-item>
+        </mat-list>
+        <mat-nav-list cols="2" rowHeight="50px" class="list">
+            <mat-list-item *ngFor="let command of commandsList" (click)="onSelectCommand(command)" role="button" class="list-row">
+                <span class="list-element">
+                    {{ command.title }}
+                </span>
+                <span class="list-element">
+                    {{ command.remarks }}
+                </span>
+            </mat-list-item>
+            <div *ngIf="commandsList.length==0" class="alert alert-info">
+              Aucune commande en cours
+            </div>
+        </mat-nav-list>
   </mat-card-content>
 
+  <mat-card-actions>
+      <span class="list-button-zone">
+          <span class="spacer">
+          </span>
+          <button mat-fab (click)="onCreateCommand()" class="list-button">
+              <span class="list-button-icon">
+                  <mat-icon>add</mat-icon>
+              </span>
+          </button>
+    </span>
+  </mat-card-actions>
+
 </mat-card>
+
+<div *ngIf="newResource">
+    <edit-command [selectedCommand]="selectedCommand" [newResource]="newResource">
+    </edit-command>
+</div>

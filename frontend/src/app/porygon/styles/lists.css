@@ -1,0 +1,53 @@
+.list-container {
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-width: thin;
+    border-color: black;
+}
+
+.list-header {
+    justify-content: space-around;
+    background-color: #d6d6d6;
+}
+
+.list-row {
+    justify-content: space-around;
+    background-color: white;
+    transition-duration: 200ms;
+}
+
+.list-row:hover {
+    background-color: #82B1FF;
+    cursor: pointer;
+}
+
+
+.list-element {
+    flex: 1;
+    text-align: center;
+}
+
+.list-button-zone {
+    display: flex;
+}
+
+.spacer {
+    flex: 1
+}
+
+.list-button {
+    outline: none;
+}
+
+
+.list-button-icon {
+    flex: 1;
+    align-content: flex-end;
+    color: white;
+}

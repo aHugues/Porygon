@@ -9,13 +9,15 @@ import { SharingService } from '../../services/sharing.service';
 
 @Component({
     selector: 'commands',
-    templateUrl: './commands.component.html'
+    templateUrl: './commands.component.html',
+    styleUrls: [ '../../../styles/lists.css']
 })
 export class CommandsComponent implements OnInit {
 
     commandsList: Command[] = new Array();
     selectedCommand = new Command;
-    newRessource = true;
+    newResource = false;
+    editing = false;
 
     constructor(
         public porygonService: PorygonService,
@@ -26,17 +28,25 @@ export class CommandsComponent implements OnInit {
         this.updateList();
     }
 
+    onCreateCommand(): void {
+        this.selectedCommand = new Command();
+        this.newResource = true;
+        console.log(this.newResource);
+
+    }
+
     onSelectCommand(command: Command): void {
         this.selectedCommand.id = command.id;
         this.selectedCommand.title = command.title;
         this.selectedCommand.remarks = command.remarks;
-        this.newRessource = false;
+        this.newResource = false;
+        console.log("selected command" + command.id);
     }
 
     onReset(): void {
         // Reset all fields to void
         this.selectedCommand = new Command();
-        this.newRessource = true;
+        this.newResource = true;
     }
 
     canReset(): Boolean {
@@ -59,7 +69,7 @@ export class CommandsComponent implements OnInit {
     onSubmit(): void {
 
         // Create or update the command
-        if (this.newRessource) {
+        if (this.newResource) {
             this.porygonService.createCommand(this.selectedCommand)
                 .subscribe(
                     (result: any) => this.onServiceCalled());

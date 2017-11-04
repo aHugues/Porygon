@@ -8,6 +8,8 @@ import { MatToolbarModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
 import { MatCardModule } from '@angular/material';
 import { MatSidenavModule } from '@angular/material';
+import { MatListModule } from '@angular/material';
+import { MatIconModule } from '@angular/material';
 
 import { PorygonComponent } from './components/shared/porygon.component';
 import { PorygonHomeComponent } from './components/shared/porygon-home.component';
@@ -21,7 +23,8 @@ import { MovieDetailsComponent } from './components/movies/movie-details.compone
 import { SerieDetailsComponent } from './components/series/serie-details.component';
 import { LocationDetailsComponent } from './components/locations/location-details.component';
 import { CommandsComponent } from './components/commands/commands.component';
-import { SearchComponent } from './components/shared/search.component'
+import { SearchComponent } from './components/shared/search.component';
+import { EditCommandComponent } from './components/commands/edit-command.component';
 
 import { PorygonService } from './services/porygon.service';
 import { PorygonSearchService } from './services/porygon-search.service';
@@ -51,6 +54,8 @@ const appRoutes: Routes = [
         MatButtonModule,
         MatCardModule,
         MatSidenavModule,
+        MatListModule,
+        MatIconModule,
         NgbModule,
         FormsModule,
         CommonModule,
@@ -71,6 +76,7 @@ const appRoutes: Routes = [
         SerieDetailsComponent,
         LocationDetailsComponent,
         CommandsComponent,
+        EditCommandComponent,
         SearchComponent,
     ],
     providers: [
@@ -82,8 +88,11 @@ const appRoutes: Routes = [
         MatToolbarModule,
         MatButtonModule,
         MatCardModule,
+        MatListModule,
         MatSidenavModule,
+        MatIconModule,
         RouterModule
     ]
 })
-export class PorygonModule {}
+export class PorygonModule {
+}
