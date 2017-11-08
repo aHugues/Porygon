@@ -8,8 +8,9 @@ frontend/npm-debug.log
 frontend/debug.log
 frontend/src/**/*.js
 frontend/src/**/*.js.map
-frontend/!src/systemjs.config.extras.js
-frontend/!src/systemjs-angular-loader.js
+!frontend/src/systemjs.config.extras.js
+!frontend/src/systemjs.config.js
+!frontend/src/systemjs-angular-loader.js
 frontend/*.js.map
 frontend/e2e/**/*.js
 frontend/e2e/**/*.js.map
