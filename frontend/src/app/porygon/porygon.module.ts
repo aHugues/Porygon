@@ -38,8 +38,6 @@ const appRoutes: Routes = [
         children: [
             {path: '', component: PorygonHomeComponent },
             {path: 'list', component: ListComponent },
-            {path: 'list/movies', component: ListMoviesComponent },
-            {path: 'list/series', component: ListSeriesComponent },
             {path: 'add/movie', component: AddMovieComponent },
             {path: 'add/serie', component: AddSerieComponent },
             {path: 'add/location', component: AddLocationComponent },
