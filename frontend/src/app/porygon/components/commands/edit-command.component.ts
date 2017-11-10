@@ -12,9 +12,8 @@ import { Command } from '../../models/command';
 export class EditCommandComponent implements OnInit{
 
     @Input() selectedCommand: Command;
-    @Input() newResource: boolean;
     @Output() onClose: EventEmitter<any> = new EventEmitter<any>();
-    @Output() onSave: EventEmitter<{command: Command, newResource: Boolean}> = new EventEmitter<{command: Command, newResource: Boolean}>();
+    @Output() onSave: EventEmitter<Command> = new EventEmitter<Command>();
     @Output() onDeleteEvent: EventEmitter<Command> = new EventEmitter<Command>();
 
     currentCommand: Command;
@@ -28,7 +27,7 @@ export class EditCommandComponent implements OnInit{
 
     onSubmit(): void {
         // send a signal to the parent element to save the new command
-        this.onSave.emit({command: this.currentCommand, newResource: this.newResource});
+        this.onSave.emit(this.currentCommand);
     }
 
     onCloseCard(): void {

@@ -55,19 +55,21 @@ export class CommandsComponent implements OnInit {
     }
 
     onServiceCalled(): void {
+        // Update the list and close the modification card when a function is
+        // called (modification, deletion or adding)
         this.updateList();
         this.onCloseCard();
     }
 
-    onSave(event: any): void {
+    onSave(command: Command): void {
         // Create or update the command
-        if (event.newResource) {
-            this.porygonService.createCommand(event.command)
+        if (this.newResource) {
+            this.porygonService.createCommand(command)
                 .subscribe(
                     (result: any) => this.onServiceCalled());
         }
         else {
-            this.porygonService.modifyCommand(event.command)
+            this.porygonService.modifyCommand(command)
                 .subscribe(
                     (result: any) => this.onServiceCalled());
         }

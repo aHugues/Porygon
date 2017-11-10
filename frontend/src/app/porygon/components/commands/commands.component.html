@@ -54,6 +54,6 @@
 </mat-card>
 
 <div *ngIf="editing">
-    <edit-command [selectedCommand]="selectedCommand" [newResource]="newResource" (onClose)="onCloseCard()" (onDeleteEvent)="onDelete($event)" (onSave)="onSave($event)">
+    <edit-command [selectedCommand]="selectedCommand" (onClose)="onCloseCard()" (onDeleteEvent)="onDelete($event)" (onSave)="onSave($event)">
     </edit-command>
 </div>
