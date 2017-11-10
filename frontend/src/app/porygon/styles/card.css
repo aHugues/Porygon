@@ -1,7 +1,10 @@
 .card-container {
-    margin-bottom: 4px;
-    margin-left: 4%;
-    margin-right: 4%;
+    z-index: 2;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+
 }
 
 .card-control {
