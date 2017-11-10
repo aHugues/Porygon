@@ -40,5 +40,9 @@ export class EditCommandComponent implements OnInit{
         this.onDeleteEvent.emit(this.currentCommand);
     }
 
+    ngOnChanges(changes: any): void {
+        this.ngOnInit();
+    }
+
 
 }

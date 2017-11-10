@@ -31,8 +31,7 @@ export class CommandsComponent implements OnInit {
     onCreateCommand(): void {
         this.selectedCommand = new Command();
         this.newResource = true;
-        this.editing = false;
-
+        this.editing = true;
     }
 
     onCloseCard(): void {
@@ -41,20 +40,10 @@ export class CommandsComponent implements OnInit {
     }
 
     onSelectCommand(command: Command): void {
-        this.selectedCommand.id = command.id;
-        this.selectedCommand.title = command.title;
-        this.selectedCommand.remarks = command.remarks;
-        this.newResource = false;
+        let tempCommand = new Command(command);
+        this.selectedCommand = tempCommand;
         this.editing = true;
-    }
-
-    onReset(): void {
-        // Reset all fields to void
-        this.selectedCommand = new Command();
-    }
-
-    canReset(): Boolean {
-        return this.selectedCommand.title!=undefined || this.selectedCommand.remarks!=undefined;
+        this.newResource = false;
     }
 
     updateList(): void {
@@ -68,7 +57,6 @@ export class CommandsComponent implements OnInit {
     onServiceCalled(): void {
         this.updateList();
         this.onCloseCard();
-        this.onReset();
     }
 
     onSave(event: any): void {
@@ -92,8 +80,7 @@ export class CommandsComponent implements OnInit {
     }
 
     get diagnostic() { return JSON.stringify({
-        editing: this.editing,
-        newResource: this.newResource
+        command: this.selectedCommand
     })}
 
 }
