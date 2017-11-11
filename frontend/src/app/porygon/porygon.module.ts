@@ -28,7 +28,6 @@ import { ListLocationsComponent } from './components/locations/list-locations.co
 import { ListComponent } from './components/shared/list.component';
 import { AddMovieComponent } from './components/movies/add-movie.component';
 import { AddSerieComponent } from './components/series/add-serie.component';
-import { AddLocationComponent } from './components/locations/add-location.component';
 import { MovieDetailsComponent } from './components/movies/movie-details.component';
 import { SerieDetailsComponent } from './components/series/serie-details.component';
 import { LocationDetailsComponent } from './components/locations/location-details.component';
@@ -89,7 +88,6 @@ const appRoutes: Routes = [
         ListLocationsComponent,
         AddMovieComponent,
         AddSerieComponent,
-        AddLocationComponent,
         MovieDetailsComponent,
         SerieDetailsComponent,
         LocationDetailsComponent,
