@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material';
 import { MatFormFieldModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material';
 
 import { PorygonComponent } from './components/shared/porygon.component';
 import { PorygonHomeComponent } from './components/shared/porygon-home.component';
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
             {path: '', component: PorygonHomeComponent },
             {path: 'list', component: ListComponent },
             {path: 'add/movie', component: AddMovieComponent },
+            {path: 'list-movie', component: ListMoviesComponent },
             {path: 'add/serie', component: AddSerieComponent },
             {path: 'add/location', component: AddLocationComponent },
             {path: 'details/movie/:id', component: MovieDetailsComponent },
@@ -57,6 +59,7 @@ const appRoutes: Routes = [
         MatSidenavModule,
         MatListModule,
         MatIconModule,
+        MatPaginatorModule,
         MatFormFieldModule,
         MatDialogModule,
         MatInputModule,
@@ -95,6 +98,7 @@ const appRoutes: Routes = [
         MatListModule,
         MatSidenavModule,
         MatDialogModule,
+        MatPaginatorModule,
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
