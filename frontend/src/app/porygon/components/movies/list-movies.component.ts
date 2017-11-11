@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { Movie } from '../../models/movie';
 
@@ -11,6 +11,8 @@ import { PorygonService } from '../../services/porygon.service';
 })
 export class ListMoviesComponent implements OnInit {
 
+    @Input() location: string;
+
     moviesList: Movie[] = [];
     moviesListPage: Movie[] = [];
     pageSizeOptions = [10];
@@ -19,6 +21,7 @@ export class ListMoviesComponent implements OnInit {
     listLength = 0;
     query = {
         title: "",
+        location: "",
         sort: "title"
     };
 
@@ -38,6 +41,9 @@ export class ListMoviesComponent implements OnInit {
     constructor(private porygonService: PorygonService) {}
 
     ngOnInit(): void {
+        if (this.location) {
+            this.query.location = this.location;
+        }
         this.porygonService.getMoviesList()
             .subscribe(
                 (movies: Movie[]) => this.setMoviesList(movies),

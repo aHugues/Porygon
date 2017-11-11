@@ -50,10 +50,10 @@ const appRoutes: Routes = [
             {path: 'list-serie', component: ListSeriesComponent },
             {path: 'list-location', component: ListLocationsComponent },
             {path: 'add/serie', component: AddSerieComponent },
-            {path: 'add/location', component: AddLocationComponent },
+            {path: 'add/location', component: LocationDetailsComponent, data: [{newResource: true}] },
             {path: 'details/movie/:id', component: MovieDetailsComponent },
             {path: 'details/serie/:id', component: SerieDetailsComponent },
-            {path: 'details/location/:id', component: LocationDetailsComponent },
+            {path: 'details/location/:id', component: LocationDetailsComponent, data: [{newResource: false}] },
             {path: 'commands', component: CommandsComponent },
             {path: 'search', component: SearchComponent },
         ]}

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 import { Location } from '../../models/location';
 import { Movie } from '../../models/movie';
@@ -12,17 +14,22 @@ import 'rxjs/add/operator/switchMap';
 @Component({
     selector: 'location-details',
     templateUrl: './location-details.component.html',
+    styleUrls: ['../../../styles/card.css', '../../../styles/forms.css', '../../../styles/lists.css']
 })
 export class LocationDetailsComponent implements OnInit {
 
+    newResource: Boolean;
+
     numberPerPage = 5;
+    pageSizeOptions = [5];
+
     moviePage = 1;
     seriePage = 1;
 
     numberOfMovies = 0;
     numberOfSeries = 0;
 
-    selectedLocation: Location;
+    selectedLocation: Location = new Location();
 
     moviesList: Movie[];
     seriesList: Serie[];
@@ -37,9 +44,19 @@ export class LocationDetailsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.route.paramMap
-            .switchMap((params: ParamMap) => this.porygonService.getLocation(+params.get('id')))
-            .subscribe(location => this.setCurrentLocation(location));
+        this.route.data
+            .subscribe((params) => {
+                let newResource = params[0].newResource;
+                this.newResource = newResource;
+                if (newResource) {
+                    this.setCurrentLocation(new Location());
+                }
+                else {
+                    this.route.paramMap
+                        .switchMap((params: ParamMap) => this.porygonService.getLocation(+params.get('id')))
+                        .subscribe(location => this.setCurrentLocation(location));
+                }
+            })
     }
 
     setCurrentLocation(location: Location): void {
@@ -49,7 +66,6 @@ export class LocationDetailsComponent implements OnInit {
                 (result: any) => {
                     this.numberOfMovies = result["movies"];
                     this.numberOfSeries = result["series"];
-                    this.ready = true;
             })
         this.porygonService.getMoviesInLocation(location.id, this.numberPerPage, this.moviePage)
             .subscribe(movies => this.moviesList = movies);
@@ -86,7 +102,8 @@ export class LocationDetailsComponent implements OnInit {
             );
     }
 
-    changeSeriePage(): void {
+    onSeriePageChanged(event: any): void {
+        this.seriePage = event.pageIndex + 1;
         this.porygonService.getSeriesInLocation(this.selectedLocation.id, this.numberPerPage, this.seriePage)
             .subscribe(
                 (result: Serie[]) => this.seriesList = result,
