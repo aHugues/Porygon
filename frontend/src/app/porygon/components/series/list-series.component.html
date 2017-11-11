@@ -20,7 +20,7 @@
             <span>
                 <mat-form-field>
                     <input matInput type="text" id="title" placeholder="Titre à rechercher"
-                    [(ngModel)]="serieSearch" name="title"
+                    [(ngModel)]="query.title" name="title"
                     >
                 </mat-form-field>
             </span>
@@ -35,9 +35,9 @@
 
         <mat-list cols="4" rowHeight="50px" class="list">
             <mat-list-item class="list-header">
-              <span class="list-element" role="button" (click)="onSortMovies(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
-              <span class="list-element" role="button" (click)="onSortSeries(4)"> Saison <i class="fa fa-fw fa-sort"></i></span>
-              <span class="list-element" role="button" (click)="onSortMovies(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
+              <span class="list-element" role="button" (click)="onSortSeries(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
+              <span class="list-element"> Saison <i class="fa fa-fw fa-sort"></i></span>
+              <span class="list-element" role="button" (click)="onSortSeries(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
               <span class="list-element"> Remarques </span>
             </mat-list-item>
         </mat-list>

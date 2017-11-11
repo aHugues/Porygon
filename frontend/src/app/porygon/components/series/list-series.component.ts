@@ -17,7 +17,22 @@ export class ListSeriesComponent implements OnInit {
     pageSize = this.pageSizeOptions[0];
     currentPageIndex = 0;
     listLength = 0;
-    serieSearch = "";
+    query = {
+        title: "",
+        sort: "title"
+    };
+
+    // possible search parameters for the list
+    sortDictionnary = {
+        "1": "title",
+        "-1": "-title",
+        "2": "location",
+        "-2": "-location",
+        "3": "year",
+        "-3": "-year",
+    }
+
+    sortingParameter = 1;
 
     constructor(private porygonService: PorygonService) {}
 
@@ -47,14 +62,29 @@ export class ListSeriesComponent implements OnInit {
     }
 
     searchSeries(): void {
-        let query = {title: this.serieSearch};
-        this.porygonService.getSeries(query)
+        this.porygonService.getSeries(this.query)
             .subscribe(
                 (series: Serie[]) => {
                     this.setSeriesList(series);
                 },
                 (error) => console.error(error)
             );
+    }
+
+    calculateNewSortValue(oldValue: number, id: number) {
+        if (Math.abs(oldValue)==id) {
+            return -oldValue;
+        }
+        else {
+            return id;
+        }
+    }
+
+    onSortSeries(id: number) {
+        let newSortValue = this.calculateNewSortValue(this.sortingParameter, id);
+        this.sortingParameter = newSortValue;
+        this.query.sort = this.sortDictionnary[newSortValue];
+        this.searchSeries();
     }
 
 }
