@@ -16,6 +16,9 @@ import { MatDialogModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
 
+import { MatPaginatorIntl } from '@angular/material';
+import { getFrenchPaginatorIntl } from './components/shared/french-paginator-intl';
+
 import { PorygonComponent } from './components/shared/porygon.component';
 import { PorygonHomeComponent } from './components/shared/porygon-home.component';
 import { ListMoviesComponent } from './components/movies/list-movies.component';
@@ -93,6 +96,7 @@ const appRoutes: Routes = [
         PorygonService,
         PorygonSearchService,
         SharingService,
+        { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() }
     ],
     exports: [
         MatToolbarModule,
