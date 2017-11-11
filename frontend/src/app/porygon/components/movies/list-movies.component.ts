@@ -17,7 +17,23 @@ export class ListMoviesComponent implements OnInit {
     pageSize = this.pageSizeOptions[0];
     currentPageIndex = 0;
     listLength = 0;
-    movieSearch = "";
+    query = {
+        title: "",
+        sort: "title"
+    };
+
+    // possible search parameters for the list
+    sortDictionnary = {
+        "1": "title",
+        "-1": "-title",
+        "2": "location",
+        "-2": "-location",
+        "3": "year",
+        "-3": "-year",
+    }
+
+    sortingParameter = 1;
+
 
     constructor(private porygonService: PorygonService) {}
 
@@ -47,8 +63,7 @@ export class ListMoviesComponent implements OnInit {
     }
 
     searchMovies(): void {
-        let query = {title: this.movieSearch};
-        this.porygonService.getMovies(query)
+        this.porygonService.getMovies(this.query)
             .subscribe(
                 (movies: Movie[]) => {
                     this.setMoviesList(movies);
@@ -56,5 +71,23 @@ export class ListMoviesComponent implements OnInit {
                 (error) => console.error(error)
             );
     }
-    
+
+    calculateNewSortValue(oldValue: number, id: number) {
+        if (Math.abs(oldValue)==id) {
+            return -oldValue;
+        }
+        else {
+            return id;
+        }
+    }
+
+    onSortMovies(id: number) {
+        let newSortValue = this.calculateNewSortValue(this.sortingParameter, id);
+        this.sortingParameter = newSortValue;
+        this.query.sort = this.sortDictionnary[newSortValue];
+        this.searchMovies();
+    }
+
+
+
 }
