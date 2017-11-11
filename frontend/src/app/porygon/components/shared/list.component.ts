@@ -4,6 +4,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 @Component({
     selector: 'list',
     templateUrl: './list.component.html',
+    styleUrls: ['../../../styles/tabs.css'],
 })
 export class ListComponent {
 

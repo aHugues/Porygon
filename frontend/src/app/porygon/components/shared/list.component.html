@@ -1,36 +1,44 @@
-<div *ngIf="tabReady" class="card text-center">
+<div *ngIf="tabReady" class="tabs-group">
 <!-- Wait until all necessary data are avaible -->
 
-    <div class="mt-1">
-        <ngb-tabset type="pills" justify="center" [(activeId)]="selectedTab" (tabChange)="onTabChange($event)" #tabset="ngbTabset">
+    <mat-tab-group>
+
+        <mat-tab label="movies">
+
+            <ng-template mat-tab-label class="tab-element">
+                Films
+            </ng-template>
+
+            <div class="tab-element">
+                <list-movies></list-movies>
+            </div>
+
+        </mat-tab>
 
 
-            <ngb-tab title="Films" id="movies">
-                <ng-template ngbTabContent>
+        <mat-tab label="series">
 
-                    <list-movies></list-movies>
+            <ng-template mat-tab-label>
+                Séries
+            </ng-template>
 
-                </ng-template>
-            </ngb-tab>
+            <div>
+                <list-series></list-series>
+            </div>
 
+        </mat-tab>
 
-            <ngb-tab title="Séries" id="series">
-                <ng-template ngbTabContent>
+        <mat-tab label="locations">
 
-                    <list-series></list-series>
+            <ng-template mat-tab-label>
+                Emplacements
+            </ng-template>
 
-                </ng-template>
-            </ngb-tab>
+            <div>
+                <list-locations></list-locations>
+            </div>
 
-            <ngb-tab title="Emplacements" id="locations">
-                <ng-template ngbTabContent>
+        </mat-tab>
 
-                    <list-locations></list-locations>
-
-                </ng-template>
-
-            </ngb-tab>
-
-        </ngb-tabset>
-    </div>
+    </mat-tab-group>
 </div>
