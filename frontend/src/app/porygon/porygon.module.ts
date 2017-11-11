@@ -23,6 +23,7 @@ import { PorygonComponent } from './components/shared/porygon.component';
 import { PorygonHomeComponent } from './components/shared/porygon-home.component';
 import { ListMoviesComponent } from './components/movies/list-movies.component';
 import { ListSeriesComponent } from './components/series/list-series.component';
+import { ListLocationsComponent } from './components/locations/list-locations.component';
 import { ListComponent } from './components/shared/list.component';
 import { AddMovieComponent } from './components/movies/add-movie.component';
 import { AddSerieComponent } from './components/series/add-serie.component';
@@ -46,6 +47,7 @@ const appRoutes: Routes = [
             {path: 'add/movie', component: AddMovieComponent },
             {path: 'list-movie', component: ListMoviesComponent },
             {path: 'list-serie', component: ListSeriesComponent },
+            {path: 'list-location', component: ListLocationsComponent },
             {path: 'add/serie', component: AddSerieComponent },
             {path: 'add/location', component: AddLocationComponent },
             {path: 'details/movie/:id', component: MovieDetailsComponent },
@@ -82,6 +84,7 @@ const appRoutes: Routes = [
         ListComponent,
         ListMoviesComponent,
         ListSeriesComponent,
+        ListLocationsComponent,
         AddMovieComponent,
         AddSerieComponent,
         AddLocationComponent,
