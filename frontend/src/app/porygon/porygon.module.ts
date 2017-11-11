@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
+import { MatSortModule } from '@angular/material/sort';
 
 import { PorygonComponent } from './components/shared/porygon.component';
 import { PorygonHomeComponent } from './components/shared/porygon-home.component';
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
         MatIconModule,
         MatPaginatorModule,
         MatFormFieldModule,
+        MatSortModule,
         MatDialogModule,
         MatInputModule,
         NgbModule,
@@ -99,6 +101,7 @@ const appRoutes: Routes = [
         MatListModule,
         MatSidenavModule,
         MatDialogModule,
+        MatSortModule,
         MatPaginatorModule,
         MatIconModule,
         MatFormFieldModule,
