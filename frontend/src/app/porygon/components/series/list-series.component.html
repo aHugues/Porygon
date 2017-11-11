@@ -1,0 +1,60 @@
+<mat-card class="card-container">
+
+    <mat-card-header>
+        <mat-card-title>
+            <h4>Liste des séries</h4>
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+
+        <form class="form-inline justify-content-center" (ngSubmit)="searchSeries()" #searchSerieForm="ngForm">
+
+            <span style="flex: 1.5;"></span>
+
+            <span>
+                <a routerLink="/porygon/add/serie"><button color="primary" mat-raised-button class="form-button">Nouvelle série</button></a>
+            </span>
+
+            <span style="flex: 10;"></span>
+            <span>
+                <mat-form-field>
+                    <input matInput type="text" id="title" placeholder="Titre à rechercher"
+                    [(ngModel)]="serieSearch" name="title"
+                    >
+                </mat-form-field>
+            </span>
+
+            <span style="flex: 0.5;"></span>
+
+            <span>
+                <button type="submit" mat-raised-button class="form-button">Rechercher</button>
+            </span>
+
+        </form>
+
+        <mat-list cols="4" rowHeight="50px" class="list">
+            <mat-list-item class="list-header">
+              <span class="list-element" role="button" (click)="onSortMovies(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
+              <span class="list-element" role="button" (click)="onSortSeries(4)"> Saison <i class="fa fa-fw fa-sort"></i></span>
+              <span class="list-element" role="button" (click)="onSortMovies(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
+              <span class="list-element"> Remarques </span>
+            </mat-list-item>
+        </mat-list>
+        <mat-list cols="4" rowHeight="50px" class="list">
+            <mat-list-item *ngFor="let serie of seriesListPage" [routerLink]="['/porygon/details/serie', serie.id]" class="list-row">
+              <span class="list-element"> {{ serie.title }} </span>
+              <span class="list-element"> {{ serie.season }} </span>
+              <span class="list-element"> {{ serie.Location.label }} </span>
+              <span class="list-element"> {{ serie.remarks }} </span>
+          </mat-list-item>
+        </mat-list>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+        <mat-paginator [length]="listLength" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)">
+        </mat-paginator>
+    </mat-card-actions>
+
+</mat-card>

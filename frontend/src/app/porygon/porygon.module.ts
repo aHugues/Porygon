@@ -41,6 +41,7 @@ const appRoutes: Routes = [
             {path: 'list', component: ListComponent },
             {path: 'add/movie', component: AddMovieComponent },
             {path: 'list-movie', component: ListMoviesComponent },
+            {path: 'list-serie', component: ListSeriesComponent },
             {path: 'add/serie', component: AddSerieComponent },
             {path: 'add/location', component: AddLocationComponent },
             {path: 'details/movie/:id', component: MovieDetailsComponent },
