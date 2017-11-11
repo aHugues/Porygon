@@ -2,7 +2,7 @@
 
     <mat-card-header>
         <mat-card-title>
-            <h4 class="card-title">Liste des films</h4>
+            <h4>Liste des films</h4>
         </mat-card-title>
     </mat-card-header>
 
@@ -10,21 +10,26 @@
 
         <form class="form-inline justify-content-center" (ngSubmit)="searchMovies()" #searchMovieForm="ngForm">
 
-        <span>
-            <a routerLink="/porygon/add/movie"><button color="primary" mat-raised-button class="form-button">Nouveau film</button></a>
-        </span>
+            <span style="flex: 1.5;"></span>
 
-        <span class="spacer"></span>
+            <span>
+                <a routerLink="/porygon/add/movie"><button color="primary" mat-raised-button class="form-button">Nouveau film</button></a>
+            </span>
 
-        <span class="form-group">
-            <label class="sr-only" for="title">Recherche</label>
-            <input type="text" class="form-control mt-2 mr-sm-1" id="title" placeholder="Titre à rechercher"
-            required
-            [(ngModel)]="movieSearch" name="title"
-            >
-        </span>
+            <span style="flex: 10;"></span>
+            <span>
+                <mat-form-field>
+                    <input matInput type="text" id="title" placeholder="Titre à rechercher"
+                    [(ngModel)]="movieSearch" name="title"
+                    >
+                </mat-form-field>
+            </span>
 
-        <button type="submit" mat-raised-button class="form-button">Rechercher</button>
+            <span style="flex: 0.5;"></span>
+
+            <span>
+                <button type="submit" mat-raised-button class="form-button">Rechercher</button>
+            </span>
 
         </form>
 
