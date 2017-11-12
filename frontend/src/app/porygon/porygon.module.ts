@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material';
 
 import { MatPaginatorIntl } from '@angular/material';
 import { getFrenchPaginatorIntl } from './components/shared/french-paginator-intl';
@@ -67,6 +68,7 @@ const appRoutes: Routes = [
         MatIconModule,
         MatPaginatorModule,
         MatFormFieldModule,
+        MatCheckboxModule,
         MatTabsModule,
         MatSortModule,
         MatDialogModule,
@@ -108,6 +110,7 @@ const appRoutes: Routes = [
         MatDialogModule,
         MatTabsModule,
         MatSortModule,
+        MatCheckboxModule,
         MatPaginatorModule,
         MatIconModule,
         MatSelectModule,

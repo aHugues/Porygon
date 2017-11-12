@@ -13,7 +13,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class PorygonSearchService {
 
-    private apiUrl = "http://localhost:3000/api/v2";
+    private apiUrl = "http://localhost:4000/api";
     private headers: Headers;
 
     constructor(private http: Http) {
