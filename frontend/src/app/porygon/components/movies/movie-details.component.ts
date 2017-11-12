@@ -85,7 +85,7 @@ export class MovieDetailsComponent implements OnInit {
         this.porygonService.deleteMovie(this.selectedMovie)
             .subscribe(
                 (result: Movie) => this.handleSubmission(),
-                error => console.error()
+                error => console.error(error)
             );
     }
 

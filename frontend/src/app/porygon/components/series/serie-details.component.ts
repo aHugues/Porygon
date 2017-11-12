@@ -11,11 +11,14 @@ import 'rxjs/add/operator/switchMap';
 @Component({
     selector: 'serie-details',
     templateUrl: './serie-details.component.html',
+    styleUrls: ['../../../styles/card.css', '../../../styles/forms.css', '../../../styles/lists.css']
 })
 export class SerieDetailsComponent implements OnInit {
 
-    selectedSerie: Serie;
-    locationsList: Location[];
+    newResource: Boolean;
+
+    selectedSerie: Serie = new Serie();
+    locationsList: Location[] = [new Location()];
 
     ready = false;
     submitted = false;
@@ -29,6 +32,21 @@ export class SerieDetailsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.route.data
+            .subscribe((params) => {
+                let newResource = params[0].newResource;
+                this.newResource = newResource;
+                if (newResource) {
+                    let newSerie = new Serie();
+                    newSerie.Location = new Location();
+                    this.setCurrentSerie(newSerie);
+                }
+                else {
+                    this.route.paramMap
+                        .switchMap((params: ParamMap) => this.porygonService.getSerie(+params.get('id')))
+                        .subscribe(serie => this.setCurrentSerie(serie));
+                }
+            })
         this.porygonService.getLocationsList()
             .subscribe(
                 (result: Location[]) => this.setLocationsList(result),
@@ -38,9 +56,6 @@ export class SerieDetailsComponent implements OnInit {
 
     setLocationsList(locations: Location[]): void {
         this.locationsList = locations;
-        this.route.paramMap
-            .switchMap((params: ParamMap) => this.porygonService.getSerie(+params.get('id')))
-            .subscribe(serie => this.setCurrentSerie(serie));
     }
 
     setCurrentSerie(serie: Serie): void {
@@ -49,18 +64,28 @@ export class SerieDetailsComponent implements OnInit {
     }
 
     onSubmit(): void {
-        this.porygonService.modifySerie(this.selectedSerie)
-            .subscribe(
-                (result: any) => this.handleSubmission(),
-                error => console.error()
-            );
+        this.selectedSerie.location = this.selectedSerie.Location.id.toString();
+        if (this.newResource) {
+            this.porygonService.createSerie(this.selectedSerie)
+                .subscribe(
+                    (result: any) => this.handleSubmission(),
+                    error => console.error(error)
+                )
+        }
+        else {
+            this.porygonService.modifySerie(this.selectedSerie)
+                .subscribe(
+                    (result: any) => this.handleSubmission(),
+                    error => console.error(error)
+                );
+        }
     }
 
     onDelete(): void {
         this.porygonService.deleteSerie(this.selectedSerie)
             .subscribe(
                 (result: any) => this.handleSubmission(),
-                error => console.error()
+                error => console.error(error)
             );
     }
 

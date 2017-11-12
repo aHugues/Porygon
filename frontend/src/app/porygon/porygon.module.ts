@@ -27,7 +27,6 @@ import { ListMoviesComponent } from './components/movies/list-movies.component';
 import { ListSeriesComponent } from './components/series/list-series.component';
 import { ListLocationsComponent } from './components/locations/list-locations.component';
 import { ListComponent } from './components/shared/list.component';
-import { AddSerieComponent } from './components/series/add-serie.component';
 import { MovieDetailsComponent } from './components/movies/movie-details.component';
 import { SerieDetailsComponent } from './components/series/serie-details.component';
 import { LocationDetailsComponent } from './components/locations/location-details.component';
@@ -48,10 +47,10 @@ const appRoutes: Routes = [
             {path: 'list-movie', component: ListMoviesComponent },
             {path: 'list-serie', component: ListSeriesComponent },
             {path: 'list-location', component: ListLocationsComponent },
-            {path: 'add/serie', component: AddSerieComponent },
+            {path: 'add/serie', component: SerieDetailsComponent, data: [{newResource: true}] },
             {path: 'add/location', component: LocationDetailsComponent, data: [{newResource: true}] },
             {path: 'details/movie/:id', component: MovieDetailsComponent, data: [{newResource: false}] },
-            {path: 'details/serie/:id', component: SerieDetailsComponent },
+            {path: 'details/serie/:id', component: SerieDetailsComponent, data: [{newResource: false}] },
             {path: 'details/location/:id', component: LocationDetailsComponent, data: [{newResource: false}] },
             {path: 'commands', component: CommandsComponent },
             {path: 'search', component: SearchComponent },
@@ -87,7 +86,6 @@ const appRoutes: Routes = [
         ListMoviesComponent,
         ListSeriesComponent,
         ListLocationsComponent,
-        AddSerieComponent,
         MovieDetailsComponent,
         SerieDetailsComponent,
         LocationDetailsComponent,
