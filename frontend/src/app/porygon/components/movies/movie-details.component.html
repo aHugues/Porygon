@@ -1,61 +1,75 @@
-<div *ngIf="ready" class="container">
+{{ diagnostic }}
 
-    <h2>Modifier film</h2>
+<mat-card class="card-container" *ngIf="ready">
+
+    <mat-card-header>
+        <mat-card-title>
+            <h2>Modifier film</h2>
+        </mat-card-title>
+    </mat-card-header>
 
     <form (ngSubmit)="onSubmit()" #movieForm="ngForm">
 
-        <div class="form-group">
-            <label for="title">Titre</label>
-            <input type="text" class="form-control" id="title"
-            required
-            [(ngModel)]="selectedMovie.title" name="title"
-            >
+        <div class="form-container">
+
+            <mat-card-content>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Titre" id="title"
+                    required
+                    [(ngModel)]="selectedMovie.title" name="title"
+                    >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-select placeholder="Emplacement" id="location"
+                    required
+                    [(ngModel)]="selectedMovie.Location.id" name="location"
+                    >
+                        <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput type="number" placeholder="Année de sortie" id="year"
+                    required
+                    [(ngModel)]="selectedMovie.year" name="year"
+                    >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Réalisateur" id="director"
+                    [(ngModel)]="selectedMovie.director" name="director"
+                    >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Acteurs principaux" id="actors"
+                    [(ngModel)]="selectedMovie.actors" name="actors"
+                    >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Remarques" id="remarks"
+                    [(ngModel)]="selectedMovie.remarks" name="remarks"
+                    >
+                </mat-form-field>
+
+
+            </mat-card-content>
+
+            <mat-card-actions>
+                <span>
+
+                    <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
+
+                    <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
+
+                </span>
+            </mat-card-actions>
+
         </div>
-
-        <div class="form-group">
-            <label for="location">Localisation</label>
-            <select class="form-control" id="location"
-            required
-            [(ngModel)]="selectedMovie.Location.id" name="location"
-            >
-                <option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="year">Année de sortie</label>
-            <input type="number" class="form-control" id="year"
-            required
-            [(ngModel)]="selectedMovie.year" name="year"
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="director">Réalisateur</label>
-            <input type="text" class="form-control" id="director"
-            [(ngModel)]="selectedMovie.director" name="director"
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="actors">Acteurs principaux</label>
-            <input type="text" class="form-control" id="actors"
-            [(ngModel)]="selectedMovie.actors" name="actors"
-            >
-        </div>
-
-        <div class="form-group">
-            <label for="remarks">Remarques</label>
-            <input type="text" class="form-control" id="remarks"
-            [(ngModel)]="selectedMovie.remarks" name="remarks"
-            >
-        </div>
-
-        <button type="submit" class="btn btn-success">Enregistrer</button>
-
-        <button (click)="onDelete()" class="btn btn-danger">Supprimer</button>
 
     </form>
 
 
-</div>
+</mat-card>

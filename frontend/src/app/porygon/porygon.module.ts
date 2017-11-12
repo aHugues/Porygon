@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material';
 
 import { MatPaginatorIntl } from '@angular/material';
 import { getFrenchPaginatorIntl } from './components/shared/french-paginator-intl';
@@ -26,7 +27,6 @@ import { ListMoviesComponent } from './components/movies/list-movies.component';
 import { ListSeriesComponent } from './components/series/list-series.component';
 import { ListLocationsComponent } from './components/locations/list-locations.component';
 import { ListComponent } from './components/shared/list.component';
-import { AddMovieComponent } from './components/movies/add-movie.component';
 import { AddSerieComponent } from './components/series/add-serie.component';
 import { MovieDetailsComponent } from './components/movies/movie-details.component';
 import { SerieDetailsComponent } from './components/series/serie-details.component';
@@ -44,13 +44,13 @@ const appRoutes: Routes = [
         children: [
             {path: '', component: PorygonHomeComponent },
             {path: 'list', component: ListComponent },
-            {path: 'add/movie', component: AddMovieComponent },
+            {path: 'add/movie', component: MovieDetailsComponent, data: [{newResource: true}] },
             {path: 'list-movie', component: ListMoviesComponent },
             {path: 'list-serie', component: ListSeriesComponent },
             {path: 'list-location', component: ListLocationsComponent },
             {path: 'add/serie', component: AddSerieComponent },
             {path: 'add/location', component: LocationDetailsComponent, data: [{newResource: true}] },
-            {path: 'details/movie/:id', component: MovieDetailsComponent },
+            {path: 'details/movie/:id', component: MovieDetailsComponent, data: [{newResource: false}] },
             {path: 'details/serie/:id', component: SerieDetailsComponent },
             {path: 'details/location/:id', component: LocationDetailsComponent, data: [{newResource: false}] },
             {path: 'commands', component: CommandsComponent },
@@ -72,6 +72,7 @@ const appRoutes: Routes = [
         MatSortModule,
         MatDialogModule,
         MatInputModule,
+        MatSelectModule,
         NgbModule,
         FormsModule,
         CommonModule,
@@ -86,7 +87,6 @@ const appRoutes: Routes = [
         ListMoviesComponent,
         ListSeriesComponent,
         ListLocationsComponent,
-        AddMovieComponent,
         AddSerieComponent,
         MovieDetailsComponent,
         SerieDetailsComponent,
@@ -112,6 +112,7 @@ const appRoutes: Routes = [
         MatSortModule,
         MatPaginatorModule,
         MatIconModule,
+        MatSelectModule,
         MatFormFieldModule,
         MatInputModule,
         RouterModule

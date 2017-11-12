@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
 
 import { Location } from '../../models/location';
 import { Movie } from '../../models/movie';
@@ -74,11 +72,20 @@ export class LocationDetailsComponent implements OnInit {
     }
 
     onSubmit(): void {
-        this.porygonService.modifyLocation(this.selectedLocation)
-            .subscribe(
-                (result: Boolean) => this.handleSubmission(),
-                error => console.error()
-            );
+        if (this.newResource) {
+            this.porygonService.createLocation(this.selectedLocation)
+                .subscribe(
+                    (result: Location) => this.handleSubmission(),
+                    error => console.error(error)
+                );
+        }
+        else {
+            this.porygonService.modifyLocation(this.selectedLocation)
+                .subscribe(
+                    (result: Boolean) => this.handleSubmission(),
+                    error => console.error()
+                );
+        }
     }
 
     onDelete(): void {

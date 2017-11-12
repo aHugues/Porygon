@@ -11,11 +11,14 @@ import 'rxjs/add/operator/switchMap';
 @Component({
     selector: 'movie-details',
     templateUrl: './movie-details.component.html',
+    styleUrls: ['../../../styles/card.css', '../../../styles/forms.css', '../../../styles/lists.css']
 })
 export class MovieDetailsComponent implements OnInit {
 
-    selectedMovie: Movie;
-    locationsList: Location[];
+    newResource: Boolean;
+
+    selectedMovie: Movie = new Movie();
+    locationsList: Location[] = [new Location()];
 
     ready = false;
     submitted = false;
@@ -29,6 +32,21 @@ export class MovieDetailsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.route.data
+            .subscribe((params) => {
+                let newResource = params[0].newResource;
+                this.newResource = newResource;
+                if (newResource) {
+                    let newMovie = new Movie();
+                    newMovie.Location = new Location();
+                    this.setCurrentMovie(newMovie);
+                }
+                else {
+                    this.route.paramMap
+                        .switchMap((params: ParamMap) => this.porygonService.getMovie(+params.get('id')))
+                        .subscribe(movie => this.setCurrentMovie(movie));
+                }
+            })
         this.porygonService.getLocationsList()
             .subscribe(
                 (result: Location[]) => this.setLocationsList(result),
@@ -38,9 +56,6 @@ export class MovieDetailsComponent implements OnInit {
 
     setLocationsList(locations: Location[]): void {
         this.locationsList = locations;
-        this.route.paramMap
-            .switchMap((params: ParamMap) => this.porygonService.getMovie(+params.get('id')))
-            .subscribe(movie => this.setCurrentMovie(movie));
     }
 
     setCurrentMovie(movie: Movie): void {
@@ -49,11 +64,21 @@ export class MovieDetailsComponent implements OnInit {
     }
 
     onSubmit(): void {
-        this.porygonService.modifyMovie(this.selectedMovie)
-            .subscribe(
-                (result: any) => this.handleSubmission(),
-                error => console.error()
-            );
+        this.selectedMovie.location = this.selectedMovie.Location.id.toString();
+        if (this.newResource) {
+            this.porygonService.createMovie(this.selectedMovie)
+                .subscribe(
+                    (result: any) => this.handleSubmission(),
+                    error => console.error(error)
+                )
+        }
+        else {
+            this.porygonService.modifyMovie(this.selectedMovie)
+                .subscribe(
+                    (result: any) => this.handleSubmission(),
+                    error => console.error(error)
+                );
+        }
     }
 
     onDelete(): void {
@@ -68,5 +93,7 @@ export class MovieDetailsComponent implements OnInit {
         this.submitted = true;
         this.router.navigate(['porygon/list']);
     }
+
+    get diagnostic() { return JSON.stringify(this.selectedMovie) }
 
 }
