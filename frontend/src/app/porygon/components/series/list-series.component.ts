@@ -7,7 +7,7 @@ import { PorygonService } from '../../services/porygon.service';
 @Component({
     selector: 'list-series',
     templateUrl: './list-series.component.html',
-    styleUrls: ['../../../styles/lists.css', '../../../styles/card.css']
+    styleUrls: ['../../styles/lists.css', '../../styles/card.css']
 })
 export class ListSeriesComponent implements OnInit {
 

@@ -99,7 +99,7 @@ const appRoutes: Routes = [
         PorygonService,
         PorygonSearchService,
         SharingService,
-        { provide: MatPaginatorIntl, useValue: getFrenchPaginatorIntl() }
+        { provide: MatPaginatorIntl, useFactory: getFrenchPaginatorIntl }
     ],
     exports: [
         MatToolbarModule,

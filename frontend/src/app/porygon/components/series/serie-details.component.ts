@@ -11,7 +11,7 @@ import 'rxjs/add/operator/switchMap';
 @Component({
     selector: 'serie-details',
     templateUrl: './serie-details.component.html',
-    styleUrls: ['../../../styles/card.css', '../../../styles/forms.css', '../../../styles/lists.css']
+    styleUrls: ['../../styles/card.css', '../../styles/forms.css', '../../styles/lists.css']
 })
 export class SerieDetailsComponent implements OnInit {
 
