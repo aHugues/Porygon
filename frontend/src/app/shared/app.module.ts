@@ -1,5 +1,4 @@
 import { NgModule }      from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -17,7 +16,6 @@ import { SharingService } from '../porygon/services/sharing.service';
 @NgModule({
   imports:      [
       BrowserAnimationsModule,
-      NgbModule.forRoot(),
       PorygonModule,
       RouterModule.forRoot([
       ]),

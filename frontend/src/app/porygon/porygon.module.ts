@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -74,7 +73,6 @@ const appRoutes: Routes = [
         MatDialogModule,
         MatInputModule,
         MatSelectModule,
-        NgbModule,
         FormsModule,
         CommonModule,
         RouterModule.forRoot(
