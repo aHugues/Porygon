@@ -12,7 +12,7 @@ import { PorygonSearchService } from '../../services/porygon-search.service';
 @Component({
     selector: 'search',
     templateUrl: './search.component.html',
-    styleUrls: ['../../../styles/card.css', '../../../styles/forms.css', '../../../styles/lists.css']
+    styleUrls: ['../../styles/card.css', '../../styles/forms.css', '../../styles/lists.css']
 })
 export class SearchComponent implements OnInit {
 

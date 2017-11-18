@@ -7,7 +7,7 @@ import { Command } from '../../models/command';
 @Component({
     selector: 'edit-command',
     templateUrl: './edit-command.component.html',
-    styleUrls: ['../../../styles/card.css', '../../../styles/forms.css']
+    styleUrls: ['../../styles/card.css', '../../styles/forms.css']
 })
 export class EditCommandComponent implements OnInit{
 

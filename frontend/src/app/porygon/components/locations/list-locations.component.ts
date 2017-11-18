@@ -8,7 +8,7 @@ import { PorygonService } from '../../services/porygon.service';
 @Component({
     selector: 'list-locations',
     templateUrl: './list-locations.component.html',
-    styleUrls: ['../../../styles/lists.css', '../../../styles/card.css']
+    styleUrls: ['../../styles/lists.css', '../../styles/card.css']
 })
 export class ListLocationsComponent implements OnInit {
 
