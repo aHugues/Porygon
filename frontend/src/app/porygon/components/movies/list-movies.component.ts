@@ -112,6 +112,10 @@ export class ListMoviesComponent implements OnInit {
             width: '40%',
             data: { id: id, newResource: newResource }
         })
+
+        editingDialog.afterClosed().subscribe((result: any) => {
+            this.ngOnInit();
+        })
     }
 
 
