@@ -13,7 +13,7 @@
             <span style="flex: 1;"></span>
 
             <span>
-                <a routerLink="/porygon/add/movie"><button color="primary" mat-raised-button class="form-button">Nouveau film</button></a>
+                <button (click)="onNewMovie()" color="primary" mat-raised-button class="form-button">Nouveau film</button>
             </span>
 
             <span style="flex: 10;"></span>
@@ -44,7 +44,7 @@
             </mat-list-item>
         </mat-list>
         <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item *ngFor="let movie of moviesListPage" [routerLink]="['/porygon/details/movie', movie.id]" class="list-row">
+            <mat-list-item *ngFor="let movie of moviesListPage" role="button" (click)="onEditMovie(movie.id)" class="list-row">
               <span class="list-element"> {{ movie.title }} </span>
               <span class="list-element"> {{ movie.Location.label }} </span>
               <span class="list-element"> {{ movie.year }} </span>

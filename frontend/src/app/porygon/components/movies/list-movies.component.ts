@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { Movie } from '../../models/movie';
 
 import { PorygonService } from '../../services/porygon.service';
+import { MovieDetailsComponent } from './movie-details.component';
 
 @Component({
     selector: 'list-movies',
@@ -38,7 +40,10 @@ export class ListMoviesComponent implements OnInit {
     sortingParameter = 1;
 
 
-    constructor(private porygonService: PorygonService) {}
+    constructor(
+        private porygonService: PorygonService,
+        public dialog: MatDialog
+    ) {}
 
     ngOnInit(): void {
         if (this.location) {
@@ -92,6 +97,21 @@ export class ListMoviesComponent implements OnInit {
         this.sortingParameter = newSortValue;
         this.query.sort = this.sortDictionnary[newSortValue];
         this.searchMovies();
+    }
+
+    onNewMovie(): void {
+        this.openEditingDialog(-1, true);
+    }
+
+    onEditMovie(id: number): void {
+        this.openEditingDialog(id, false);
+    }
+
+    openEditingDialog(id: number, newResource: Boolean) {
+        let editingDialog = this.dialog.open(MovieDetailsComponent, {
+            width: '40%',
+            data: { id: id, newResource: newResource }
+        })
     }
 
 

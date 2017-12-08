@@ -13,12 +13,16 @@
 .form-container {
     display: flex;
     flex-direction: column;
-    padding-left: 5%;
-    padding-right: 50%;
+    align-items: center;
+    width: 100%;
 }
 
 .form-button {
     outline: none;
+}
+
+.form-control {
+    width: 80%;
 }
 
 .form-section {
