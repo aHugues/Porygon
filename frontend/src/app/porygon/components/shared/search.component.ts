@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
 import { Location } from '../../models/location';
@@ -37,7 +38,10 @@ export class SearchComponent implements OnInit {
     constructor(
         private porygonService: PorygonService,
         private porygonSearchService: PorygonSearchService,
-    ) {}
+        private titleService: Title
+    ) {
+        this.titleService.setTitle("Porygon - Search");
+    }
 
     ngOnInit(): void {
         this.porygonService.getLocationsList()

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'my-app',
@@ -8,4 +9,15 @@ import { Component } from '@angular/core';
             </nav>
             <router-outlet></router-outlet>`,
 })
-export class AppComponent  { name = 'Angular'; }
+export class AppComponent  {
+
+    public constructor(
+        private titleService: Title
+    ) {
+        this.titleService.setTitle("Gondolin Web Server");
+    }
+
+
+    name = 'Angular';
+
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title} from '@angular/platform-browser';
 import { NgPlural } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -22,7 +23,10 @@ export class CommandsComponent implements OnInit {
     constructor(
         public porygonService: PorygonService,
         public sharingService: SharingService,
-    ) {}
+        private titleService: Title
+    ) {
+        this.titleService.setTitle("Porygon - Commands");
+    }
 
     ngOnInit(): void {
         this.updateList();

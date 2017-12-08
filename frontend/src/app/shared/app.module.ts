@@ -1,5 +1,5 @@
 import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +25,9 @@ import { SharingService } from '../porygon/services/sharing.service';
   ],
   declarations: [
       AppComponent,
+  ],
+  providers: [
+      Title
   ],
   bootstrap:    [ AppComponent ],
 

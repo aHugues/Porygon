@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { PorygonNavigationModel } from '../../models/porygon-navigation-model';
 import { MatToolbarModule } from '@angular/material';
 
@@ -9,6 +10,11 @@ import { MatToolbarModule } from '@angular/material';
 })
 export class PorygonComponent {
 
+    public constructor(
+        private titleService: Title
+    ) {
+        this.titleService.setTitle("Porygon");
+    }
 
 
 }
