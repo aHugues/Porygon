@@ -149,6 +149,9 @@ let deleteMovie = (id) => {
     let observable = Rx.Observable.create((obs) => {
         Movie.findById(id)
             .then((movie) => {
+                if (movie == null) {
+                    throw "not found";
+                }
                 movie.destroy()
                     .then(() => {
                         obs.onCompleted();

@@ -63,6 +63,9 @@ let updateCommand = (id, fields) => {
     let observable = Rx.Observable.create((obs) => {
         Command.findById(id)
             .then((command) => {
+                if (command == null) {
+                    throw "not found";
+                }
                 command.title = fields.title;
                 command.remarks = fields.remarks;
                 if (command.changed()) {
@@ -93,6 +96,9 @@ let deleteCommand = (id) => {
     let observable = Rx.Observable.create((obs) => {
         Command.findById(id)
             .then((command) => {
+                if (command == null) {
+                    throw "not found";
+                }
                 command.destroy()
                     .then(() => {
                         obs.onCompleted();

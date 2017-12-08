@@ -89,6 +89,9 @@ let updateSerie = (req, res) => {
     }
     let onCompleted = () => {}
     let onError = (error) => {
+        if (error == "not found") {
+            res.status(404).send();
+        }
         console.error(error);
     }
 
@@ -105,6 +108,9 @@ let deleteSerie = (req, res) => {
             res.status(204).send();
         }
         let onError = (error) => {
+            if (error == "not found") {
+                res.status(404).send();
+            }
             console.error(error);
         }
 

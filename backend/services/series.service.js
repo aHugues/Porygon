@@ -147,6 +147,9 @@ let deleteSerie = (id) => {
     let observable = Rx.Observable.create((obs) => {
         Serie.findById(id)
             .then((serie) => {
+                if (serie == null) {
+                    throw "not found";
+                }
                 serie.destroy()
                     .then(() => {
                         obs.onCompleted();

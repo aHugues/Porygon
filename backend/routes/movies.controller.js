@@ -89,6 +89,9 @@ let updateMovie = (req, res) => {
     }
     let onCompleted = () => {}
     let onError = (error) => {
+        if (error == "not foud") {
+            res.status(404).send();
+        }
         console.error(error);
     }
 
@@ -105,6 +108,9 @@ let deleteMovie = (req, res) => {
             res.status(204).send();
         }
         let onError = (error) => {
+            if (error == "not found") {
+                res.status(404).send();
+            }
             console.error(error);
         }
 
