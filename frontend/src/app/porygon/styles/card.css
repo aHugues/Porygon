@@ -12,7 +12,7 @@
 }
 
 .spacer {
-    flex: 1
+    flex: 1;
 }
 .card-close-button {
     align-content: flex-end;
@@ -22,4 +22,30 @@
 .top-header {
     display: flex;
     justify-content: space-around;
+}
+
+.card-control-end {
+    margin-right: 20%;
+    margin-left: auto;
+    flex-direction: row;
+    display: flex;
+}
+
+.card-control-end span {
+    flex: 1;
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+mat-dialog-content .card-control-end {
+    margin-left: 40%;
+    margin-right: auto;
+    flex-direction: row;
+    display: flex;
+}
+
+mat-dialog-content .card-control-end span {
+    flex: 1;
+    margin-left: 0.5%;
+    margin-right: 0.5%;
 }

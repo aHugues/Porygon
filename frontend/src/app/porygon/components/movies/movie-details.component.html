@@ -56,13 +56,14 @@
         </mat-dialog-content>
 
         <mat-dialog-actions>
-            <span>
+            <div class="card-control-end">
 
-                <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
+                <span><button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button>Supprimer</button></span>
 
-                <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
+                <span></span>
 
-            </span>
+                <span><button type="submit" color="primary" mat-raised-button>Enregistrer</button></span>
+            </div>
         </mat-dialog-actions>
 
     </form>

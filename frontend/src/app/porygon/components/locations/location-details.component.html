@@ -27,15 +27,16 @@
                         </mat-form-field>
 
                     </div>
-                        
-                    <span>
-
-                        <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
-
-                        <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
-
-                    </span>
                 </mat-card-content>
+
+                <mat-card-actions>
+                    <div class="card-control-end">
+
+                        <span><button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button>Supprimer</button></span>
+                        <span><button type="submit" color="primary" mat-raised-button>Enregistrer</button></span>
+
+                    </div>
+                </mat-card-actions>
             </mat-card>
         </form>
 
