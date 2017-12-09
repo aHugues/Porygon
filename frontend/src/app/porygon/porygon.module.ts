@@ -46,10 +46,6 @@ const appRoutes: Routes = [
             {path: 'list-movie', component: ListMoviesComponent },
             {path: 'list-serie', component: ListSeriesComponent },
             {path: 'list-location', component: ListLocationsComponent },
-            {path: 'add/serie', component: SerieDetailsComponent, data: [{newResource: true}] },
-            {path: 'add/location', component: LocationDetailsComponent, data: [{newResource: true}] },
-            {path: 'details/serie/:id', component: SerieDetailsComponent, data: [{newResource: false}] },
-            {path: 'details/location/:id', component: LocationDetailsComponent, data: [{newResource: false}] },
             {path: 'commands', component: CommandsComponent },
             {path: 'search', component: SearchComponent },
         ]}
@@ -79,6 +75,8 @@ const appRoutes: Routes = [
     ],
     entryComponents: [
         MovieDetailsComponent,
+        SerieDetailsComponent,
+        LocationDetailsComponent
     ],
     declarations: [
         PorygonComponent,
