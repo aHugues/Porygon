@@ -14,7 +14,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class PorygonService {
 
-    private apiUrl = "http://localhost:4000/api";
+    private apiUrl = "http://192.168.0.118:4000/api";
     private headers: Headers;
 
     constructor(private http: Http) {

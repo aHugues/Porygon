@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Serie } from '../../models/serie';
 import { Location } from '../../models/location';
@@ -16,6 +18,7 @@ import 'rxjs/add/operator/switchMap';
 export class SerieDetailsComponent implements OnInit {
 
     newResource: Boolean;
+    requestedId: number;
 
     selectedSerie: Serie = new Serie();
     locationsList: Location[] = [new Location()];
@@ -24,29 +27,28 @@ export class SerieDetailsComponent implements OnInit {
     submitted = false;
 
 
-
     constructor(
         private porygonService: PorygonService,
         private router: Router,
         private route: ActivatedRoute,
-    ) {}
+        public dialogRef: MatDialogRef<SerieDetailsComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+        this.newResource = data.newResource;
+        this.requestedId = data.id;
+    }
 
     ngOnInit(): void {
-        this.route.data
-            .subscribe((params) => {
-                let newResource = params[0].newResource;
-                this.newResource = newResource;
-                if (newResource) {
-                    let newSerie = new Serie();
-                    newSerie.Location = new Location();
-                    this.setCurrentSerie(newSerie);
-                }
-                else {
-                    this.route.paramMap
-                        .switchMap((params: ParamMap) => this.porygonService.getSerie(+params.get('id')))
-                        .subscribe(serie => this.setCurrentSerie(serie));
-                }
-            })
+        if (this.newResource) {
+            this.setCurrentSerie(new Serie());
+        }
+        else {
+            this.porygonService.getSerie(this.requestedId)
+                .subscribe(
+                    (result: Serie) => this.setCurrentSerie(result),
+                    (error) => console.error(error)
+                );
+        }
         this.porygonService.getLocationsList()
             .subscribe(
                 (result: Location[]) => this.setLocationsList(result),
@@ -64,7 +66,6 @@ export class SerieDetailsComponent implements OnInit {
     }
 
     onSubmit(): void {
-        this.selectedSerie.location = this.selectedSerie.Location.id.toString();
         if (this.newResource) {
             this.porygonService.createSerie(this.selectedSerie)
                 .subscribe(
@@ -91,7 +92,7 @@ export class SerieDetailsComponent implements OnInit {
 
     handleSubmission(): void {
         this.submitted = true;
-        this.router.navigate(['porygon/list']);
+        this.dialogRef.close();
     }
 
 }

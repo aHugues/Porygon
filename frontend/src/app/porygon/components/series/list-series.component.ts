@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { Serie } from '../../models/serie';
 
 import { PorygonService } from '../../services/porygon.service';
+import { SerieDetailsComponent } from './serie-details.component';
 
 @Component({
     selector: 'list-series',
@@ -34,7 +36,10 @@ export class ListSeriesComponent implements OnInit {
 
     sortingParameter = 1;
 
-    constructor(private porygonService: PorygonService) {}
+    constructor(
+        private porygonService: PorygonService,
+        public dialog: MatDialog
+    ) {}
 
     ngOnInit(): void {
         this.porygonService.getSeriesList()
@@ -85,6 +90,25 @@ export class ListSeriesComponent implements OnInit {
         this.sortingParameter = newSortValue;
         this.query.sort = this.sortDictionnary[newSortValue];
         this.searchSeries();
+    }
+
+    onNewSerie(): void {
+        this.openEditingDialog(-1, true);
+    }
+
+    onEditSerie(id: number) {
+        this.openEditingDialog(id, false);
+    }
+
+    openEditingDialog(id: number, newResource: Boolean) {
+        let editingDialog = this.dialog.open(SerieDetailsComponent, {
+            width: '40%',
+            data: { id: id, newResource: newResource }
+        });
+
+        editingDialog.afterClosed().subscribe((result: any) => {
+            this.ngOnInit();
+        });
     }
 
 }

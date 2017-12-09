@@ -13,7 +13,7 @@
             <span style="flex: 1;"></span>
 
             <span>
-                <a routerLink="/porygon/add/serie"><button color="primary" mat-raised-button class="form-button">Nouvelle série</button></a>
+                <button (click)="onNewSerie()" color="primary" mat-raised-button class="form-button">Nouvelle série</button>
             </span>
 
             <span style="flex: 10;"></span>
@@ -44,7 +44,7 @@
             </mat-list-item>
         </mat-list>
         <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item *ngFor="let serie of seriesListPage" [routerLink]="['/porygon/details/serie', serie.id]" class="list-row">
+            <mat-list-item *ngFor="let serie of seriesListPage" (click)="onEditSerie(serie.id)" class="list-row">
               <span class="list-element"> {{ serie.title }} </span>
               <span class="list-element"> {{ serie.season }} </span>
               <span class="list-element"> {{ serie.Location.label }} </span>

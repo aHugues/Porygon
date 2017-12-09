@@ -1,63 +1,61 @@
-<mat-card class="card-container" *ngIf="ready">
+<div *ngIf="ready">
 
-    <mat-card-header>
-        <mat-card-title>
-            <h2>Modifier série</h2>
-        </mat-card-title>
-    </mat-card-header>
+    <h2 mat-dialog-title>Modifier série</h2>
+
 
     <form (ngSubmit)="onSubmit()" #serieForm="ngForm">
 
-        <div class="form-container">
+        <mat-dialog-content>
 
-            <mat-card-content>
+            <div class="form-container">
 
-                <mat-form-field>
+                <mat-form-field class="form-control">
                     <input matInput type="text" placeholder="Titre" id="title"
                     required
                     [(ngModel)]="selectedSerie.title" name="title"
                     >
                 </mat-form-field>
 
-                <mat-form-field>
+                <mat-form-field class="form-control">
                     <input matInput type="number" placeholder="Saison" id="season"
                     required
                     [(ngModel)]="selectedSerie.season" name="season"
                     >
                 </mat-form-field>
 
-                <mat-form-field>
+                <mat-form-field class="form-control">
                     <mat-select placeholder="Emplacement" id="location"
                     required
-                    [(ngModel)]="selectedSerie.Location.id" name="location"
+                    [(ngModel)]="selectedSerie.location" name="location"
                     >
                         <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field>
+                <mat-form-field class="form-control">
                     <input matInput type="text" placeholder="Remarques" id="remarks"
                     [(ngModel)]="selectedSerie.remarks" name="remarks"
                     >
                 </mat-form-field>
 
-            </mat-card-content>
+            </div>
 
-            <mat-card-actions>
+        </mat-dialog-content>
 
-                <span>
+        <mat-dialog-actions>
 
-                    <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
+            <span>
 
-                    <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
+                <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
 
-                </span>
+                <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
 
-            </mat-card-actions>
+            </span>
 
-        </div>
+        </mat-dialog-actions>
+
 
     </form>
 
 
-</mat-card>
+</div>
