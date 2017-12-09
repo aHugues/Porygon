@@ -63,12 +63,10 @@ export class MovieDetailsComponent implements OnInit {
 
     setCurrentMovie(movie: Movie): void {
         this.selectedMovie = movie;
-        this.selectedMovie.Location = new Location();
         this.resourcesReady ++;
     }
 
     onSubmit(): void {
-        this.selectedMovie.location = this.selectedMovie.Location.id.toString();
         if (this.newResource) {
             this.porygonService.createMovie(this.selectedMovie)
                 .subscribe(

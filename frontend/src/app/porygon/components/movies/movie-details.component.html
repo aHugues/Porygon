@@ -20,7 +20,7 @@
                 <mat-form-field class="form-control">
                     <mat-select placeholder="Emplacement" id="location"
                     required
-                    [(ngModel)]="selectedMovie.Location.id" name="location"
+                    [(ngModel)]="selectedMovie.location" name="location"
                     >
                         <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</mat-option>
                     </mat-select>
