@@ -10,6 +10,10 @@ html {
     background-color: #F0F0F0;
 }
 
+body {
+    margin: 0
+}
+
 .grey-dialog {
     background-color: #F0F0F0 !important;
 }
