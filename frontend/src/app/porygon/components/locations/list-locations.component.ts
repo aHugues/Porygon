@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { Location } from '../../models/location';
 import { Stats } from '../../models/stats';
 
 import { PorygonService } from '../../services/porygon.service';
+import { LocationDetailsComponent } from './location-details.component';
 
 @Component({
     selector: 'list-locations',
@@ -16,7 +18,11 @@ export class ListLocationsComponent implements OnInit {
     stats = new Stats();
     currentPageIndex = 0;
 
-    constructor(private porygonService: PorygonService) {}
+    constructor(
+        private porygonService: PorygonService,
+        public dialog: MatDialog
+
+    ) {}
 
     ngOnInit(): void {
         this.porygonService.getLocationsList()
@@ -40,5 +46,24 @@ export class ListLocationsComponent implements OnInit {
         });
     }
 
+    onNewLocation(): void {
+        this.openEditingDialog(-1, true);
+    }
+
+    onEditLocation(id: number) {
+        this.openEditingDialog(id, false);
+    }
+
+    openEditingDialog(id: number, newResource: Boolean) {
+        let editingDialog = this.dialog.open(LocationDetailsComponent, {
+            width: '60%',
+            panelClass: 'grey-dialog',
+            data: { id: id, newResource: newResource }
+        });
+
+        editingDialog.afterClosed().subscribe((result: any) => {
+            this.ngOnInit();
+        })
+    }
 
 }

@@ -1,9 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, Inject } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { Location } from '../../models/location';
 import { Movie } from '../../models/movie';
 import { Serie } from '../../models/serie';
+
+import { MovieDetailsComponent } from '../movies/movie-details.component';
+import { SerieDetailsComponent } from '../series/serie-details.component';
 
 import { PorygonService } from '../../services/porygon.service';
 
@@ -17,6 +22,7 @@ import 'rxjs/add/operator/switchMap';
 export class LocationDetailsComponent implements OnInit {
 
     newResource: Boolean;
+    requestedId: number;
 
     numberPerPage = 5;
     pageSizeOptions = [5];
@@ -39,23 +45,27 @@ export class LocationDetailsComponent implements OnInit {
         private porygonService: PorygonService,
         private router: Router,
         private route: ActivatedRoute,
-    ) {}
+        public dialog: MatDialog,
+        public dialogRef: MatDialogRef<LocationDetailsComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+        this.newResource = data.newResource;
+        this.requestedId = data.id;
+    }
 
     ngOnInit(): void {
-        this.route.data
-            .subscribe((params) => {
-                let newResource = params[0].newResource;
-                this.newResource = newResource;
-                if (newResource) {
-                    this.setCurrentLocation(new Location());
-                }
-                else {
-                    this.route.paramMap
-                        .switchMap((params: ParamMap) => this.porygonService.getLocation(+params.get('id')))
-                        .subscribe(location => this.setCurrentLocation(location));
-                }
-            })
+        if (this.newResource) {
+            this.setCurrentLocation(new Location());
+        }
+        else {
+            this.porygonService.getLocation(this.requestedId)
+                .subscribe(
+                    (result: Location) => this.setCurrentLocation(result),
+                    (error: any) => console.error(error)
+                );
+        }
     }
+
 
     setCurrentLocation(location: Location): void {
         this.selectedLocation = location;
@@ -70,6 +80,7 @@ export class LocationDetailsComponent implements OnInit {
         this.porygonService.getSeriesInLocation(location.id, this.numberPerPage, this.seriePage)
             .subscribe(series => this.seriesList = series);
     }
+
 
     onSubmit(): void {
         if (this.newResource) {
@@ -98,7 +109,7 @@ export class LocationDetailsComponent implements OnInit {
 
     handleSubmission(): void {
         this.submitted = true;
-        this.router.navigate(['porygon/list']);
+        this.dialogRef.close();
     }
 
     changeMoviePage(): void {
@@ -116,6 +127,36 @@ export class LocationDetailsComponent implements OnInit {
                 (result: Serie[]) => this.seriesList = result,
                 error => console.error(error)
             );
+    }
+
+    openMovieEditingDialog(id: number): void {
+        let movieEditingDialog = this.dialog.open(MovieDetailsComponent, {
+            width: '40%',
+            data: { id: id, newResource: false}
+        })
+
+        movieEditingDialog.afterClosed().subscribe((result: any) => {
+            this.ngOnInit();
+        })
+    }
+
+    openSerieEditingDialog(id: number): void {
+        let serieEditingDialog = this.dialog.open(SerieDetailsComponent, {
+            width: '40%',
+            data: { id: id, newResource: false}
+        })
+
+        serieEditingDialog.afterClosed().subscribe((result: any) => {
+            this.ngOnInit();
+        })
+    }
+
+    onEditMovie(id: number): void {
+        this.openMovieEditingDialog(id);
+    }
+
+    onEditSerie(id: number): void {
+        this.openSerieEditingDialog(id);
     }
 
     get diagnostic() { return JSON.stringify(this.selectedLocation)}

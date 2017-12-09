@@ -1,40 +1,43 @@
-<mat-card class="card-container">
+<div>
 
-    <mat-card-header>
-        <mat-card-title>
-            <h2>Modifier emplacement</h2>
-        </mat-card-title>
-    </mat-card-header>
+
+    <h2 mat-dialog-title>Modifier emplacement</h2>
+
+        <mat-dialog-content>
 
     <form (ngSubmit)="onSubmit()" #locationForm="ngForm">
 
-        <div class="form-container">
+        <mat-card class="card-container">
 
             <mat-card-content>
-                <mat-form-field>
+
+
+
+            <div class="form-container">
+
+                <mat-form-field class="form-control">
                     <input matInput placeholder="Label" type="text" id="label"
                     required
                     [(ngModel)]="selectedLocation.label" name="label"
                     >
                 </mat-form-field>
-            </mat-card-content>
 
-            <mat-card-actions>
-                <span>
+            </div>
 
-                    <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
 
-                    <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
+            <span>
 
-                </span>
-            </mat-card-actions>
+                <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
 
-        </div>
+                <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
 
+            </span>
+</mat-card-content>
+</mat-card>
     </form>
 
 
-</mat-card>
+
 
 <mat-card *ngIf="!newResource" class="card-container">
 
@@ -55,7 +58,7 @@
             </mat-list-item>
         </mat-list>
         <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item *ngFor="let movie of moviesList" [routerLink]="['/porygon/details/movie', movie.id]" class="list-row">
+            <mat-list-item *ngFor="let movie of moviesList" (click)="onEditMovie(movie.id)" class="list-row">
               <span class="list-element"> {{ movie.title }} </span>
               <span class="list-element"> {{ movie.Location.label }} </span>
               <span class="list-element"> {{ movie.year }} </span>
@@ -91,7 +94,7 @@
             </mat-list-item>
         </mat-list>
         <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item *ngFor="let serie of seriesList" [routerLink]="['/porygon/details/serie', serie.id]" class="list-row">
+            <mat-list-item *ngFor="let serie of seriesList" (click)="onEditSerie(serie.id)">
               <span class="list-element"> {{ serie.title }} </span>
               <span class="list-element"> {{ serie.season }} </span>
               <span class="list-element"> {{ serie.Location.label }} </span>
@@ -106,6 +109,10 @@
     </mat-card-actions>
 
 </mat-card>
+
+</mat-dialog-content>
+
+</div>
 
 
 <!-- <div class="alert alert-warning"><strong>TODO : </strong>Gérer cas de suppression impossible car foreignKey</div> -->

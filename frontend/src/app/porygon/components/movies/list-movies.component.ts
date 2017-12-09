@@ -109,7 +109,7 @@ export class ListMoviesComponent implements OnInit {
 
     openEditingDialog(id: number, newResource: Boolean) {
         let editingDialog = this.dialog.open(MovieDetailsComponent, {
-            width: '40%',
+            width: '60%',
             data: { id: id, newResource: newResource }
         })
 
