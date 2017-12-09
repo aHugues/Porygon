@@ -3,114 +3,117 @@
 
     <h2 mat-dialog-title>Modifier emplacement</h2>
 
-        <mat-dialog-content>
+    <mat-dialog-content>
 
-    <form (ngSubmit)="onSubmit()" #locationForm="ngForm">
+        <form (ngSubmit)="onSubmit()" #locationForm="ngForm">
 
-        <mat-card class="card-container">
+            <mat-card class="card-container">
+
+                <mat-card-header>
+                    <mat-card-title>
+                        <h3>Modifier label</h3>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+
+                    <div class="form-container">
+
+                        <mat-form-field class="form-control">
+                            <input matInput placeholder="Label" type="text" id="label"
+                            required
+                            [(ngModel)]="selectedLocation.label" name="label"
+                            >
+                        </mat-form-field>
+
+                    </div>
+                        
+                    <span>
+
+                        <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
+
+                        <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
+
+                    </span>
+                </mat-card-content>
+            </mat-card>
+        </form>
+
+
+
+
+        <mat-card *ngIf="!newResource" class="card-container">
+
+            <mat-card-header>
+                <mat-card-title>
+                    <h3>Films à cet emplacement</h3>
+                </mat-card-title>
+            </mat-card-header>
 
             <mat-card-content>
 
+                <mat-list cols="4" rowHeight="50px" class="list">
+                    <mat-list-item class="list-header">
+                        <span class="list-element" role="button" (click)="onSortMovies(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
+                        <span class="list-element" role="button" (click)="onSortMovies(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
+                        <span class="list-element" role="button" (click)="onSortMovies(3)"> Année de sortie <i class="fa fa-fw fa-sort"></i></span>
+                        <span class="list-element"> Remarques </span>
+                    </mat-list-item>
+                </mat-list>
+                <mat-list cols="4" rowHeight="50px" class="list">
+                    <mat-list-item *ngFor="let movie of moviesList" (click)="onEditMovie(movie.id)" class="list-row">
+                        <span class="list-element"> {{ movie.title }} </span>
+                        <span class="list-element"> {{ movie.Location.label }} </span>
+                        <span class="list-element"> {{ movie.year }} </span>
+                        <span class="list-element"> {{ movie.remarks }} </span>
+                    </mat-list-item>
+                </mat-list>
 
+            </mat-card-content>
 
-            <div class="form-container">
+            <mat-card-actions>
+                <mat-paginator [length]="numberOfMovies" [pageSize]="numberPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onMoviePageChanged($event)">
+                </mat-paginator>
+            </mat-card-actions>
 
-                <mat-form-field class="form-control">
-                    <input matInput placeholder="Label" type="text" id="label"
-                    required
-                    [(ngModel)]="selectedLocation.label" name="label"
-                    >
-                </mat-form-field>
+        </mat-card>
 
-            </div>
+        <mat-card *ngIf="!newResource" class="card-container">
 
+            <mat-card-header>
+                <mat-card-title>
+                    <h3>Séries à cet emplacement</h3>
+                </mat-card-title>
+            </mat-card-header>
 
-            <span>
+            <mat-card-content>
 
-                <button type="submit" color="primary" mat-raised-button class="form-button">Enregistrer</button>
+                <mat-list cols="4" rowHeight="50px" class="list">
+                    <mat-list-item class="list-header">
+                        <span class="list-element" role="button" (click)="onSortSeries(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
+                        <span class="list-element"> Saison <i class="fa fa-fw fa-sort"></i></span>
+                        <span class="list-element" role="button" (click)="onSortSeries(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
+                        <span class="list-element"> Remarques </span>
+                    </mat-list-item>
+                </mat-list>
+                <mat-list cols="4" rowHeight="50px" class="list">
+                    <mat-list-item *ngFor="let serie of seriesList" (click)="onEditSerie(serie.id)">
+                        <span class="list-element"> {{ serie.title }} </span>
+                        <span class="list-element"> {{ serie.season }} </span>
+                        <span class="list-element"> {{ serie.Location.label }} </span>
+                        <span class="list-element"> {{ serie.remarks }} </span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
 
-                <button *ngIf="!newResource" (click)="onDelete()" color="warn" mat-raised-button class="form-button">Supprimer</button>
+            <mat-card-actions>
+                <mat-paginator [length]="numberOfSeries" [pageSize]="numberPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onSeriePageChanged($event)">
+                </mat-paginator>
+            </mat-card-actions>
 
-            </span>
-</mat-card-content>
-</mat-card>
-    </form>
+        </mat-card>
 
-
-
-
-<mat-card *ngIf="!newResource" class="card-container">
-
-    <mat-card-header>
-        <mat-card-title>
-            <h5>Films à cet emplacement</h5>
-        </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-
-        <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item class="list-header">
-              <span class="list-element" role="button" (click)="onSortMovies(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
-              <span class="list-element" role="button" (click)="onSortMovies(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
-              <span class="list-element" role="button" (click)="onSortMovies(3)"> Année de sortie <i class="fa fa-fw fa-sort"></i></span>
-              <span class="list-element"> Remarques </span>
-            </mat-list-item>
-        </mat-list>
-        <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item *ngFor="let movie of moviesList" (click)="onEditMovie(movie.id)" class="list-row">
-              <span class="list-element"> {{ movie.title }} </span>
-              <span class="list-element"> {{ movie.Location.label }} </span>
-              <span class="list-element"> {{ movie.year }} </span>
-              <span class="list-element"> {{ movie.remarks }} </span>
-          </mat-list-item>
-        </mat-list>
-
-    </mat-card-content>
-
-    <mat-card-actions>
-        <mat-paginator [length]="numberOfMovies" [pageSize]="numberPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onMoviePageChanged($event)">
-        </mat-paginator>
-    </mat-card-actions>
-
-</mat-card>
-
-<mat-card *ngIf="!newResource" class="card-container">
-
-    <mat-card-header>
-        <mat-card-title>
-            <h5>Séries à cet emplacement</h5>
-        </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-
-        <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item class="list-header">
-              <span class="list-element" role="button" (click)="onSortSeries(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
-              <span class="list-element"> Saison <i class="fa fa-fw fa-sort"></i></span>
-              <span class="list-element" role="button" (click)="onSortSeries(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
-              <span class="list-element"> Remarques </span>
-            </mat-list-item>
-        </mat-list>
-        <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item *ngFor="let serie of seriesList" (click)="onEditSerie(serie.id)">
-              <span class="list-element"> {{ serie.title }} </span>
-              <span class="list-element"> {{ serie.season }} </span>
-              <span class="list-element"> {{ serie.Location.label }} </span>
-              <span class="list-element"> {{ serie.remarks }} </span>
-          </mat-list-item>
-        </mat-list>
-    </mat-card-content>
-
-    <mat-card-actions>
-        <mat-paginator [length]="numberOfSeries" [pageSize]="numberPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onSeriePageChanged($event)">
-        </mat-paginator>
-    </mat-card-actions>
-
-</mat-card>
-
-</mat-dialog-content>
+    </mat-dialog-content>
 
 </div>
 

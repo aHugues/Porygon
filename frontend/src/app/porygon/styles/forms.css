@@ -18,6 +18,7 @@
 }
 
 .form-button {
+    flex: 1;
     outline: none;
 }
 

@@ -18,3 +18,8 @@
     align-content: flex-end;
     outline: none;
 }
+
+.top-header {
+    display: flex;
+    justify-content: space-around;
+}
