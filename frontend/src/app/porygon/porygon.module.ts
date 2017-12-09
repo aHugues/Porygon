@@ -33,6 +33,9 @@ import { LocationDetailsComponent } from './components/locations/location-detail
 import { CommandsComponent } from './components/commands/commands.component';
 import { SearchComponent } from './components/shared/search.component';
 import { EditCommandComponent } from './components/commands/edit-command.component';
+import { CommandsInfosComponent } from './components/home/commands-infos.component';
+import { HomeInfosComponent } from './components/home/infos.component';
+import { HomeVisualisationComponent } from './components/home/visualization.component';
 
 import { PorygonService } from './services/porygon.service';
 import { PorygonSearchService } from './services/porygon-search.service';
@@ -91,6 +94,9 @@ const appRoutes: Routes = [
         CommandsComponent,
         EditCommandComponent,
         SearchComponent,
+        CommandsInfosComponent,
+        HomeInfosComponent,
+        HomeVisualisationComponent
     ],
     providers: [
         PorygonService,
