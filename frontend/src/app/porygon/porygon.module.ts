@@ -43,13 +43,11 @@ const appRoutes: Routes = [
         children: [
             {path: '', component: PorygonHomeComponent },
             {path: 'list', component: ListComponent },
-            {path: 'add/movie', component: MovieDetailsComponent, data: [{newResource: true}] },
             {path: 'list-movie', component: ListMoviesComponent },
             {path: 'list-serie', component: ListSeriesComponent },
             {path: 'list-location', component: ListLocationsComponent },
             {path: 'add/serie', component: SerieDetailsComponent, data: [{newResource: true}] },
             {path: 'add/location', component: LocationDetailsComponent, data: [{newResource: true}] },
-            {path: 'details/movie/:id', component: MovieDetailsComponent, data: [{newResource: false}] },
             {path: 'details/serie/:id', component: SerieDetailsComponent, data: [{newResource: false}] },
             {path: 'details/location/:id', component: LocationDetailsComponent, data: [{newResource: false}] },
             {path: 'commands', component: CommandsComponent },
@@ -78,6 +76,9 @@ const appRoutes: Routes = [
         RouterModule.forRoot(
             appRoutes
         )
+    ],
+    entryComponents: [
+        MovieDetailsComponent,
     ],
     declarations: [
         PorygonComponent,
