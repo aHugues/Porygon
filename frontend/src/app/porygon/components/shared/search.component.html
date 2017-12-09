@@ -108,11 +108,10 @@
 
         <mat-card class="card-container">
 
-        <div class="d-flex justify-content-center mt-2 mb-1">
-          <button type="submit" class="btn btn-success">Rechercher</button>
+        <div>
+          <button color="primary" mat-raised-button type="submit">Rechercher</button>
 
-          <button *ngIf="canReset()" (click)="onReset()" class="btn btn-info">Réinitialiser</button>
-          <button *ngIf="!canReset()" class="btn btn-info disabled">Réinitialiser</button>
+          <button mat-raised-button (click)="onReset()" [disabled]="!canReset()">Réinitialiser</button>
         </div>
 
         </mat-card>
