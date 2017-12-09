@@ -1,6 +1,7 @@
 <div *ngIf="ready">
 
-    <h2 mat-dialog-title>Modifier série</h2>
+    <h2 *ngIf="newResource" mat-dialog-title>Nouvelle série</h2>
+    <h2 *ngIf="!newResource" mat-dialog-title>Modifier série</h2>
 
 
     <form (ngSubmit)="onSubmit()" #serieForm="ngForm">

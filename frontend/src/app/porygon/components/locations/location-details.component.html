@@ -1,7 +1,8 @@
 <div>
 
 
-    <h2 mat-dialog-title>Modifier emplacement</h2>
+    <h2 *ngIf="!newResource" mat-dialog-title>Modifier emplacement</h2>
+    <h2 *ngIf="newResource" mat-dialog-title>Nouvel emplacement</h2>
 
     <mat-dialog-content>
 

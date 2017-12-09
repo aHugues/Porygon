@@ -1,7 +1,8 @@
 <div *ngIf="resourcesReady == 2">
 
 
-    <h2 mat-dialog-title>Modifier film</h2>
+    <h2 *ngIf="newResource" mat-dialog-title>Nouveau film</h2>
+    <h2 *ngIf="!newResource" mat-dialog-title>Modifier film</h2>
 
 
     <form (ngSubmit)="onSubmit()" #movieForm="ngForm">
