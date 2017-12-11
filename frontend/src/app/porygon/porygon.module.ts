@@ -37,6 +37,8 @@ import { CommandsInfosComponent } from './components/home/commands-infos.compone
 import { HomeInfosComponent } from './components/home/infos.component';
 import { HomeVisualisationComponent } from './components/home/visualization.component';
 
+import { PieChartComponent } from './components/home/charts/pie-chart.component';
+
 import { PorygonService } from './services/porygon.service';
 import { PorygonSearchService } from './services/porygon-search.service';
 import { SharingService } from './services/sharing.service';
@@ -96,7 +98,8 @@ const appRoutes: Routes = [
         SearchComponent,
         CommandsInfosComponent,
         HomeInfosComponent,
-        HomeVisualisationComponent
+        HomeVisualisationComponent,
+        PieChartComponent
     ],
     providers: [
         PorygonService,

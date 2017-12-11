@@ -11,7 +11,13 @@
         <div>
             Stockage actuel : {{ nMovies }} films et {{ nSeries }} séries dans {{ nLocations }} emplacements
         </div>
+
+        <div>
+            <pie-chart [data]="chartData"></pie-chart>
+        </div>
+
     </mat-card-content>
+
 
 
 </mat-card>

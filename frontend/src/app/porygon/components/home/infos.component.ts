@@ -17,6 +17,8 @@ export class HomeInfosComponent implements OnInit {
     seriesList: Serie[];
     locationsList: Location[];
 
+    chartData: Array<any> = [1,2,3];
+
     nMovies: number;
     nSeries: number;
     nLocations: number;
@@ -43,6 +45,7 @@ export class HomeInfosComponent implements OnInit {
                 (locations: Location[]) => this.setLocationsList(locations),
                 (error: any) => console.error(error)
             );
+
     }
 
     setMoviesList(movies: Movie[]): void {
@@ -59,5 +62,6 @@ export class HomeInfosComponent implements OnInit {
         this.locationsList = locations;
         this.nLocations = locations.length;
     }
+
 
 }
