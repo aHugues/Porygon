@@ -50,16 +50,16 @@ Go to your backend folder and install the application `npm install`
 
 You need to create a config file in `./config/` containing the credentials for the database. It should have the corresponding structure:
 
-```
+```json
 database.config.json
 ---
 
 {
     "production": {
-        "username": your_user,
-        "password": your_password,
-        "database": your_database_name,
-        "host": your_host,
+        "username": "<your_user>",
+        "password": "<your_password>",
+        "database": "<your_database_name>",
+        "host": "<your_host>",
         "logging": false,
         "dialect": "mysql"
     }
