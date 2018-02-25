@@ -44,16 +44,13 @@ import { PorygonSearchService } from './services/porygon-search.service';
 import { SharingService } from './services/sharing.service';
 
 const appRoutes: Routes = [
-    { path: 'porygon', component: PorygonComponent,
-        children: [
-            {path: '', component: PorygonHomeComponent },
-            {path: 'list', component: ListComponent },
-            {path: 'list-movie', component: ListMoviesComponent },
-            {path: 'list-serie', component: ListSeriesComponent },
-            {path: 'list-location', component: ListLocationsComponent },
-            {path: 'commands', component: CommandsComponent },
-            {path: 'search', component: SearchComponent },
-        ]}
+    {path: '', component: PorygonHomeComponent },
+    {path: 'list', component: ListComponent },
+    {path: 'list-movie', component: ListMoviesComponent },
+    {path: 'list-serie', component: ListSeriesComponent },
+    {path: 'list-location', component: ListLocationsComponent },
+    {path: 'commands', component: CommandsComponent },
+    {path: 'search', component: SearchComponent },
 ];
 
 @NgModule({
@@ -84,7 +81,6 @@ const appRoutes: Routes = [
         LocationDetailsComponent
     ],
     declarations: [
-        PorygonComponent,
         PorygonHomeComponent,
         ListComponent,
         ListMoviesComponent,

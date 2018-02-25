@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material';
 import { PorygonModule } from '../porygon/porygon.module';
 
 import { AppComponent }  from './app.component';
+import { PorygonComponent } from '../porygon/components/shared/porygon.component';
 
 import { SharingService } from '../porygon/services/sharing.service';
 
@@ -25,6 +26,7 @@ import { SharingService } from '../porygon/services/sharing.service';
   ],
   declarations: [
       AppComponent,
+      PorygonComponent,
   ],
   providers: [
       Title

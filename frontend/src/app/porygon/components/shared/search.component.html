@@ -145,7 +145,7 @@
               </mat-list-item>
           </mat-list>
           <mat-list cols="4" rowHeight="50px" class="list">
-              <mat-list-item *ngFor="let movie of moviesList" [routerLink]="['/porygon/details/movie', movie.id]" class="list-row">
+              <mat-list-item *ngFor="let movie of moviesList" [routerLink]="['/details/movie', movie.id]" class="list-row">
                 <span class="list-element"> {{ movie.title }} </span>
                 <span class="list-element"> {{ movie.Location.label }} </span>
                 <span class="list-element"> {{ movie.year }} </span>
@@ -175,7 +175,7 @@
               </mat-list-item>
           </mat-list>
           <mat-list cols="4" rowHeight="50px" class="list">
-              <mat-list-item *ngFor="let serie of seriesList" [routerLink]="['/porygon/details/serie', serie.id]" class="list-row">
+              <mat-list-item *ngFor="let serie of seriesList" [routerLink]="['/details/serie', serie.id]" class="list-row">
                 <span class="list-element"> {{ serie.title }} </span>
                 <span class="list-element"> {{ serie.season }} </span>
                 <span class="list-element"> {{ serie.Location.label }} </span>

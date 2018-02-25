@@ -4,14 +4,16 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'my-app',
   styles: ['../../styles.css'],
-  template: `<router-outlet></router-outlet>`,
+  template: `
+  <porygon></porygon>
+  <router-outlet></router-outlet>`,
 })
 export class AppComponent  {
 
     public constructor(
         private titleService: Title
     ) {
-        this.titleService.setTitle("Gondolin Web Server");
+        this.titleService.setTitle("Porygon");
     }
 
 
