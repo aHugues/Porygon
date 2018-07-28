@@ -67,7 +67,7 @@ export class PieChartComponent implements OnInit, OnChanges {
             .outerRadius(this.radius);
 
         // auto colors for the chart
-        this.colors = d3.scaleOrdinal(d3.schemeCategory20b);
+        this.colors = d3.scaleOrdinal(d3.schemeCategory10);
 
         // pie chart
         let pie = d3.pie<Data>()

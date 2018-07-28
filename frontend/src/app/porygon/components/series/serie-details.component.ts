@@ -8,7 +8,7 @@ import { Location } from '../../models/location';
 
 import { PorygonService } from '../../services/porygon.service';
 
-import 'rxjs/add/operator/switchMap';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
     selector: 'serie-details',

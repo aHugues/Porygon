@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { Movie } from '../models/movie';
 import { Serie } from '../models/serie';
 import { Location } from '../models/location';
 import { Stats } from '../models/stats';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class PorygonSearchService {
@@ -31,14 +30,14 @@ export class PorygonSearchService {
         const url = `${this.apiUrl}/movies?title=${title}`;
         return this.http
             .get(url)
-            .map((res: Response) => res.json())
+            .pipe(map((res: Response) => res.json()))
     }
 
     searchSeriesByTitle(title: string): Observable<Serie[]> {
         const url = `${this.apiUrl}/series?title=${title}`;
         return this.http
             .get(url)
-            .map((res: Response) => res.json())
+            .pipe(map((res: Response) => res.json()))
     }
 
     advancedMovieSearch(query: any): Observable<Movie[]> {
@@ -47,7 +46,7 @@ export class PorygonSearchService {
         const url = `${this.apiUrl}/movies`;
         return this.http
             .get(url, requestOptions)
-            .map((res: Response) => res.json())
+            .pipe(map((res: Response) => res.json()))
     }
 
     advancedSerieSearch(query: any): Observable<Serie[]> {
@@ -56,7 +55,7 @@ export class PorygonSearchService {
         const url = `${this.apiUrl}/series`;
         return this.http
             .get(url, requestOptions)
-            .map((res: Response) => res.json())
+            .pipe(map((res: Response) => res.json()))
     }
 
 }

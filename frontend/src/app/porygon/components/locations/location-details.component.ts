@@ -12,7 +12,7 @@ import { SerieDetailsComponent } from '../series/serie-details.component';
 
 import { PorygonService } from '../../services/porygon.service';
 
-import 'rxjs/add/operator/switchMap';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
     selector: 'location-details',
