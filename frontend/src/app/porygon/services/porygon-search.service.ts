@@ -9,10 +9,12 @@ import { Stats } from '../models/stats';
 
 import { map, catchError } from 'rxjs/operators';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable()
 export class PorygonSearchService {
 
-    private apiUrl = "http://localhost:4000/api";
+    private apiUrl = environment.apiUrl;
     private headers: Headers;
 
     constructor(private http: Http) {

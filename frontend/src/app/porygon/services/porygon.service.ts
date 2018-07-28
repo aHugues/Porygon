@@ -10,10 +10,12 @@ import { Command } from '../models/command';
 
 import { map, catchError } from 'rxjs/operators';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable()
 export class PorygonService {
 
-    private apiUrl = "http://localhost:4000/api";
+    private apiUrl = environment.apiUrl;
     private headers: Headers;
 
     constructor(private http: Http) {
