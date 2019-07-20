@@ -96,10 +96,10 @@ function onListening() {
  * Models gestion
  */
 
-var models = require('../models');
+// var models = require('../models');
 
-models.sequelize.sync().then(function() {
+// models.sequelize.sync().then(function() {
     server.listen(port, host);
     server.on('error', onError);
     server.on('listening', onListening);
-});
+// });
