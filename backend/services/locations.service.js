@@ -1,171 +1,141 @@
-let sequelize = require('sequelize');
-let Rx = require('rx');
+const rxjs = require('rxjs');
 
-let models = require('../models/');
-let Location = models.Location;
-let Movie = models.Movie;
-let Serie = models.Serie;
+const knex = require('./database.service');
 
-let service = {};
+const service = {};
 
-let getAllLocations = (query) => {
+const getAllLocations = (query) => {
+  // Get the fields selector
+  let { attributes } = query;
+  if (attributes) {
+    attributes = attributes.split(',');
+  }
 
-    // Get the fields selector
-    let attributes = query.attributes;
-    if (attributes) {
-        attributes = attributes.split(',');
+  let labelSearch = '%';
+  // Gets the search parameters, replaces with '%' if none provided
+  if (query.location) {
+    labelSearch = `%${query.location}%`;
+  }
+
+  // Gets the sorting parameters
+  const order = ['location', 'asc']; // Default values
+  if (query.sort) {
+    if (query.sort[0] === '-') {
+      order[1] = 'desc';
+      order[0] = query.sort.substring(1);
+    } else {
+      order[0] = query.sort;
     }
+  }
 
-    let labelSearch = '%'
-    // Gets the search parameters, replaces with '%' if none provided
-    if (query.label) {
-        labelSearch = '%' + query.label + '%';
-    }
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Location').where(knex.raw('LOWER(`location`)'), 'like', labelSearch).orderBy(order[0], order[1]).select(attributes)
+      .then((locations) => {
+        obs.next(locations);
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
 
-    // Gets the sorting parameters
-    let order = ['label', 'ASC'] // Default values
-    if (query.sort) {
-        if (query.sort[0]=='-') {
-            order[1] = 'DESC';
-            order[0] = query.sort.substring(1);
+
+const getLocationById = (id) => {
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Location').where('id', id).select()
+      .then((rows) => {
+        if (rows.length !== 1) {
+          throw new Error('location not found');
+        } else {
+          obs.next(rows);
+          obs.complete();
         }
-        else {
-            order[0] = query.sort;
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
+
+
+const createLocation = (fields) => {
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Location').insert(fields)
+      .then((instance) => {
+        obs.next(instance);
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
+
+
+const updateLocation = (id, fields) => {
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Location').where('id', id).update(fields)
+      .then((affectedRows) => {
+        obs.next(affectedRows > 0);
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
+
+
+const deleteLocation = (id) => {
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Location').where('id', id).delete()
+      .then(() => {
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
+
+
+const countForLocation = (id) => {
+  let moviesCompleted = false;
+  let seriesCompleted = false;
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Movie').where('location_id', id).count()
+      .then((count) => {
+        obs.next(['movies', count[0]['count(*)']]);
+        moviesCompleted = true;
+        if (seriesCompleted) {
+          obs.complete();
         }
-    }
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
 
-    let finalQuery = {
-        attributes: attributes,
-        where: {
-            label: sequelize.where(sequelize.fn('LOWER', sequelize.col('label')), 'LIKE', labelSearch)
-        },
-        order: [order]
-    }
-
-    let observable = Rx.Observable.create((obs) => {
-        Location.findAll(finalQuery)
-            .then((locations) => {
-                obs.onNext(locations);
-                obs.onCompleted();
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    });
-    return observable;
-}
-
-
-let getLocationById = (id) => {
-    let observable = Rx.Observable.create((obs) => {
-        Location.findById(id)
-            .then((location) => {
-                if (location == null) {
-                    throw {message: "not found", resource: "location"};
-                }
-                else {
-                    obs.onNext(location);
-                    obs.onCompleted();
-                }
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
-
-
-let createLocation = (fields) => {
-    let observable = Rx.Observable.create((obs) => {
-        let location = new Location(fields);
-        location.save()
-            .then((instance) => {
-                obs.onNext(instance);
-                obs.onCompleted();
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
-
-
-let updateLocation = (id, fields) => {
-    let observable = Rx.Observable.create((obs) => {
-        Location.update(fields, {where: {id: id}})
-            .then((affectedRows) => {
-                if (affectedRows[0] > 0) {
-                    obs.onNext(true);
-                }
-                else {
-                    obs.onNext(false);
-                }
-                obs.onCompleted();
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
-
-
-let deleteLocation = (id) => {
-    let observable = Rx.Observable.create((obs) => {
-        Location.findById(id)
-            .then((location) => {
-                location.destroy()
-                    .then(() => {
-                        obs.onCompleted();
-                    })
-                    .catch((error) => {
-                        throw error;
-                    })
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
-
-
-
-let countForLocation = (id) => {
-    const query = {
-        where: {
-            location: id
+    knex('Serie').where('location_id', id).count()
+      .then((count) => {
+        obs.next(['series', count[0]['count(*)']]);
+        seriesCompleted = true;
+        if (moviesCompleted) {
+          obs.complete();
         }
-    };
-    let loops = 2;
-    let observable = Rx.Observable.create((obs) => {
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
 
-        Movie.count(query)
-            .then((count) => {
-                obs.onNext(["movies", count]);
-                loops -= 1;
-                if (loops == 0) {
-                    obs.onCompleted();
-                }
-            })
-            .catch((error) => {
-                obs.onError(error);
-            });
-
-        Serie.count(query)
-            .then((count) => {
-                obs.onNext(["series", count]);
-                loops -= 1;
-                if (loops == 0) {
-                    obs.onCompleted();
-                }
-            })
-    })
-
-    return observable;
-}
+  return observable;
+};
 
 
 service.getAllLocations = getAllLocations;
