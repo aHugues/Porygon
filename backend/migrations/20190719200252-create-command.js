@@ -28,7 +28,8 @@ exports.up = function(db, callback) {
     },
     remarks: {
       type: 'string',
-      notNull: false,
+      notNull: true,
+      defaultValue: '',
     },
   }, function(err) {
     if (err) return callback(err);
