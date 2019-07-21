@@ -1,9 +1,6 @@
 const express = require('express');
 
 const router = express.Router();
-const Rx = require('rx');
-const rxjs = require('rxjs');
-
 const errorHandler = require('../middlewares/error-handler');
 
 const LocationsService = require('../services/locations.service');
