@@ -1,195 +1,162 @@
-let sequelize = require('sequelize');
-let Rx = require('rx');
+const rxjs = require('rxjs');
+const knex = require('./database.service');
 
-let models = require('../models/');
-let Location = models.Location;
-let Movie = models.Movie;
+const service = {};
 
-let service = {};
+const getAllMovies = (query) => {
+  // Get the fields selector
+  let { attributes } = query;
+  if (attributes) {
+    attributes = attributes.split(',');
+  }
 
-let getAllMovies = (query) => {
-
-    // Get the fields selector
-    let attributes = query.attributes;
-    if (attributes) {
-        attributes = attributes.split(',');
+  // Gets the search parameters, replaces with '%' if none provided
+  const searchArray = [
+    ['title', '%'],
+    ['location', '%'],
+    ['director', '%'],
+    ['actors', '%'],
+    ['year', '%'],
+  ];
+  for (let i = 0; i < searchArray.length; i += 1) {
+    if (query[searchArray[i][0]]) {
+      searchArray[i][1] = query[searchArray[i][0]];
+      if (i !== 1 && i !== 3) {
+        searchArray[i][1] = `%${searchArray[i][1]}%`;
+      }
     }
+  }
 
-    // Gets the search parameters, replaces with '%' if none provided
-    let searchArray = [
-        ["title", "%"],
-        ["location", "%"],
-        ["director", "%"],
-        ["actors", "%"],
-        ["year", "%"]
-    ];
-    for (let searchIndex in searchArray) {
-        if (query[searchArray[searchIndex][0]]) {
-            searchArray[searchIndex][1] = query[searchArray[searchIndex][0]];
-            if (searchIndex!=1 && searchIndex!=3) {
-                searchArray[searchIndex][1] = "%"+searchArray[searchIndex][1]+"%";
-            }
+  // Gets the sorting parameters
+  const order = ['title', 'asc']; // Default values
+  const secondaryOrder = ['title', 'asc']; // Secondary value for sorting
+  if (query.sort) {
+    if (query.sort[0] === '-') {
+      order[1] = 'desc';
+      order[0] = query.sort.substring(1);
+    } else {
+      order[0] = query.sort;
+    }
+  }
+
+  // Gets the page related parameters
+  let offset = 0;
+  let limit = 99999; // Large number to get everything
+  if (query.offset) {
+    offset = parseInt(query.offset, 10);
+  }
+  if (query.limit) {
+    limit = parseInt(query.limit, 10);
+  }
+
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Movie').where(knex.raw('LOWER(`title`)'), 'like', searchArray[0][1])
+      .where(knex.raw('LOWER(`director`)'), 'like', searchArray[2][1])
+      .where(knex.raw('LOWER(`actors`)'), 'like', searchArray[3][1])
+      .where('year', 'like', searchArray[4][1])
+      .orderBy(order[0], order[1], secondaryOrder[0], secondaryOrder[1])
+      .offset(offset)
+      .limit(limit)
+      .join('Location', 'Location.id', 'Movie.location_id')
+      .options({ nestTables: true })
+      .select(attributes)
+      .then((movies) => {
+        console.log(movies);
+        obs.next(movies);
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
+
+
+const getMovieById = (id) => {
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Movie').where('Movie.id', id).join('Location', 'Location.id', 'Movie.location_id')
+      .options({ nestTables: true })
+      .then((movie) => {
+        if (movie == null) {
+          throw new Error('Movie not found');
+        } else {
+          const result = movie[0].Movie;
+          result.location = movie[0].Location;
+          obs.next(result);
+          obs.complete();
         }
-    }
-
-    // Gets the sorting parameters
-    let order = ['title', 'ASC'] // Default values
-    let secondaryOrder = ['title', 'ASC'] // Secondary value for sorting
-    if (query.sort) {
-        if (query.sort[0]=='-') {
-            order[1] = 'DESC';
-            order[0] = query.sort.substring(1);
-        }
-        else {
-            order[0] = query.sort;
-        }
-    }
-
-    // Gets the page related parameters
-    var offset = 0;
-    var limit = 99999; // Large number to get everything
-    if (query.offset) {
-        offset = parseInt(query.offset);
-    }
-    if (query.limit) {
-        limit = parseInt(query.limit);
-    }
-
-    let finalQuery = {
-        attributes: attributes,
-        where: {
-            title: sequelize.where(sequelize.fn('LOWER', sequelize.col('title')), 'LIKE', searchArray[0][1]),
-            director: sequelize.where(sequelize.fn('LOWER', sequelize.col('director')), 'LIKE', searchArray[2][1]),
-            actors: sequelize.where(sequelize.fn('LOWER', sequelize.col('location')), 'LIKE', searchArray[3][1]),
-            year: {$like: searchArray[4][1]}
-        },
-        order: [order, secondaryOrder],
-        offset: offset,
-        limit: limit,
-        include: [{
-            model: Location,
-            where: { id: {$like: searchArray[1][1]} }
-        }]
-    }
-
-    let observable = Rx.Observable.create((obs) => {
-        Movie.findAll(finalQuery)
-            .then((movies) => {
-                obs.onNext(movies);
-                obs.onCompleted();
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    });
-    return observable;
-}
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
 
 
-let getMovieById = (id) => {
-    let observable = Rx.Observable.create((obs) => {
-        Movie.findOne({
-            where: { id: id },
-            include: [ { model: Location } ]
-        })
-            .then((movie) => {
-                if (movie == null) {
-                    throw {message: "not found", resource: "movie"};
-                }
-                else {
-                    obs.onNext(movie);
-                    obs.onCompleted();
-                }
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
+const createMovie = (fields) => {
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Movie').insert(fields)
+      .then((instance) => {
+        obs.next(instance);
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
 
 
-let createMovie = (fields) => {
-    let observable = Rx.Observable.create((obs) => {
-        let movie = new Movie(fields);
-        movie.save()
-            .then((instance) => {
-                obs.onNext(instance);
-                obs.onCompleted();
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
+const updateMovie = (id, fields) => {
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Movie').where('id', id).update(fields)
+      .then((affectedRows) => {
+        obs.next(affectedRows > 0);
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
 
 
-let updateMovie = (id, fields) => {
-    let observable = Rx.Observable.create((obs) => {
-        Movie.update(fields, {where: {id: id}})
-            .then((affectedRows) => {
-                if (affectedRows[0] > 0) {
-                    obs.onNext(true);
-                }
-                else {
-                    obs.onNext(false);
-                }
-                obs.onCompleted();
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
+const deleteMovie = (id) => {
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Movie').where('id', id).delete()
+      .then(() => {
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
 
 
-let deleteMovie = (id) => {
-    let observable = Rx.Observable.create((obs) => {
-        Movie.findById(id)
-            .then((movie) => {
-                if (movie == null) {
-                    throw "not found";
-                }
-                movie.destroy()
-                    .then(() => {
-                        obs.onCompleted();
-                    })
-                    .catch((error) => {
-                        throw error;
-                    })
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
+const countMovies = (queryTitle) => {
+  let title = '%';
+  if (typeof queryTitle !== 'undefined') {
+    title = `%${queryTitle}%`;
+  }
 
-
-
-let countMovies = (queryTitle) => {
-    let title = "%";
-    if (typeof queryTitle != 'undefined') {
-        title = '%' + queryTitle + '%';
-    };
-    let observable = Rx.Observable.create((obs) => {
-        Movie.count({
-            where: {
-                title: sequelize.where(sequelize.fn('LOWER', sequelize.col('title')), 'LIKE', title),
-            }
-        })
-            .then((count) => {
-                obs.onNext(count);
-                obs.onCompleted();
-            })
-            .catch((error) => {
-                obs.onError(error);
-            })
-    })
-    return observable;
-}
+  const observable = rxjs.Observable.create((obs) => {
+    knex('Movie').where(knex.raw('LOWER(`title`)'), 'like', title).count('* as count')
+      .then((count) => {
+        obs.next(count[0]);
+        obs.complete();
+      })
+      .catch((error) => {
+        obs.error(error);
+      });
+  });
+  return observable;
+};
 
 service.getAllMovies = getAllMovies;
 service.getMovieById = getMovieById;
