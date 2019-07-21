@@ -1,123 +1,104 @@
-var express = require('express');
-var router = express.Router();
-let Rx = require('rx');
+const express = require('express');
 
-let errorHandler = require('../middlewares/error-handler');
+const router = express.Router();
+const Rx = require('rx');
 
-let SeriesService = require('../services/series.service');
+const errorHandler = require('../middlewares/error-handler');
+
+const SeriesService = require('../services/series.service');
 
 
-getAllSeries = (req, res) => {
+const getAllSeries = (req, res) => {
+  const onNext = (data) => {
+    res.json(data);
+  };
+  const onComplete = () => {};
+  const onError = (error) => {
+    console.error(error);
+  };
 
-    let onNext = (data) => {
-        res.json(data);
+  SeriesService.getAllSeries(req.query).subscribe(onNext, onError, onComplete);
+};
+
+
+const countSeries = (req, res) => {
+  const onNext = (data) => {
+    res.json(data);
+  };
+  const onComplete = () => {};
+  const onError = (error) => {
+    console.error(error);
+  };
+
+  SeriesService.countSeries(req.query.title).subscribe(onNext, onError, onComplete);
+};
+
+
+const createSerie = (req, res) => {
+  const onNext = (data) => {};
+  const onComplete = () => {
+    res.status(201).json({
+      code: 201,
+      userMessage: 'Serie successfully created',
+    });
+  };
+  const onError = (error) => {
+    console.error(error);
+  };
+
+  SeriesService.createSerie(req.body).subscribe(onNext, onError, onComplete);
+};
+
+
+const getSerieById = (req, res) => {
+  const onNext = (data) => {
+    res.json(data);
+  };
+  const onComplete = () => {};
+  const onError = (error) => {
+    errorHandler(error, (errorPacket) => {
+      res.status(errorPacket.status).json(errorPacket.message);
+    });
+  };
+
+  SeriesService.getSerieById(req.params.id).subscribe(onNext, onError, onComplete);
+};
+
+
+const updateSerie = (req, res) => {
+  const onNext = (modified) => {
+    if (modified) {
+      res.status(205).send();
+    } else {
+      res.status(204).send();
     }
-    let onCompleted = () => {}
-    let onError = (error) => {
-        console.error(error);
+  };
+  const onComplete = () => {};
+  const onError = (error) => {
+    if (error === 'not found') {
+      res.status(404).send();
     }
+    console.error(error);
+  };
 
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    SeriesService.getAllSeries(req.query).subscribe(observer);
-}
+  SeriesService.updateSerie(req.params.id, req.body).subscribe(onNext, onError, onComplete);
+};
 
 
-
-let countSeries = (req, res) => {
-
-    let onNext = (data) => {
-        res.json(data);
+const deleteSerie = (req, res) => {
+  const onNext = () => {};
+  const onComplete = () => {
+    res.status(204).send();
+  };
+  const onError = (error) => {
+    if (error === 'not found') {
+      res.status(404).send();
     }
-    let onCompleted = () => {}
-    let onError = (error) => {
-        console.error(error);
-    }
+    console.error(error);
+  };
 
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    SeriesService.countSeries(req.query.title).subscribe(observer);
-}
-
-
-
-let createSerie = (req, res) => {
-
-    let onNext = (data) => {};
-    let onCompleted = () => {
-        res.status(201).json({
-            code: 201,
-            userMessage: "Serie successfully created"
-        })
-    }
-    let onError = (error) => {
-        console.error(error);
-    }
-
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    SeriesService.createSerie(req.body).subscribe(observer);
-
-}
-
-
-
-let getSerieById = (req, res) => {
-
-    let onNext = (data) => {
-        res.json(data);
-    }
-    let onCompleted = () => {}
-    let onError = (error) => {
-        errorHandler(error, (errorPacket) => {
-            res.status(errorPacket.status).json(errorPacket.message);
-        })
-    }
-
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    SeriesService.getSerieById(req.params.id).subscribe(observer);
-}
-
-
-
-let updateSerie = (req, res) => {
-
-    let onNext = (modified) => {
-        if (modified) {
-            res.status(205).send();
-        }
-        else {
-            res.status(204).send();
-        }
-    }
-    let onCompleted = () => {}
-    let onError = (error) => {
-        if (error == "not found") {
-            res.status(404).send();
-        }
-        console.error(error);
-    }
-
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    SeriesService.updateSerie(req.params.id, req.body).subscribe(observer);
-}
-
-
-
-let deleteSerie = (req, res) => {
-
-        let onNext = () => {}
-        let onCompleted = () => {
-            res.status(204).send();
-        }
-        let onError = (error) => {
-            if (error == "not found") {
-                res.status(404).send();
-            }
-            console.error(error);
-        }
-
-        let observer = Rx.Observer.create(onNext, onError, onCompleted);
-        SeriesService.deleteSerie(req.params.id).subscribe(observer);
-}
-
+  SeriesService.deleteSerie(req.params.id).subscribe(onNext, onError, onComplete);
+};
 
 
 router.get('/', getAllSeries);

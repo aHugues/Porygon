@@ -54,6 +54,7 @@ const getAllMovies = (query) => {
       .where(knex.raw('LOWER(`director`)'), 'like', searchArray[2][1])
       .where(knex.raw('LOWER(`actors`)'), 'like', searchArray[3][1])
       .where('year', 'like', searchArray[4][1])
+      .where('location_id', 'like', searchArray[1][1])
       .orderBy(order[0], order[1], secondaryOrder[0], secondaryOrder[1])
       .offset(offset)
       .limit(limit)
