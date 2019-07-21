@@ -1,107 +1,93 @@
-let express = require('express');
-let router = express.Router();
-let Rx = require('rx');
+const express = require('express');
 
-let errorHandler = require('../middlewares/error-handler');
+const router = express.Router();
+const Rx = require('rx');
 
-let CommandsService = require('../services/commands.service');
+const errorHandler = require('../middlewares/error-handler');
+
+const CommandsService = require('../services/commands.service');
 
 
-let getAllCommands = (req, res) => {
+const getAllCommands = (req, res) => {
+  const order = ['id', 'asc']; // Default values
 
-    let order = ['id', 'ASC'] // Default values
+  const onNext = (data) => {
+    res.json(data);
+  };
+  const onComplete = () => {};
+  const onError = (error) => {
+    console.error(error);
+  };
 
-    let onNext = (data) => {
-        res.json(data);
+  CommandsService.getAllCommands(order).subscribe(onNext, onError, onComplete);
+};
+
+
+const createCommand = (req, res) => {
+  const onNext = () => {};
+  const onComplete = () => {
+    res.status(201).json({
+      code: 201,
+      userMessage: 'Command successfully created',
+    });
+  };
+  const onError = (error) => {
+    console.error(error);
+  };
+
+  CommandsService.createCommand(req.body).subscribe(onNext, onError, onComplete);
+};
+
+
+const getCommandById = (req, res) => {
+  const onNext = (data) => {
+    res.json(data);
+  };
+  const onComplete = () => {};
+  const onError = (error) => {
+    errorHandler(error, (errorPacket) => {
+      res.status(errorPacket.status).json(errorPacket.message);
+    });
+  };
+
+  CommandsService.getCommandById(req.params.id).subscribe(onNext, onError, onComplete);
+};
+
+
+const updateCommand = (req, res) => {
+  const onNext = (modified) => {
+    if (modified) {
+      res.status(205).send();
+    } else {
+      res.status(204).send();
     }
-    let onCompleted = () => {}
-    let onError = (error) => {
-        console.error(error);
+  };
+  const onComplete = () => {};
+  const onError = (error) => {
+    if (error === 'not found') {
+      res.status(404).send();
     }
+    console.error(error);
+  };
 
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    CommandsService.getAllCommands({order: [order]}).subscribe(observer);
-}
+  CommandsService.updateCommand(req.params.id, req.body).subscribe(onNext, onError, onComplete);
+};
 
 
-
-let createCommand = (req, res) => {
-
-    let onNext = (data) => {};
-    let onCompleted = () => {
-        res.status(201).json({
-            code: 201,
-            userMessage: "Command successfully created"
-        })
+const deleteCommand = (req, res) => {
+  const onNext = () => {};
+  const onComplete = () => {
+    res.status(204).send();
+  };
+  const onError = (error) => {
+    if (error === 'not found') {
+      res.status(404).send();
     }
-    let onError = (error) => {
-        console.error(error);
-    }
+    console.error(error);
+  };
 
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    CommandsService.createCommand(req.body).subscribe(observer);
-}
-
-
-
-let getCommandById = (req, res) => {
-
-    let onNext = (data) => {
-        res.json(data);
-    }
-    let onCompleted = () => {}
-    let onError = (error) => {
-        errorHandler(error, (errorPacket) => {
-            res.status(errorPacket.status).json(errorPacket.message);
-        })
-    }
-
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    CommandsService.getCommandById(req.params.id).subscribe(observer);
-}
-
-
-
-let updateCommand = (req, res) => {
-
-    let onNext = (modified) => {
-        if (modified) {
-            res.status(205).send();
-        }
-        else {
-            res.status(204).send();
-        }
-    }
-    let onCompleted = () => {}
-    let onError = (error) => {
-        if (error == "not found") {
-            res.status(404).send();
-        }
-        console.error(error);
-    }
-
-    let observer = Rx.Observer.create(onNext, onError, onCompleted);
-    CommandsService.updateCommand(req.params.id, req.body).subscribe(observer);
-}
-
-
-
-let deleteCommand = (req, res) => {
-
-        let onNext = () => {}
-        let onCompleted = () => {
-            res.status(204).send();
-        }
-        let onError = (error) => {
-            if (error == "not found") {
-                res.status(404).send();
-            }
-            console.error(error);
-        }
-
-        let observer = Rx.Observer.create(onNext, onError, onCompleted);
-        CommandsService.deleteCommand(req.params.id).subscribe(observer);
-}
+  CommandsService.deleteCommand(req.params.id).subscribe(onNext, onError, onComplete);
+};
 
 
 router.get('/', getAllCommands);

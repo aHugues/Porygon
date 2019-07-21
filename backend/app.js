@@ -10,7 +10,7 @@ var index = require('./routes/index.controller');
 var locations = require('./routes/locations.controller');
 var movies = require('./routes/movies.controller');
 var series = require('./routes/series.controller');
-// var commands = require('./routes/commands.controller');
+var commands = require('./routes/commands.controller');
 
 var app = express();
 
@@ -44,7 +44,7 @@ router.use('/', index);
 router.use('/locations', locations);
 router.use('/movies', movies);
 router.use('/series', series);
-// router.use('/commands', commands);
+router.use('/commands', commands);
 
 
 // catch 404 and forward to error handler
