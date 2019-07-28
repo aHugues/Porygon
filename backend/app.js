@@ -11,6 +11,11 @@ const movies = require('./routes/movies.controller');
 const series = require('./routes/series.controller');
 const commands = require('./routes/commands.controller');
 
+// Config file
+const config = require('./config/server.config.json');
+
+const version = config.server.version || 1;
+
 const app = express();
 
 const router = express.Router();
@@ -35,7 +40,7 @@ app.use((req, res, next) => {
 });
 
 // set base route to access API
-app.use('/api', router);
+app.use(`/api/v${version}`, router);
 
 
 // register routes to use

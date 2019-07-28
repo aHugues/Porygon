@@ -36,7 +36,6 @@ function normalizePort(val) {
 const port = normalizePort(config.server.port || '3000');
 const host = config.server.host || '0.0.0.0';
 app.set('port', port);
-console.log(`Application running on ${host}:${port}`);
 
 /**
  * Create HTTP server.
