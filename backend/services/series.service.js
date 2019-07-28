@@ -77,8 +77,10 @@ const getSerieById = (id) => {
     knex('Serie').where('Serie.id', id).join('Location', 'Location.id', 'Serie.location_id')
       .options({ nestTables: true })
       .then((serie) => {
-        if (serie == null) {
-          throw new Error('Serie not found');
+        if (serie.length < 1) {
+          const error = Error(`Serie with id ${id} not found.`);
+          error.statusCode = 404;
+          throw error;
         } else {
           const result = serie[0].Serie;
           result.location = serie[0].Location;

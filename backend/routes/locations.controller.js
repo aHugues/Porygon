@@ -1,25 +1,24 @@
 const express = require('express');
 
 const router = express.Router();
-const errorHandler = require('../middlewares/error-handler');
 
 const LocationsService = require('../services/locations.service');
 
 
-const getAllLocations = (req, res) => {
+const getAllLocations = (req, res, next) => {
   const onNext = (data) => {
     res.json(data);
   };
   const onComplete = () => {};
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
 
   LocationsService.getAllLocations(req.query).subscribe(onNext, onError, onComplete);
 };
 
 
-const createLocation = (req, res) => {
+const createLocation = (req, res, next) => {
   const onNext = () => {};
   const onComplete = () => {
     res.status(201).json({
@@ -28,14 +27,14 @@ const createLocation = (req, res) => {
     });
   };
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
 
   LocationsService.createLocation(req.body).subscribe(onNext, onError, onComplete);
 };
 
 
-const getLocationById = (req, res) => {
+const getLocationById = (req, res, next) => {
   const onNext = (data) => {
     res.json(data);
   };
@@ -43,16 +42,14 @@ const getLocationById = (req, res) => {
     res.return('ok');
   };
   const onError = (error) => {
-    errorHandler(error, (errorPacket) => {
-      res.status(errorPacket.status).json(errorPacket.message);
-    });
+    next(error);
   };
 
   LocationsService.getLocationById(req.params.id).subscribe(onNext, onError, onComplete);
 };
 
 
-const countForLocation = (req, res) => {
+const countForLocation = (req, res, next) => {
   const result = {
     movies: 0,
     series: 0,
@@ -62,7 +59,7 @@ const countForLocation = (req, res) => {
     [, result[data[0]]] = data;
   };
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
   const onComplete = () => {
     res.json(result);
@@ -72,7 +69,7 @@ const countForLocation = (req, res) => {
 };
 
 
-const updateLocation = (req, res) => {
+const updateLocation = (req, res, next) => {
   const onNext = (modified) => {
     if (modified) {
       res.status(205).send();
@@ -82,20 +79,20 @@ const updateLocation = (req, res) => {
   };
   const onComplete = () => {};
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
 
   LocationsService.updateLocation(req.params.id, req.body).subscribe(onNext, onError, onComplete);
 };
 
 
-const deleteLocation = (req, res) => {
+const deleteLocation = (req, res, next) => {
   const onNext = () => {};
   const onComplete = () => {
     res.status(204).send();
   };
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
   LocationsService.deleteLocation(req.params.id).subscribe(onNext, onError, onComplete);
 };

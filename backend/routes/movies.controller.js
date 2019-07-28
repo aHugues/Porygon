@@ -2,37 +2,35 @@ const express = require('express');
 
 const router = express.Router();
 
-const errorHandler = require('../middlewares/error-handler');
-
 const MoviesService = require('../services/movies.service');
 
 
-const getAllMovies = (req, res) => {
+const getAllMovies = (req, res, next) => {
   const onNext = (data) => {
     res.json(data);
   };
   const onComplete = () => {};
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
   MoviesService.getAllMovies(req.query).subscribe(onNext, onError, onComplete);
 };
 
 
-const countMovies = (req, res) => {
+const countMovies = (req, res, next) => {
   const onNext = (data) => {
     res.json(data);
   };
   const onComplete = () => {};
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
 
   MoviesService.countMovies(req.query.title).subscribe(onNext, onError, onComplete);
 };
 
 
-const createMovie = (req, res) => {
+const createMovie = (req, res, next) => {
   const onNext = () => {};
   const onComplete = () => {
     res.status(201).json({
@@ -41,29 +39,27 @@ const createMovie = (req, res) => {
     });
   };
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
 
   MoviesService.createMovie(req.body).subscribe(onNext, onError, onComplete);
 };
 
 
-const getMovieById = (req, res) => {
+const getMovieById = (req, res, next) => {
   const onNext = (data) => {
     res.json(data);
   };
   const onComplete = () => {};
   const onError = (error) => {
-    errorHandler(error, (errorPacket) => {
-      res.status(errorPacket.status).json(errorPacket.message);
-    });
+    next(error);
   };
 
   MoviesService.getMovieById(req.params.id).subscribe(onNext, onError, onComplete);
 };
 
 
-const updateMovie = (req, res) => {
+const updateMovie = (req, res, next) => {
   const onNext = (modified) => {
     if (modified) {
       res.status(205).send();
@@ -73,26 +69,20 @@ const updateMovie = (req, res) => {
   };
   const onComplete = () => {};
   const onError = (error) => {
-    if (error === 'not foud') {
-      res.status(404).send();
-    }
-    console.error(error);
+    next(error);
   };
 
   MoviesService.updateMovie(req.params.id, req.body).subscribe(onNext, onError, onComplete);
 };
 
 
-const deleteMovie = (req, res) => {
+const deleteMovie = (req, res, next) => {
   const onNext = () => {};
   const onComplete = () => {
     res.status(204).send();
   };
   const onError = (error) => {
-    if (error === 'not found') {
-      res.status(404).send();
-    }
-    console.error(error);
+    next.error(error);
   };
 
   MoviesService.deleteMovie(req.params.id).subscribe(onNext, onError, onComplete);

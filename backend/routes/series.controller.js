@@ -2,38 +2,36 @@ const express = require('express');
 
 const router = express.Router();
 
-const errorHandler = require('../middlewares/error-handler');
-
 const SeriesService = require('../services/series.service');
 
 
-const getAllSeries = (req, res) => {
+const getAllSeries = (req, res, next) => {
   const onNext = (data) => {
     res.json(data);
   };
   const onComplete = () => {};
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
 
   SeriesService.getAllSeries(req.query).subscribe(onNext, onError, onComplete);
 };
 
 
-const countSeries = (req, res) => {
+const countSeries = (req, res, next) => {
   const onNext = (data) => {
     res.json(data);
   };
   const onComplete = () => {};
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
 
   SeriesService.countSeries(req.query.title).subscribe(onNext, onError, onComplete);
 };
 
 
-const createSerie = (req, res) => {
+const createSerie = (req, res, next) => {
   const onNext = () => {};
   const onComplete = () => {
     res.status(201).json({
@@ -42,29 +40,27 @@ const createSerie = (req, res) => {
     });
   };
   const onError = (error) => {
-    console.error(error);
+    next(error);
   };
 
   SeriesService.createSerie(req.body).subscribe(onNext, onError, onComplete);
 };
 
 
-const getSerieById = (req, res) => {
+const getSerieById = (req, res, next) => {
   const onNext = (data) => {
     res.json(data);
   };
   const onComplete = () => {};
   const onError = (error) => {
-    errorHandler(error, (errorPacket) => {
-      res.status(errorPacket.status).json(errorPacket.message);
-    });
+    next(error);
   };
 
   SeriesService.getSerieById(req.params.id).subscribe(onNext, onError, onComplete);
 };
 
 
-const updateSerie = (req, res) => {
+const updateSerie = (req, res, next) => {
   const onNext = (modified) => {
     if (modified) {
       res.status(205).send();
@@ -74,17 +70,14 @@ const updateSerie = (req, res) => {
   };
   const onComplete = () => {};
   const onError = (error) => {
-    if (error === 'not found') {
-      res.status(404).send();
-    }
-    console.error(error);
+    next(error);
   };
 
   SeriesService.updateSerie(req.params.id, req.body).subscribe(onNext, onError, onComplete);
 };
 
 
-const deleteSerie = (req, res) => {
+const deleteSerie = (req, res, next) => {
   const onNext = () => {};
   const onComplete = () => {
     res.status(204).send();
@@ -93,7 +86,7 @@ const deleteSerie = (req, res) => {
     if (error === 'not found') {
       res.status(404).send();
     }
-    console.error(error);
+    next(error);
   };
 
   SeriesService.deleteSerie(req.params.id).subscribe(onNext, onError, onComplete);

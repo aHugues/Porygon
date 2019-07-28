@@ -47,7 +47,9 @@ const getLocationById = (id) => {
     knex('Location').where('id', id).select()
       .then((rows) => {
         if (rows.length !== 1) {
-          throw new Error('location not found');
+          const error = new Error(`Movie with id ${id} not found.`);
+          error.statusCode = 404;
+          throw error;
         } else {
           obs.next(rows);
           obs.complete();

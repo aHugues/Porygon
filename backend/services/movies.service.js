@@ -62,7 +62,6 @@ const getAllMovies = (query) => {
       .options({ nestTables: true })
       .select(attributes)
       .then((movies) => {
-        console.log(movies);
         obs.next(movies);
         obs.complete();
       })
@@ -79,8 +78,9 @@ const getMovieById = (id) => {
     knex('Movie').where('Movie.id', id).join('Location', 'Location.id', 'Movie.location_id')
       .options({ nestTables: true })
       .then((movie) => {
-        if (movie == null) {
-          throw new Error('Movie not found');
+        if (movie.length < 1) {
+          const error = new Error(`Movie with id ${id} not found.`);
+          throw error;
         } else {
           const result = movie[0].Movie;
           result.location = movie[0].Location;

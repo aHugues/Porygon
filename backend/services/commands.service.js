@@ -23,8 +23,10 @@ const getCommandById = (id) => {
   const observable = rxjs.Observable.create((obs) => {
     knex('Command').where('id', id).select()
       .then((command) => {
-        if (command == null) {
-          throw new Error('command not found');
+        if (command.length < 1) {
+          const error = new Error(`Command with id ${id} not found.`);
+          error.statusCode = 404;
+          throw error;
         } else {
           obs.next(command);
           obs.complete();
