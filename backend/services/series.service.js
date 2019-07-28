@@ -1,4 +1,3 @@
-
 const rxjs = require('rxjs');
 const knex = require('./database.service');
 
