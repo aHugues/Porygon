@@ -10,7 +10,7 @@ const errorHandler = (error, callback) => {
     },
   };
 
-  if (error.message == 'not found') {
+  if (error.message === 'not found') {
     errorPacket.status = 404;
     errorPacket.message = {
       userMessage: 'Ressource not found',
