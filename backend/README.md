@@ -42,12 +42,6 @@ Create a new user to access it `GRANT ALL PRIVILEGES ON your_database_name.* TO 
 
 This last command is not necessary as you can use the **root** account, but it is not advisable.
 
-Use the provided **dump** to create the correct database structure in your shell `mysql -u your_user -p your_database_name < dump.sql`
-
-#### Installing the application ####
-
-Go to your backend folder and install the application `npm install`
-
 You need to create a config file in `./config/` containing the credentials for the database. It should have the corresponding structure:
 
 ```json
@@ -56,22 +50,31 @@ database.config.json
 
 {
     "production": {
-        "username": "<your_user>",
-        "password": "<your_password>",
+        "client": "mysql",
+        "driver": "mysql",
+        "password": "<your_password>", 
+        "host": "<host>",
         "database": "<your_database_name>",
-        "host": "<your_host>",
-        "logging": false,
-        "dialect": "mysql"
+        "user": "<your_user>"
     }
 }
 ```
 
-Usually, you should use `localhost`as a host name as you usually put the backend server in the same server as the database, but it is not mandatory.
+Run the migrations: 
+
+```shell
+db-migrate --config config/database.config.json -e production up
+```
+
+
+#### Installing the application ####
+
+Go to your backend folder and install the application `npm install`
 
 ## Usage ##
 
 Launch the application with `npm start`.
 
-The functions are accessible with `http://your_host:4000/api/...`. Of course the port can be adjusted using `./config/server.config.json` to use what you need.
+The functions are accessible with `http://your_host:4000/api/v1...`. Of course the port can be adjusted using `./config/server.config.json` to use what you need.
 
 You can use the provided documentation for notes concerning the server usage.
