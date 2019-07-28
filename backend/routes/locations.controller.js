@@ -20,7 +20,7 @@ const getAllLocations = (req, res) => {
 
 
 const createLocation = (req, res) => {
-  const onNext = (data) => {};
+  const onNext = () => {};
   const onComplete = () => {
     res.status(201).json({
       code: 201,
@@ -59,7 +59,7 @@ const countForLocation = (req, res) => {
   };
 
   const onNext = (data) => {
-    result[data[0]] = data[1];
+    [, result[data[0]]] = data;
   };
   const onError = (error) => {
     console.error(error);

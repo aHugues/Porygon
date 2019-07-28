@@ -1,13 +1,13 @@
-let express = require('express');
+const express = require('express');
 
-let router = express.Router();
+const router = express.Router();
 
 const errorHandler = require('../middlewares/error-handler');
 
 const MoviesService = require('../services/movies.service');
 
 
-getAllMovies = (req, res) => {
+const getAllMovies = (req, res) => {
   const onNext = (data) => {
     res.json(data);
   };

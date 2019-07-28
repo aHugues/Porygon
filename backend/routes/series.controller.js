@@ -34,7 +34,7 @@ const countSeries = (req, res) => {
 
 
 const createSerie = (req, res) => {
-  const onNext = (data) => {};
+  const onNext = () => {};
   const onComplete = () => {
     res.status(201).json({
       code: 201,
