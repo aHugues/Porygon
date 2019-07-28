@@ -1,4 +1,6 @@
-
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable func-names */
 
 let dbm;
 let type;
