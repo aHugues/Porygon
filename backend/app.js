@@ -3,6 +3,15 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const session = require('express-session');
+const Keycloak = require('keycloak-connect');
+
+// Instantiate Keycloak
+const keycloakConfig = require('./config/keycloak.config.json');
+
+const memoryStore = new session.MemoryStore();
+const keycloak = new Keycloak({ store: memoryStore }, keycloakConfig);
+
 
 // Import routes
 const index = require('./routes/index.controller');
@@ -18,6 +27,14 @@ const version = config.server.version || 1;
 
 const app = express();
 
+// session
+app.use(session({
+  secret: config.secretKey,
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore,
+}));
+
 const router = express.Router();
 
 // view engine setup
@@ -26,6 +43,7 @@ app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(keycloak.middleware());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -45,10 +63,10 @@ app.use(`/api/v${version}`, router);
 
 // register routes to use
 router.use('/', index);
-router.use('/locations', locations);
-router.use('/movies', movies);
-router.use('/series', series);
-router.use('/commands', commands);
+router.use('/locations', keycloak.protect(), locations);
+router.use('/movies', keycloak.protect(), movies);
+router.use('/series', keycloak.protect(), series);
+router.use('/commands', keycloak.protect(), commands);
 
 
 // catch 404 and forward to error handler
