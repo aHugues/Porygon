@@ -66,6 +66,40 @@ Run the migrations:
 db-migrate --config config/database.config.json -e production up
 ```
 
+### Configure the authentication
+
+The application uses Keycloak for IAM and authentication. To link to your server, 
+download the JSON OpenID file and put it into the config folder: 
+
+```json
+keycloak.config.json
+---
+
+{
+    "realm": "<realm_name>",
+    "realm-public-key": "<realm_public_key",
+    "auth-server-url": "keycloak_url",
+    "ssl-required": "<ssl_required>",
+    "resource": "<client_id>",
+    "verify-token-audience": <token_audience_verified>,
+    "credentials": {
+      "secret": "<secret_key>"
+    },
+    "use-resource-role-mappings": <use_resource_role_mappings>,
+    "confidential-port": <confidential_port>,
+    "policy-enforcer": {}
+}
+```
+
+Update the session secret key: 
+
+```shell
+openssl rand -base64 32
+```
+
+Replace the `secretKey` field in the `./config/server.config.json` file. 
+
+
 
 #### Installing the application ####
 
