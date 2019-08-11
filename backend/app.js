@@ -43,7 +43,10 @@ app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(keycloak.middleware());
+app.use(keycloak.middleware({
+  logout: 'logout',
+  admin: '/',
+}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -63,10 +66,10 @@ app.use(`/api/v${version}`, router);
 
 // register routes to use
 router.use('/', index);
-router.use('/locations', keycloak.protect(), locations);
-router.use('/movies', keycloak.protect(), movies);
-router.use('/series', keycloak.protect(), series);
-router.use('/commands', keycloak.protect(), commands);
+router.use('/locations', keycloak.enforcer(['resource:view', 'resource:write']), locations);
+router.use('/movies', keycloak.enforcer(['resource:view', 'resource:write']), movies);
+router.use('/series', keycloak.enforcer(['resource:view', 'resource:write']), series);
+router.use('/commands', keycloak.enforcer(['resource:view', 'resource:write']), commands);
 
 
 // catch 404 and forward to error handler
