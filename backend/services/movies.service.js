@@ -1,5 +1,6 @@
 const rxjs = require('rxjs');
 const knex = require('./database.service');
+const cleanup = require('../middlewares/cleanup');
 
 const service = {};
 
@@ -19,7 +20,7 @@ const getAllMovies = (query) => {
     ['year', '%'],
   ];
   for (let i = 0; i < searchArray.length; i += 1) {
-    if (query[searchArray[i][0]]) {
+    if (query[searchArray[i][0]] && query[searchArray[i][0]] !== 'null' && query[searchArray[i][0]] !== 'undefined') {
       searchArray[i][1] = query[searchArray[i][0]];
       if (i !== 1 && i !== 3) {
         searchArray[i][1] = `%${searchArray[i][1]}%`;
@@ -98,7 +99,7 @@ const getMovieById = (id) => {
 
 const createMovie = (fields) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Movie').insert(fields)
+    knex('Movie').insert(cleanup.removeNulls(fields))
       .then((instance) => {
         obs.next(instance);
         obs.complete();
@@ -113,7 +114,7 @@ const createMovie = (fields) => {
 
 const updateMovie = (id, fields) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Movie').where('id', id).update(fields)
+    knex('Movie').where('id', id).update(cleanup.removeNulls(fields))
       .then((affectedRows) => {
         obs.next(affectedRows > 0);
         obs.complete();

@@ -1,5 +1,6 @@
 const rxjs = require('rxjs');
 const knex = require('./database.service');
+const cleanup = require('../middlewares/cleanup');
 
 const service = {};
 
@@ -42,7 +43,7 @@ const getCommandById = (id) => {
 
 const createCommand = (fields) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Command').insert(fields)
+    knex('Command').insert(cleanup.removeNulls(fields))
       .then((instance) => {
         obs.next(instance);
         obs.complete();
@@ -57,7 +58,7 @@ const createCommand = (fields) => {
 
 const updateCommand = (id, fields) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Command').where('id', id).update(fields)
+    knex('Command').where('id', id).update(cleanup.removeNulls(fields))
       .then((affectedRows) => {
         obs.next(affectedRows > 0);
         obs.complete();

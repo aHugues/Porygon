@@ -1,5 +1,6 @@
 const rxjs = require('rxjs');
 const knex = require('./database.service');
+const cleanup = require('../middlewares/cleanup');
 
 const service = {};
 
@@ -17,7 +18,7 @@ const getAllSeries = (query) => {
     ['season', '%'],
   ];
   for (let i = 0; i < searchArray.length; i += 1) {
-    if (query[searchArray[i][0]]) {
+    if (query[searchArray[i][0]] && query[searchArray[i][0]] !== 'null' && query[searchArray[i][0]] !== 'undefined') {
       searchArray[i][1] = query[searchArray[i][0]];
       if (i !== 1 && i !== 2) {
         searchArray[i][1] = `%${searchArray[i][1]}%`;
@@ -98,7 +99,7 @@ const getSerieById = (id) => {
 
 const createSerie = (fields) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Serie').insert(fields)
+    knex('Serie').insert(cleanup.removeNulls(fields))
       .then((instance) => {
         obs.next(instance);
         obs.complete();
@@ -113,7 +114,7 @@ const createSerie = (fields) => {
 
 const updateSerie = (id, fields) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Serie').where('id', id).update(fields)
+    knex('Serie').where('id', id).update(cleanup.removeNulls(fields))
       .then((affectedRows) => {
         obs.next(affectedRows > 0);
         obs.complete();

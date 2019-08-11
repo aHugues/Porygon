@@ -1,6 +1,7 @@
 const rxjs = require('rxjs');
 
 const knex = require('./database.service');
+const cleanup = require('../middlewares/cleanup');
 
 const service = {};
 
@@ -65,7 +66,7 @@ const getLocationById = (id) => {
 
 const createLocation = (fields) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Location').insert(fields)
+    knex('Location').insert(cleanup.removeNulls(fields))
       .then((instance) => {
         obs.next(instance);
         obs.complete();
@@ -79,8 +80,10 @@ const createLocation = (fields) => {
 
 
 const updateLocation = (id, fields) => {
+  console.log(id);
+  console.log(fields);
   const observable = rxjs.Observable.create((obs) => {
-    knex('Location').where('id', id).update(fields)
+    knex('Location').where('id', id).update(cleanup.removeNulls(fields))
       .then((affectedRows) => {
         obs.next(affectedRows > 0);
         obs.complete();
