@@ -11,6 +11,8 @@
 
             <div class="form-container">
 
+                {{ selectedMovie | json }}
+
                 <mat-form-field class="form-control">
                     <input matInput type="text" placeholder="Titre" id="title"
                     required
@@ -19,11 +21,11 @@
                 </mat-form-field>
 
                 <mat-form-field class="form-control">
-                    <mat-select placeholder="Emplacement" id="location"
+                    <mat-select placeholder="Emplacement" id="location_id"
                     required
-                    [(ngModel)]="selectedMovie.location" name="location"
+                    [(ngModel)]="selectedMovie.location_id" name="location_id"
                     >
-                        <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</mat-option>
+                        <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.location }}</mat-option>
                     </mat-select>
                 </mat-form-field>
 

@@ -51,7 +51,7 @@ export class ListMoviesComponent implements OnInit {
         }
         this.porygonService.getMoviesList()
             .subscribe(
-                (movies: Movie[]) => this.setMoviesList(movies),
+                (movies: Movie[]) => { console.log(movies); this.setMoviesList(movies)},
                 error => console.error(error)
             );
     }

@@ -104,6 +104,7 @@ export class PorygonService {
 
     modifyMovie(movie: Movie): Observable<any> {
         const url = `${this.apiUrl}/movies/${movie.id}`;
+        movie.location = null;
         return this.http
             .put(url, JSON.stringify(movie), {headers: this.headers})
             .pipe(map(() => true))

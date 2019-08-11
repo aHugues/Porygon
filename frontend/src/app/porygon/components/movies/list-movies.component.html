@@ -50,11 +50,11 @@
             </mat-list-item>
         </mat-list>
         <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item *ngFor="let movie of moviesListPage" role="button" (click)="onEditMovie(movie.id)" class="list-row">
-              <span class="list-element"> {{ movie.title }} </span>
-              <span class="list-element"> {{ movie.Location.label }} </span>
-              <span class="list-element"> {{ movie.year }} </span>
-              <span class="list-element"> {{ movie.remarks }} </span>
+            <mat-list-item *ngFor="let element of moviesListPage" role="button" (click)="onEditMovie(element.Movie.id)" class="list-row">
+              <span class="list-element"> {{ element.Movie.title }} </span>
+              <span class="list-element"> {{ element.Location.location }} </span>
+              <span class="list-element"> {{ element.Movie.year }} </span>
+              <span class="list-element"> {{ element.Movie.remarks }} </span>
           </mat-list-item>
         </mat-list>
 
