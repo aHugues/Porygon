@@ -48,11 +48,11 @@
             </mat-list-item>
         </mat-list>
         <mat-list cols="4" rowHeight="50px" class="list">
-            <mat-list-item *ngFor="let serie of seriesListPage" (click)="onEditSerie(serie.id)" class="list-row">
-              <span class="list-element"> {{ serie.title }} </span>
-              <span class="list-element"> {{ serie.season }} </span>
-              <span class="list-element"> {{ serie.Location.label }} </span>
-              <span class="list-element"> {{ serie.remarks }} </span>
+            <mat-list-item *ngFor="let element of seriesListPage" (click)="onEditSerie(element.Serie.id)" class="list-row">
+              <span class="list-element"> {{ element.Serie.title }} </span>
+              <span class="list-element"> {{ element.Serie.season }} </span>
+              <span class="list-element"> {{ element.Location.label }} </span>
+              <span class="list-element"> {{ element.Serie.remarks }} </span>
           </mat-list-item>
         </mat-list>
 

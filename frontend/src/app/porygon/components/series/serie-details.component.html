@@ -25,11 +25,11 @@
                 </mat-form-field>
 
                 <mat-form-field class="form-control">
-                    <mat-select placeholder="Emplacement" id="location"
+                    <mat-select placeholder="Emplacement" id="location_id"
                     required
-                    [(ngModel)]="selectedSerie.location" name="location"
+                    [(ngModel)]="selectedSerie.location_id" name="location_id"
                     >
-                        <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</mat-option>
+                        <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.location }}</mat-option>
                     </mat-select>
                 </mat-form-field>
 

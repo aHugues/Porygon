@@ -126,6 +126,7 @@ export class PorygonService {
 
     modifySerie(serie: Serie): Observable<any> {
         const url = `${this.apiUrl}/series/${serie.id}`;
+        serie.location = null;
         return this.http
             .put(url, JSON.stringify(serie), {headers: this.headers})
             .pipe(map(() => true))
