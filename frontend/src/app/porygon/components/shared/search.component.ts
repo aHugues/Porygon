@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
 
     // search parameters
     title: string;
-    location: string;
+    location_id: string;
     director: string;
     actors: string;
     season: number;
@@ -55,7 +55,7 @@ export class SearchComponent implements OnInit {
             this.isMovie ||
             this.isSerie ||
             this.title!=undefined ||
-            this.location!=undefined ||
+            this.location_id!=undefined ||
             this.director!=undefined ||
             this.actors!=undefined ||
             this.season!=undefined
@@ -64,7 +64,7 @@ export class SearchComponent implements OnInit {
 
     onReset(): void {
         this.title = undefined;
-        this.location = undefined;
+        this.location_id = undefined;
         this.director = undefined;
         this.actors = undefined;
         this.season = undefined;
@@ -86,7 +86,7 @@ export class SearchComponent implements OnInit {
     searchMovie(): void {
         var search_query = {
             title: this.title,
-            location: this.location,
+            location_id: this.location_id,
             director: this.director,
             actors: this.actors,
         };
@@ -100,7 +100,7 @@ export class SearchComponent implements OnInit {
     searchSerie(): void {
         var search_query = {
             title: this.title,
-            location: this.location,
+            location_id: this.location_id,
             season: this.season,
         };
         this.porygonSearchService.advancedSerieSearch(search_query)

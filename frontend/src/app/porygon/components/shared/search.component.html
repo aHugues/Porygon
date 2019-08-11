@@ -40,10 +40,10 @@
                     </mat-form-field>
 
                     <mat-form-field>
-                        <mat-select placeholder="Emplacement" id="location"
-                        [(ngModel)]="location" name="location"
+                        <mat-select placeholder="Emplacement" id="location_id"
+                        [(ngModel)]="location_id" name="location_id"
                         >
-                            <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.label }}</mat-option>
+                            <mat-option *ngFor="let location of locationsList" [value]="location.id">{{ location.location }}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -127,7 +127,7 @@
             <h2>Résultat de la recherche</h2>
         </mat-card-title>
     </mat-card>
-
+    
     <mat-card *ngIf="isMovie" class="card-container">
 
       <mat-card-title>
@@ -145,11 +145,11 @@
               </mat-list-item>
           </mat-list>
           <mat-list cols="4" rowHeight="50px" class="list">
-              <mat-list-item *ngFor="let movie of moviesList" [routerLink]="['/details/movie', movie.id]" class="list-row">
-                <span class="list-element"> {{ movie.title }} </span>
-                <span class="list-element"> {{ movie.Location.label }} </span>
-                <span class="list-element"> {{ movie.year }} </span>
-                <span class="list-element"> {{ movie.remarks }} </span>
+              <mat-list-item *ngFor="let element of moviesList" [routerLink]="['/details/movie', element.Movie.id]" class="list-row">
+                <span class="list-element"> {{ element.Movie.title }} </span>
+                <span class="list-element"> {{ element.Location.location }} </span>
+                <span class="list-element"> {{ element.Movie.year }} </span>
+                <span class="list-element"> {{ element.Movie.remarks }} </span>
             </mat-list-item>
           </mat-list>
 
@@ -175,11 +175,11 @@
               </mat-list-item>
           </mat-list>
           <mat-list cols="4" rowHeight="50px" class="list">
-              <mat-list-item *ngFor="let serie of seriesList" [routerLink]="['/details/serie', serie.id]" class="list-row">
-                <span class="list-element"> {{ serie.title }} </span>
-                <span class="list-element"> {{ serie.season }} </span>
-                <span class="list-element"> {{ serie.Location.label }} </span>
-                <span class="list-element"> {{ serie.remarks }} </span>
+              <mat-list-item *ngFor="let element of seriesList" [routerLink]="['/details/serie', element.Serie.id]" class="list-row">
+                <span class="list-element"> {{ element.Serie.title }} </span>
+                <span class="list-element"> {{ element.Serie.season }} </span>
+                <span class="list-element"> {{ element.Location.label }} </span>
+                <span class="list-element"> {{ element.Serie.remarks }} </span>
             </mat-list-item>
           </mat-list>
 
