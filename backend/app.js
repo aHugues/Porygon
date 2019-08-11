@@ -76,7 +76,7 @@ app.use((req, res, next) => {
       },
     };
 
-    request(options, (error, response, body) => {
+    request(options, (error, response) => {
       if (error) throw new Error(error);
       if (response.statusCode !== 200) {
         res.status(401).json({
