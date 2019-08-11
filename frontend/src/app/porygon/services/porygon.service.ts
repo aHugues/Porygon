@@ -182,8 +182,8 @@ export class PorygonService {
         return this.http
             .get(url)
             .pipe(map((res: Response) => {
-                var movies = res.movies;
-                var series = res.series;
+                var movies = res['movies'];
+                var series = res['series'];
                 return {movies: movies, series: series, index: index};
             }))
     }
