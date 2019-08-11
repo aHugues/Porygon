@@ -51,7 +51,7 @@
             <mat-list-item *ngFor="let element of seriesListPage" (click)="onEditSerie(element.Serie.id)" class="list-row">
               <span class="list-element"> {{ element.Serie.title }} </span>
               <span class="list-element"> {{ element.Serie.season }} </span>
-              <span class="list-element"> {{ element.Location.label }} </span>
+              <span class="list-element"> {{ element.Location.location }} </span>
               <span class="list-element"> {{ element.Serie.remarks }} </span>
           </mat-list-item>
         </mat-list>
