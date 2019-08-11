@@ -60,7 +60,7 @@ export class LocationDetailsComponent implements OnInit {
         else {
             this.porygonService.getLocation(this.requestedId)
                 .subscribe(
-                    (result: Location) => this.setCurrentLocation(result),
+                    (result: Location) => this.setCurrentLocation(result[0]),
                     (error: any) => console.error(error)
                 );
         }

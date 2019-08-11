@@ -29,7 +29,7 @@
         </mat-list>
         <mat-list cols="3" rowHeight="50px" class="list">
             <mat-list-item *ngFor="let location of locationsList" (click)="onEditLocation(location.id)" class="list-row">
-              <span class="list-element"> {{ location.label }} </span>
+              <span class="list-element"> {{ location.location }} </span>
               <span class="list-element"> {{ location.movies }} </span>
               <span class="list-element"> {{ location.series }} </span>
           </mat-list-item>

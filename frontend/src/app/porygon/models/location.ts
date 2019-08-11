@@ -1,6 +1,6 @@
 export class Location {
         public id: number;
-        public label: string;
+        public location: string;
         public movies: number;
         public series: number;
 }

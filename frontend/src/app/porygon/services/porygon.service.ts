@@ -200,7 +200,7 @@ export class PorygonService {
         const url = `${this.apiUrl}/commands`;
         return this.http
             .post(url, JSON.stringify(command), {headers: this.headers})
-            .pipe(map((res: Response) => res.json()))
+            .pipe(map((res: Response) => res.json))
     }
 
     modifyCommand(command: Command): Observable<any> {
