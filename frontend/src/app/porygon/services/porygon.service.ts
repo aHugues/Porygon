@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Movie } from '../models/movie';
@@ -16,10 +16,10 @@ import { environment } from '../../../environments/environment';
 export class PorygonService {
 
     private apiUrl = environment.apiUrl;
-    private headers: Headers;
+    private headers: HttpHeaders;
 
-    constructor(private http: Http) {
-        this.headers = new Headers({'Content-Type': 'application/json'});
+    constructor(private http: HttpClient) {
+        this.headers = new HttpHeaders({'Content-Type': 'application/json'});
     }
 
 
@@ -31,95 +31,71 @@ export class PorygonService {
     }
 
 
-    getMoviesList(): Observable<Movie[]> {
+    getMoviesList(): any {
         const url = `${this.apiUrl}/movies`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getMovie(id: number): Observable<Movie> {
+    getMovie(id: number): any {
         const url = `${this.apiUrl}/movies/${id}`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getMoviesPage(limit: number, page: number): Observable<Movie[]> {
+    getMoviesPage(limit: number, page: number): any {
         var offset = (page-1)*limit;
         const url = `${this.apiUrl}/movies?limit=${limit}&offset=${offset}`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getMoviesInLocation(id: number, limit: number, page: number): Observable<Movie[]> {
+    getMoviesInLocation(id: number, limit: number, page: number): any {
         var offset = (page-1)*limit;
         const url = `${this.apiUrl}/movies?limit=${limit}&offset=${offset}&location=${id}`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getSeriesList(): Observable<Serie[]> {
+    getSeriesList(): any {
         const url = `${this.apiUrl}/series`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getSerie(id: number): Observable<Serie> {
+    getSerie(id: number): any {
         const url = `${this.apiUrl}/series/${id}`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getSeriesPage(limit: number, page: number): Observable<Serie[]> {
+    getSeriesPage(limit: number, page: number): any {
         var offset = (page-1)*limit;
         const url = `${this.apiUrl}/series/?limit=${limit}&offset=${offset}`;
-        return this.http
-            .get(url)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getSeriesInLocation(id: number, limit: number, page: number): Observable<Serie[]> {
+    getSeriesInLocation(id: number, limit: number, page: number): any {
         var offset = (page-1)*limit;
         const url = `${this.apiUrl}/series/?limit=${limit}&offset=${offset}&location=${id}`;
-        return this.http
-            .get(url)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getLocationsList(): Observable<Location[]> {
+    getLocationsList(): any {
         const url = `${this.apiUrl}/locations`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getLocation(id: number): Observable<Location> {
+    getLocation(id: number): any {
         const url = `${this.apiUrl}/locations/${id}`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getStats(): Observable<Stats> {
+    getStats(): any {
         const url = `${this.apiUrl}/list/stats`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getLocationStats(id: number): Observable<Stats> {
+    getLocationStats(id: number): any {
         const url = `${this.apiUrl}/stats/location/${id}`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    createMovie(movie: Movie): Observable<any> {
+    createMovie(movie: Movie): any {
         const url = `${this.apiUrl}/movies`;
         return this.http
             .post(url, JSON.stringify(movie), {headers: this.headers})
@@ -161,11 +137,10 @@ export class PorygonService {
             .pipe(map(() => true))
     }
 
-    createLocation(location: Location): Observable<Location> {
+    createLocation(location: Location): any {
         const url = `${this.apiUrl}/locations`;
         return this.http
             .post(url, JSON.stringify(location), {headers: this.headers})
-            .pipe(map((res: Response) => res.json()))
     }
 
     modifyLocation(location: Location): Observable<any> {
@@ -182,26 +157,22 @@ export class PorygonService {
             .pipe(map(() => true))
     }
 
-    countMovies(query: any): Observable<number> {
+    countMovies(query: any): any {
         const url = `${this.apiUrl}/movies/count/`;
-        let requestOptions = new RequestOptions();
+        let params = {};
         if (query.title!=undefined) {
-            requestOptions.params = query;
+            params = query;
         }
-        return this.http
-            .get(url, requestOptions)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url, { params: params })
     }
 
-    countSeries(query: any): Observable<number> {
+    countSeries(query: any): any {
         const url = `${this.apiUrl}/series/count/`;
-        let requestOptions = new RequestOptions();
+        let params = {};
         if (query.title!=undefined) {
-            requestOptions.params = query;
+            params = query;
         }
-        return this.http
-            .get(url, requestOptions)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url, { params: params })
     }
 
     countElementsInLocation(id: number, index: string): Observable<{movies: number, series: number, index: string}> {
@@ -215,18 +186,14 @@ export class PorygonService {
             }))
     }
 
-    getCommandsList(): Observable<Command[]> {
+    getCommandsList(): any {
         const url = `${this.apiUrl}/commands`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
-    getCommand(id: number): Observable<Command> {
+    getCommand(id: number): any {
         const url = `${this.apiUrl}/commands/${id}`;
-        return this.http
-            .get(url)
-            .pipe(map((res:Response) => res.json()))
+        return this.http.get(url)
     }
 
     createCommand(command: Command): Observable<any> {
@@ -250,22 +217,16 @@ export class PorygonService {
             .pipe(map(() => true))
     }
 
-    getMovies(query: any): Observable<Movie[]> {
-        let requestOptions = new RequestOptions();
-        requestOptions.params = query;
+    getMovies(query: any): any {
+         let params = query;
         const url = `${this.apiUrl}/movies`;
-        return this.http
-            .get(url, requestOptions)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url, { params: params })
     }
 
-    getSeries(query: any): Observable<Serie[]> {
-        let requestOptions = new RequestOptions();
-        requestOptions.params = query;
+    getSeries(query: any): any {
+        let params = query;
         const url = `${this.apiUrl}/series`;
-        return this.http
-            .get(url, requestOptions)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url, { params: params })
     }
 
 

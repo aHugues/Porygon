@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Movie } from '../models/movie';
@@ -17,7 +17,7 @@ export class PorygonSearchService {
     private apiUrl = environment.apiUrl;
     private headers: Headers;
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.headers = new Headers({'Content-Type': 'application/json'});
     }
 
@@ -28,36 +28,26 @@ export class PorygonSearchService {
         return Observable.throw(errMsg);
     }
 
-    searchMoviesByTitle(title: string): Observable<Movie[]> {
+    searchMoviesByTitle(title: string): any {
         const url = `${this.apiUrl}/movies?title=${title}`;
-        return this.http
-            .get(url)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url);
     }
 
-    searchSeriesByTitle(title: string): Observable<Serie[]> {
+    searchSeriesByTitle(title: string): any {
         const url = `${this.apiUrl}/series?title=${title}`;
-        return this.http
-            .get(url)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url)
     }
 
-    advancedMovieSearch(query: any): Observable<Movie[]> {
-        let requestOptions = new RequestOptions();
-        requestOptions.params = query;
+    advancedMovieSearch(query: any): any {
+        let params = query;
         const url = `${this.apiUrl}/movies`;
-        return this.http
-            .get(url, requestOptions)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url, { params: params })
     }
 
-    advancedSerieSearch(query: any): Observable<Serie[]> {
-        let requestOptions = new RequestOptions();
-        requestOptions.params = query;
+    advancedSerieSearch(query: any): any {
+        let params = query;
         const url = `${this.apiUrl}/series`;
-        return this.http
-            .get(url, requestOptions)
-            .pipe(map((res: Response) => res.json()))
+        return this.http.get(url, {params: params} )
     }
 
 }
