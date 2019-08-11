@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const Keycloak = require('keycloak-connect');
+const request = require('request');
 
 // Instantiate Keycloak
 const keycloakConfig = require('./config/keycloak.config.json');
@@ -55,21 +56,52 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   next();
+});
+
+const keycloakHost = keycloakConfig.host;
+const realmName = keycloakConfig.realm;
+
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    next();
+  } else if (req.headers.authorization) {
+    const options = {
+      method: 'GET',
+      url: `https://${keycloakHost}/auth/realms/${realmName}/protocol/openid-connect/userinfo`,
+      headers: {
+        Authorization: req.headers.authorization,
+      },
+    };
+
+    request(options, (error, response, body) => {
+      if (error) throw new Error(error);
+      if (response.statusCode !== 200) {
+        res.status(401).json({
+          error: 'unauthorized',
+        });
+      } else {
+        next();
+      }
+    });
+  } else {
+    res.status(401).json({
+      error: 'unauthorized',
+    });
+  }
 });
 
 // set base route to access API
 app.use(`/api/v${version}`, router);
 
-
 // register routes to use
 router.use('/', index);
-router.use('/locations', keycloak.enforcer(['resource:view', 'resource:write']), locations);
-router.use('/movies', keycloak.enforcer(['resource:view', 'resource:write']), movies);
-router.use('/series', keycloak.enforcer(['resource:view', 'resource:write']), series);
-router.use('/commands', keycloak.enforcer(['resource:view', 'resource:write']), commands);
+router.use('/locations', locations);
+router.use('/movies', movies);
+router.use('/series', series);
+router.use('/commands', commands);
 
 
 // catch 404 and forward to error handler
