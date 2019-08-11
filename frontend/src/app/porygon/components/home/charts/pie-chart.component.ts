@@ -7,7 +7,7 @@ import * as d3 from 'd3';
     encapsulation: ViewEncapsulation.None
 })
 export class PieChartComponent implements OnInit, OnChanges {
-    @ViewChild('piechart') private chartContainer: ElementRef;
+    @ViewChild('piechart', {static: false}) private chartContainer: ElementRef;
     @Input() private data: Array<any>;
     private dataSet: Array<Data>;
 
