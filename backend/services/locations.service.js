@@ -80,8 +80,6 @@ const createLocation = (fields) => {
 
 
 const updateLocation = (id, fields) => {
-  console.log(id);
-  console.log(fields);
   const observable = rxjs.Observable.create((obs) => {
     knex('Location').where('id', id).update(cleanup.removeNulls(fields))
       .then((affectedRows) => {
