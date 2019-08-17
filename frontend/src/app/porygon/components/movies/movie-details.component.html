@@ -35,6 +35,13 @@
                 </mat-form-field>
 
                 <mat-form-field class="form-control">
+                    <input matInput type="number" placeholder="Durée (en mins)" id="duration"
+                    required
+                    [(ngModel)]="selectedMovie.duration" name="duration"
+                    >
+                </mat-form-field>
+
+                <mat-form-field class="form-control">
                     <input matInput type="text" placeholder="Réalisateur" id="director"
                     [(ngModel)]="selectedMovie.director" name="director"
                     >

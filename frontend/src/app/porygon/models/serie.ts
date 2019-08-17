@@ -7,4 +7,5 @@ export class Serie {
         public remarks: string;
         public Location: Location;
         public location: string;
+        public episodes: number;
 }

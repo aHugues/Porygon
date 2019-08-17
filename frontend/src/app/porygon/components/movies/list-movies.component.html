@@ -41,11 +41,12 @@
         </form>
 
 
-        <mat-list cols="4" rowHeight="50px" class="list">
+        <mat-list cols="5" rowHeight="50px" class="list">
             <mat-list-item class="list-header">
               <span class="list-element" role="button" (click)="onSortMovies(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
               <span class="list-element" role="button" (click)="onSortMovies(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
               <span class="list-element" role="button" (click)="onSortMovies(3)"> Année de sortie <i class="fa fa-fw fa-sort"></i></span>
+              <span class="list-element" role="button" (click)="onSortMovies(4)"> Durée <i class="fa fa-fw fa-sort"></i></span>
               <span class="list-element"> Remarques </span>
             </mat-list-item>
         </mat-list>
@@ -54,6 +55,7 @@
               <span class="list-element"> {{ element.Movie.title }} </span>
               <span class="list-element"> {{ element.Location.location }} </span>
               <span class="list-element"> {{ element.Movie.year }} </span>
+              <span class="list-element"> {{ element.Movie.duration }} </span>
               <span class="list-element"> {{ element.Movie.remarks }} </span>
           </mat-list-item>
         </mat-list>

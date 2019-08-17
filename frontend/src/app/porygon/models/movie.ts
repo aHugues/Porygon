@@ -8,6 +8,7 @@ export class Movie {
         public remarks: string;
         public director: string;
         public actors: string;
+        public duration: number;
 
         constructor(obj?: any) {
                 Object.assign(this, obj);

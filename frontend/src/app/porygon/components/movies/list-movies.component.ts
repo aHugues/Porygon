@@ -35,6 +35,8 @@ export class ListMoviesComponent implements OnInit {
         "-2": "-location",
         "3": "year",
         "-3": "-year",
+        "4": "duration",
+        "-4": "-duration",
     }
 
     sortingParameter = 1;
