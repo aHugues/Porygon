@@ -136,19 +136,21 @@
 
       <mat-card-content>
 
-          <mat-list cols="4" rowHeight="50px" class="list">
+          <mat-list cols="5" rowHeight="50px" class="list">
               <mat-list-item class="list-header">
                 <span class="list-element"> Titre </span>
                 <span class="list-element"> Localisation </span>
                 <span class="list-element"> Année de sortie </span>
+                <span class="list-element"> Durée </span>
                 <span class="list-element"> Remarques </span>
               </mat-list-item>
           </mat-list>
-          <mat-list cols="4" rowHeight="50px" class="list">
+          <mat-list cols="5" rowHeight="50px" class="list">
               <mat-list-item *ngFor="let element of moviesList" [routerLink]="['/details/movie', element.Movie.id]" class="list-row">
                 <span class="list-element"> {{ element.Movie.title }} </span>
                 <span class="list-element"> {{ element.Location.location }} </span>
                 <span class="list-element"> {{ element.Movie.year }} </span>
+                <span class="list-element"> {{ element.Movie.duration }} mins. </span>
                 <span class="list-element"> {{ element.Movie.remarks }} </span>
             </mat-list-item>
           </mat-list>
