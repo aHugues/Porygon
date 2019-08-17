@@ -92,19 +92,21 @@
 
             <mat-card-content>
 
-                <mat-list cols="4" rowHeight="50px" class="list">
+                <mat-list cols="5" rowHeight="50px" class="list">
                     <mat-list-item class="list-header">
                         <span class="list-element" role="button" (click)="onSortSeries(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
                         <span class="list-element"> Saison <i class="fa fa-fw fa-sort"></i></span>
                         <span class="list-element" role="button" (click)="onSortSeries(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
+                        <span class="list-element"> Nombre d'épisodes </span>
                         <span class="list-element"> Remarques </span>
                     </mat-list-item>
                 </mat-list>
-                <mat-list cols="4" rowHeight="50px" class="list">
+                <mat-list cols="5" rowHeight="50px" class="list">
                     <mat-list-item *ngFor="let element of seriesList" (click)="onEditSerie(element.Serie.id)">
                         <span class="list-element"> {{ element.Serie.title }} </span>
                         <span class="list-element"> {{ element.Serie.season }} </span>
                         <span class="list-element"> {{ element.Location.location }} </span>
+                        <span class="list-element"> {{ element.Serie.episodes }} </span>
                         <span class="list-element"> {{ element.Serie.remarks }} </span>
                     </mat-list-item>
                 </mat-list>

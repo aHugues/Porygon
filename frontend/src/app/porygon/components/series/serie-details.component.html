@@ -34,6 +34,13 @@
                 </mat-form-field>
 
                 <mat-form-field class="form-control">
+                    <input matInput type="number" placeholder="Nombre d'épisodes" id="episodes"
+                    required
+                    [(ngModel)]="selectedSerie.episodes" name="episodes"
+                    >
+                </mat-form-field>
+
+                <mat-form-field class="form-control">
                     <input matInput type="text" placeholder="Remarques" id="remarks"
                     [(ngModel)]="selectedSerie.remarks" name="remarks"
                     >
