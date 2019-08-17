@@ -54,7 +54,7 @@
 
             <mat-card-content>
 
-                <mat-list cols="4" rowHeight="50px" class="list">
+                <mat-list cols="5" rowHeight="50px" class="list">
                     <mat-list-item class="list-header">
                         <span class="list-element" role="button" (click)="onSortMovies(1)"> Titre <i class="fa fa-fw fa-sort"></i></span>
                         <span class="list-element" role="button" (click)="onSortMovies(2)"> Localisation <i class="fa fa-fw fa-sort"></i></span>
@@ -63,7 +63,7 @@
                         <span class="list-element"> Remarques </span>
                     </mat-list-item>
                 </mat-list>
-                <mat-list cols="4" rowHeight="50px" class="list">
+                <mat-list cols="5" rowHeight="50px" class="list">
                     <mat-list-item *ngFor="let element of moviesList" (click)="onEditMovie(element.Movie.id)" class="list-row">
                         <span class="list-element"> {{ element.Movie.title }} </span>
                         <span class="list-element"> {{ element.Location.location }} </span>
