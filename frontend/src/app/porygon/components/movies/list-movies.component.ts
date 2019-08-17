@@ -54,7 +54,7 @@ export class ListMoviesComponent implements OnInit {
         this.porygonService.getMoviesList()
             .subscribe(
                 (movies: Movie[]) => this.setMoviesList(movies),
-                error => console.error(error)
+                (error: any) => console.error(error)
             );
     }
 
@@ -81,7 +81,7 @@ export class ListMoviesComponent implements OnInit {
                 (movies: Movie[]) => {
                     this.setMoviesList(movies);
                 },
-                (error) => console.error(error)
+                (error: any) => console.error(error)
             );
     }
 
