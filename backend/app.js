@@ -24,6 +24,7 @@ const commands = require('./routes/commands.controller');
 // Config file
 const config = require('./config/server.config.json');
 
+const env = process.env.NODE_ENV || 'development';
 const version = config.server.version || 1;
 
 const app = express();
@@ -65,7 +66,10 @@ const keycloakHost = keycloakConfig.host;
 const realmName = keycloakConfig.realm;
 
 app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
+  // Bypass authentication on dev environment
+  if (env === 'development') {
+    next();
+  } else if (req.method === 'OPTIONS') {
     next();
   } else if (req.headers.authorization) {
     const options = {
