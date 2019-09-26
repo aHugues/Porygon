@@ -20,6 +20,7 @@ const locations = require('./routes/locations.controller');
 const movies = require('./routes/movies.controller');
 const series = require('./routes/series.controller');
 const commands = require('./routes/commands.controller');
+const categories = require('./routes/categories.controller');
 
 // Config file
 const config = require('./config/server.config.json');
@@ -106,6 +107,7 @@ router.use('/locations', locations);
 router.use('/movies', movies);
 router.use('/series', series);
 router.use('/commands', commands);
+router.use('/categories', categories);
 
 
 // catch 404 and forward to error handler
