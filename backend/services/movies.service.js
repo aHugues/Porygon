@@ -60,6 +60,7 @@ const getAllMovies = (query) => {
       .offset(offset)
       .limit(limit)
       .join('Location', 'Location.id', 'Movie.location_id')
+      .leftJoin('Category', 'Category.id', 'Movie.category_id')
       .options({ nestTables: true })
       .select(attributes)
       .then((movies) => {
@@ -76,7 +77,9 @@ const getAllMovies = (query) => {
 
 const getMovieById = (id) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Movie').where('Movie.id', id).join('Location', 'Location.id', 'Movie.location_id')
+    knex('Movie').where('Movie.id', id)
+      .join('Location', 'Location.id', 'Movie.location_id')
+      .leftJoin('Category', 'Category.id', 'Movie.category_id')
       .options({ nestTables: true })
       .then((movie) => {
         if (movie.length < 1) {
@@ -85,6 +88,7 @@ const getMovieById = (id) => {
         } else {
           const result = movie[0].Movie;
           result.location = movie[0].Location;
+          result.category = movie[0].Category;
           obs.next(result);
           obs.complete();
         }

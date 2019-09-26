@@ -59,6 +59,7 @@ const getAllSeries = (query) => {
       .offset(offset)
       .limit(limit)
       .join('Location', 'Location.id', 'Serie.location_id')
+      .leftJoin('Category', 'Category.id', 'Serie.category_id')
       .options({ nestTables: true })
       .select(attributes)
       .then((series) => {
@@ -75,7 +76,9 @@ const getAllSeries = (query) => {
 
 const getSerieById = (id) => {
   const observable = rxjs.Observable.create((obs) => {
-    knex('Serie').where('Serie.id', id).join('Location', 'Location.id', 'Serie.location_id')
+    knex('Serie').where('Serie.id', id)
+      .join('Location', 'Location.id', 'Serie.location_id')
+      .leftJoin('Category', 'Category.id', 'Serie.category_id')
       .options({ nestTables: true })
       .then((serie) => {
         if (serie.length < 1) {
@@ -85,6 +88,7 @@ const getSerieById = (id) => {
         } else {
           const result = serie[0].Serie;
           result.location = serie[0].Location;
+          result.category = serie[0].Category;
           obs.next(result);
           obs.complete();
         }
