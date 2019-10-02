@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable func-names */
+const async = require('async');
 
 let dbm;
 let type;
@@ -17,55 +18,47 @@ exports.setup = function (options, seedLink) {
 };
 
 exports.up = function (db, callback) {
-  db.createTable('Movie', {
-    id: {
-      type: 'int',
-      primaryKey: true,
-      autoIncrement: true,
-      notNull: true,
-    },
-    location_id: {
-      type: 'int',
-      notNull: true,
-      foreignKey: {
-        name: 'movie_location_fk',
-        table: 'Location',
-        rules: {
-          onDelete: 'CASCADE',
-          onUpdate: 'RESTRICT',
-        },
-        mapping: 'id',
+  async.series([
+    db.createTable.bind(db, 'Movie', {
+      id: {
+        type: 'int',
+        primaryKey: true,
+        autoIncrement: true,
+        notNull: true,
       },
-    },
-    title: {
-      type: 'string',
-      notNull: true,
-    },
-    remarks: {
-      type: 'string',
-      notNull: true,
-      defaultValue: '',
-    },
-    actors: {
-      type: 'string',
-      notNull: true,
-      defaultValue: '',
-    },
-    director: {
-      type: 'string',
-      notNull: true,
-      defaultValue: '',
-    },
-    year: {
-      type: 'int',
-      notNull: true,
-      defaultValue: -1,
-    },
-
-  }, (err) => {
-    if (err) return callback(err);
-    return callback();
-  });
+      location_id: {
+        type: 'int',
+        notNull: true,
+      },
+      title: {
+        type: 'string',
+        notNull: true,
+      },
+      remarks: {
+        type: 'string',
+        notNull: true,
+        defaultValue: '',
+      },
+      actors: {
+        type: 'string',
+        notNull: true,
+        defaultValue: '',
+      },
+      director: {
+        type: 'string',
+        notNull: true,
+        defaultValue: '',
+      },
+      year: {
+        type: 'int',
+        notNull: true,
+        defaultValue: -1,
+      },
+    }),
+    db.runSql.bind(db, 'ALTER TABLE `Movie` ADD CONSTRAINT `movie_location_fk`'
+    + 'FOREIGN KEY (`location_id`) REFERENCES `Location` (`id`) ON '
+    + 'DELETE CASCADE ON UPDATE RESTRICT;'),
+  ], callback);
 };
 
 exports.down = function (db, callback) {
